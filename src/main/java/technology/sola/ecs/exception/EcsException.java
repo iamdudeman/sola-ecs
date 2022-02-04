@@ -1,12 +1,12 @@
-package technology.sola.ecs;
+package technology.sola.ecs.exception;
 
 import java.io.Serial;
 
-class EcsException extends RuntimeException {
+public class EcsException extends RuntimeException {
   @Serial
   private static final long serialVersionUID = -5303251140826169872L;
 
-  EcsException(String message) {
+  public EcsException(String message) {
     super(message);
   }
 }

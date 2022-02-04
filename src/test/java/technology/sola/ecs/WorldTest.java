@@ -2,6 +2,7 @@ package technology.sola.ecs;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import technology.sola.ecs.exception.EcsException;
 
 import java.util.List;
 

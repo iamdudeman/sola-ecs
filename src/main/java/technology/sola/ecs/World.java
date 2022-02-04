@@ -1,5 +1,7 @@
 package technology.sola.ecs;
 
+import technology.sola.ecs.exception.EcsException;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;

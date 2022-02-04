@@ -27,16 +27,16 @@ class EcsSystemContainerTest {
 
   @Test
   void whenGettingSystemsThatDoNoExist_shouldReturnNull() {
-    assertNull(ecsService.get(TestUpdateEcsSystem.class));
+    assertNull(ecsService.get(TestUtil.TestUpdateEcsSystem.class));
   }
 
   @Test
   void whenGettingRegisteredSystems_shouldReturn() {
-    TestUpdateEcsSystem testUpdateSystem = new TestUpdateEcsSystem();
+    TestUtil.TestUpdateEcsSystem testUpdateSystem = new TestUtil.TestUpdateEcsSystem();
 
     ecsService.add(testUpdateSystem);
 
-    assertEquals(testUpdateSystem, ecsService.get(TestUpdateEcsSystem.class));
+    assertEquals(testUpdateSystem, ecsService.get(TestUtil.TestUpdateEcsSystem.class));
   }
 
   @Test
@@ -64,16 +64,5 @@ class EcsSystemContainerTest {
     inOrder.verify(mockFirstUpdateSystem).update(mockWorld, 0.16f);
     inOrder.verify(mockSecondUpdateSystem).update(mockWorld, 0.16f);
     Mockito.verify(mockThirdUpdateSystem, Mockito.never()).update(mockWorld, 0.16f);
-  }
-
-  static class TestUpdateEcsSystem extends EcsSystem {
-    @Override
-    public int getOrder() {
-      return 0;
-    }
-
-    @Override
-    public void update(World world, float deltaTime) {
-    }
   }
 }

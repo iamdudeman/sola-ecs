@@ -1,8 +1,9 @@
 package technology.sola.ecs.view;
 
+import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 
-public class EcsView1<C1> {
+public class EcsView1<C1 extends Component<?>> {
   private final Entity entity;
   private final C1 c1;
 
