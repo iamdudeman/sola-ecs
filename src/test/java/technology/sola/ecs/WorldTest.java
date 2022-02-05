@@ -2,7 +2,8 @@ package technology.sola.ecs;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import technology.sola.ecs.exception.EcsException;
+import technology.sola.ecs.exception.WorldEntityLimitException;
+import technology.sola.ecs.exception.MissingEntityException;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ class WorldTest {
     World world = new World(2);
     int maxEntityCount = world.getMaxEntityCount();
 
-    assertThrows(EcsException.class, () -> {
+    assertThrows(WorldEntityLimitException.class, () -> {
       for (int i = 0; i < maxEntityCount + 1; i++) {
         world.createEntity();
       }
@@ -47,7 +48,7 @@ class WorldTest {
     void whenEntityWithIdNotCreated_shouldThrowException() {
       World world = new World(2);
 
-      assertThrows(EcsException.class, () -> world.getEntityById(0));
+      assertThrows(MissingEntityException.class, () -> world.getEntityById(0));
     }
 
     @Test

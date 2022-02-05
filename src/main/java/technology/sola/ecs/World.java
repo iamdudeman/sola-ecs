@@ -1,6 +1,7 @@
 package technology.sola.ecs;
 
-import technology.sola.ecs.exception.EcsException;
+import technology.sola.ecs.exception.WorldEntityLimitException;
+import technology.sola.ecs.exception.MissingEntityException;
 import technology.sola.ecs.view.EcsViewFactory;
 
 import java.io.Serial;
@@ -74,7 +75,9 @@ public class World implements Serializable {
   public Entity createEntity(String uuid) {
     totalEntityCount++;
     Entity entity = new Entity(this, nextOpenEntityIndex(), uuid);
+
     entities[entity.getIndexInWorld()] = entity;
+
     return entity;
   }
 
@@ -87,7 +90,9 @@ public class World implements Serializable {
   public Entity getEntityById(int id) {
     Entity entity = entities[id];
 
-    if (entity == null) throw new EcsException("Entity with id [" + id + "] does not exist");
+    if (entity == null) {
+      throw new MissingEntityException(id);
+    }
 
     return entity;
   }
@@ -182,12 +187,15 @@ public class World implements Serializable {
   void removeComponent(int entityIndex, Class<? extends Component> componentClass) {
     components.computeIfPresent(componentClass, (key, value) -> {
       value[entityIndex] = null;
+
       return value;
     });
   }
 
   void queueEntityForDestruction(Entity entity) {
-    if (entity == null) throw new IllegalArgumentException("entity to destroy cannot be null");
+    if (entity == null) {
+      throw new IllegalArgumentException("entity to destroy cannot be null");
+    }
 
     if (!entitiesToDestroy.contains(entity)) {
       entitiesToDestroy.add(entity);
@@ -205,8 +213,9 @@ public class World implements Serializable {
     while (entities[currentEntityIndex] != null) {
       currentEntityIndex = (currentEntityIndex + 1) % maxEntityCount;
       totalEntityCounter++;
+
       if (totalEntityCounter > maxEntityCount) {
-        throw new EcsException("Entity array is filled. No more entities can be created!");
+        throw new WorldEntityLimitException(totalEntityCounter, maxEntityCount);
       }
     }
 
