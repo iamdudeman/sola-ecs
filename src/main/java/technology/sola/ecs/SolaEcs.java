@@ -16,6 +16,12 @@ public class SolaEcs {
     this.world = world;
   }
 
+  /**
+   * Called when the {@link World} should be updated. All active {@link EcsSystem#update} methods will be called.
+   * After these updates any {@link Entity} that were queued to be destroyed will be cleaned up.
+   *
+   * @param deltaTime  the delta time between updates
+   */
   public void updateWorld(float deltaTime) {
     activeSystemIterator().forEachRemaining(updateSystem -> updateSystem.update(world, deltaTime));
     world.cleanupDestroyedEntities();
