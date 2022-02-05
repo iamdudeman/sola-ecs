@@ -3,10 +3,15 @@ package technology.sola.ecs.view;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class EcsViewFactory {
+public class EcsViewFactory implements Serializable {
+  @Serial
+  private static final long serialVersionUID = -8949269697037114181L;
+
   private final World world;
 
   public EcsViewFactory(World world) {
