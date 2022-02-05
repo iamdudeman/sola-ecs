@@ -79,7 +79,7 @@ public class EcsViewFactory {
         var c3 = entity.getComponent(c3Class);
         var c4 = entity.getComponent(c4Class);
 
-        return c1 == null || c2 == null || c3 == null
+        return c1 == null || c2 == null || c3 == null || c4 == null
           ? null
           : new EcsView4<>(entity, c1, c2, c3, c4);
       })
@@ -100,7 +100,7 @@ public class EcsViewFactory {
         var c4 = entity.getComponent(c4Class);
         var c5 = entity.getComponent(c5Class);
 
-        return c1 == null || c2 == null || c3 == null
+        return c1 == null || c2 == null || c3 == null || c4 == null || c5 == null
           ? null
           : new EcsView5<>(entity, c1, c2, c3, c4, c5);
       })

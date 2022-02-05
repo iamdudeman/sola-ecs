@@ -61,7 +61,7 @@ public class World implements Serializable {
   }
 
   /**
-   * Creates a new {@link Entity} inside this World.
+   * Creates a new {@link Entity} inside this World with a random UUID.
    * <p>
    * If the total entity count goes above the max number specified in this world then an exception will be thrown.
    *
