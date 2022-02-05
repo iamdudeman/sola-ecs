@@ -1,5 +1,9 @@
 package technology.sola.ecs;
 
+import technology.sola.ecs.exception.WorldEntityLimitException;
+import technology.sola.ecs.exception.MissingEntityException;
+import technology.sola.ecs.view.EcsViewFactory;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
@@ -28,7 +32,7 @@ public class World implements Serializable {
 
     this.maxEntityCount = maxEntityCount;
     entities = new Entity[maxEntityCount];
-    ecsViewFactory = new EcsViewFactory(entities);
+    ecsViewFactory = new EcsViewFactory(this);
   }
 
   /**
@@ -58,23 +62,21 @@ public class World implements Serializable {
   }
 
   /**
-   * Creates a new {@link Entity} inside this World.
+   * Creates a new {@link Entity} inside this World with a random UUID.
    * <p>
    * If the total entity count goes above the max number specified in this world then an exception will be thrown.
    *
    * @return a new {@code Entity}
    */
   public Entity createEntity() {
-    totalEntityCount++;
-    Entity entity = new Entity(this, nextOpenEntityIndex());
-    entities[entity.entityIndex] = entity;
-    return entity;
+    return createEntity(UUID.randomUUID().toString());
   }
 
   public Entity createEntity(String uuid) {
-    Entity entity = createEntity();
+    totalEntityCount++;
+    Entity entity = new Entity(this, nextOpenEntityIndex(), uuid);
 
-    entity.uniqueId = uuid;
+    entities[entity.getIndexInWorld()] = entity;
 
     return entity;
   }
@@ -88,7 +90,9 @@ public class World implements Serializable {
   public Entity getEntityById(int id) {
     Entity entity = entities[id];
 
-    if (entity == null) throw new EcsException("Entity with id [" + id + "] does not exist");
+    if (entity == null) {
+      throw new MissingEntityException(id);
+    }
 
     return entity;
   }
@@ -127,7 +131,7 @@ public class World implements Serializable {
    *
    * @return a {@code List} of all enabled {@code Entity}
    */
-  public List<Entity> getAllEnabledEntities() {
+  public List<Entity> getEnabledEntities() {
     return Arrays.stream(entities)
       .filter(entity -> entity != null && !entity.isDisabled())
       .collect(Collectors.toList());
@@ -150,7 +154,7 @@ public class World implements Serializable {
       boolean hasAllClasses = true;
 
       for (Class<? extends Component<?>> componentClass : componentClasses) {
-        if (getComponentForEntity(entity.entityIndex, componentClass) == null) {
+        if (getComponentForEntity(entity.getIndexInWorld(), componentClass) == null) {
           hasAllClasses = false;
           break;
         }
@@ -183,12 +187,15 @@ public class World implements Serializable {
   void removeComponent(int entityIndex, Class<? extends Component> componentClass) {
     components.computeIfPresent(componentClass, (key, value) -> {
       value[entityIndex] = null;
+
       return value;
     });
   }
 
   void queueEntityForDestruction(Entity entity) {
-    if (entity == null) throw new IllegalArgumentException("entity to destroy cannot be null");
+    if (entity == null) {
+      throw new IllegalArgumentException("entity to destroy cannot be null");
+    }
 
     if (!entitiesToDestroy.contains(entity)) {
       entitiesToDestroy.add(entity);
@@ -197,8 +204,8 @@ public class World implements Serializable {
 
   private void destroyEntity(Entity entity) {
     totalEntityCount--;
-    entity.getCurrentComponents().forEach(componentClass -> removeComponent(entity.entityIndex, componentClass));
-    entities[entity.entityIndex] = null;
+    entity.getCurrentComponents().forEach(componentClass -> removeComponent(entity.getIndexInWorld(), componentClass));
+    entities[entity.getIndexInWorld()] = null;
   }
 
   private int nextOpenEntityIndex() {
@@ -206,8 +213,9 @@ public class World implements Serializable {
     while (entities[currentEntityIndex] != null) {
       currentEntityIndex = (currentEntityIndex + 1) % maxEntityCount;
       totalEntityCounter++;
+
       if (totalEntityCounter > maxEntityCount) {
-        throw new EcsException("Entity array is filled. No more entities can be created!");
+        throw new WorldEntityLimitException(totalEntityCounter, maxEntityCount);
       }
     }
 

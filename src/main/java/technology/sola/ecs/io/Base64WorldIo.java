@@ -1,10 +1,14 @@
 package technology.sola.ecs.io;
 
 import technology.sola.ecs.World;
+import technology.sola.ecs.exception.Base64WorldIoException;
 
 import java.io.*;
 import java.util.Base64;
 
+/**
+ * A Base64 implementation of {@link WorldIo}.
+ */
 public class Base64WorldIo implements WorldIo {
   @Override
   public String stringify(World world) {
@@ -16,8 +20,7 @@ public class Base64WorldIo implements WorldIo {
 
       return Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray());
     } catch (IOException ex) {
-      // TODO handle this better
-      throw new RuntimeException(ex);
+      throw new Base64WorldIoException(ex);
     }
   }
 
@@ -27,9 +30,10 @@ public class Base64WorldIo implements WorldIo {
 
     try (final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
       return (World) ois.readObject();
-    } catch (IOException | ClassNotFoundException ex) {
-      // TODO handle this better
-      throw new RuntimeException(ex);
+    } catch (IOException ex) {
+      throw new Base64WorldIoException(ex);
+    } catch (ClassNotFoundException ex) {
+      throw new Base64WorldIoException(ex);
     }
   }
 }
