@@ -12,6 +12,13 @@ public class TestUtil {
     }
   }
 
+  public static class TestComponent1 implements Component<TestComponent1> {
+    @Override
+    public Component<TestComponent1> copy() {
+      return new TestComponent1();
+    }
+  }
+
   private TestUtil() {
   }
 }

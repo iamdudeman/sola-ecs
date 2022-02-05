@@ -1,5 +1,6 @@
 package technology.sola.ecs;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,30 +10,59 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 public class EntityTest {
   @Mock
   private World mockWorld;
 
+  @Test
+  void constructor_whenCreated_ShouldHaveIndexAndUniqueId() {
+    Entity entity = new Entity(mockWorld, 1, "uuid");
+
+    assertEquals(1, entity.getIndexInWorld());
+    assertEquals("uuid", entity.getUniqueId());
+  }
+
+  @Test
+  void setName_shouldUpdateName() {
+    Entity entity = new Entity(mockWorld, 0, "");
+    assertNull(entity.getName());
+
+    entity.setName("test");
+
+    assertEquals("test", entity.getName());
+  }
+
+  @Test
+  void setDisabled_shouldUpdateDisabled() {
+    Entity entity = new Entity(mockWorld, 0, "");
+    assertFalse(entity.isDisabled());
+
+    entity.setDisabled(true);
+
+    assertTrue(entity.isDisabled());
+
+  }
+
   @Nested
-  class addComponent {
+  @DisplayName("addComponent")
+  class AddComponentTests {
     @Test
     void whenCalled_shouldAddComponentClassToCurrentComponents() {
-      Entity entity = new Entity(mockWorld, 0);
+      Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      entity.addComponent(new TestComponent());
+      entity.addComponent(new TestUtil.TestComponent1());
 
-      assertEquals(TestComponent.class, entity.getCurrentComponents().get(0));
+      assertEquals(TestUtil.TestComponent1.class, entity.getCurrentComponents().get(0));
     }
 
     @Test
     void whenCalled_shouldAddToWorld() {
-      Entity entity = new Entity(mockWorld, 0);
+      Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      TestComponent testComponent = new TestComponent();
+      TestUtil.TestComponent1 testComponent = new TestUtil.TestComponent1();
       entity.addComponent(testComponent);
 
       Mockito.verify(mockWorld, Mockito.times(1)).addComponentForEntity(0, testComponent);
@@ -40,71 +70,66 @@ public class EntityTest {
   }
 
   @Nested
-  class getComponent {
+  @DisplayName("getComponent")
+  class GetComponentTests {
     @Test
     void whenCalled_shouldGetFromWorld() {
-      Entity entity = new Entity(mockWorld, 0);
+      Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      entity.getComponent(TestComponent.class);
+      entity.getComponent(TestUtil.TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestComponent.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestUtil.TestComponent1.class);
     }
   }
 
   @Nested
-  class getOptionalComponent {
+  @DisplayName("getOptionalComponent")
+  class GetOptionalComponentTests {
     @Test
     void whenCalled_shouldGetFromWorld() {
-      Entity entity = new Entity(mockWorld, 0);
+      Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      Optional<TestComponent> result = entity.getOptionalComponent(TestComponent.class);
+      Optional<TestUtil.TestComponent1> result = entity.getOptionalComponent(TestUtil.TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestComponent.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestUtil.TestComponent1.class);
       assertTrue(result.isEmpty());
     }
   }
 
   @Nested
-  class removeComponent {
+  @DisplayName("removeComponent")
+  class RemoveComponentTests {
     @Test
     void whenCalled_shouldRemoveComponentClassFromCurrentComponents() {
-      Entity entity = new Entity(mockWorld, 0);
+      Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      entity.getCurrentComponents().add(TestComponent.class);
+      entity.getCurrentComponents().add(TestUtil.TestComponent1.class);
       assertEquals(1, entity.getCurrentComponents().size());
 
-      entity.removeComponent(TestComponent.class);
+      entity.removeComponent(TestUtil.TestComponent1.class);
       assertEquals(0, entity.getCurrentComponents().size());
     }
 
     @Test
     void whenCalled_shouldAddToWorld() {
-      Entity entity = new Entity(mockWorld, 0);
+      Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      entity.removeComponent(TestComponent.class);
+      entity.removeComponent(TestUtil.TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestComponent.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestUtil.TestComponent1.class);
     }
   }
 
   @Nested
-  class destroy {
+  @DisplayName("destroy")
+  class DestroyTests {
     @Test
     void whenCalled_shouldDestroyFromWorld() {
-      Entity entity = new Entity(mockWorld, 0);
+      Entity entity = new Entity(mockWorld, 0, "uuid");
 
       entity.destroy();
 
       Mockito.verify(mockWorld, Mockito.times(1)).queueEntityForDestruction(entity);
-    }
-  }
-
-  private static class TestComponent implements Component<TestComponent> {
-    private static final long serialVersionUID = 24775932711767895L;
-
-    @Override
-    public TestComponent copy() {
-      return new TestComponent();
     }
   }
 }

@@ -1,6 +1,7 @@
 package technology.sola.ecs;
 
 import technology.sola.ecs.exception.EcsException;
+import technology.sola.ecs.view.EcsViewFactory;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -30,7 +31,7 @@ public class World implements Serializable {
 
     this.maxEntityCount = maxEntityCount;
     entities = new Entity[maxEntityCount];
-    ecsViewFactory = new EcsViewFactory(entities);
+    ecsViewFactory = new EcsViewFactory(this);
   }
 
   /**
@@ -67,17 +68,13 @@ public class World implements Serializable {
    * @return a new {@code Entity}
    */
   public Entity createEntity() {
-    totalEntityCount++;
-    Entity entity = new Entity(this, nextOpenEntityIndex());
-    entities[entity.entityIndex] = entity;
-    return entity;
+    return createEntity(UUID.randomUUID().toString());
   }
 
   public Entity createEntity(String uuid) {
-    Entity entity = createEntity();
-
-    entity.uniqueId = uuid;
-
+    totalEntityCount++;
+    Entity entity = new Entity(this, nextOpenEntityIndex(), uuid);
+    entities[entity.getIndexInWorld()] = entity;
     return entity;
   }
 
@@ -152,7 +149,7 @@ public class World implements Serializable {
       boolean hasAllClasses = true;
 
       for (Class<? extends Component<?>> componentClass : componentClasses) {
-        if (getComponentForEntity(entity.entityIndex, componentClass) == null) {
+        if (getComponentForEntity(entity.getIndexInWorld(), componentClass) == null) {
           hasAllClasses = false;
           break;
         }
@@ -199,8 +196,8 @@ public class World implements Serializable {
 
   private void destroyEntity(Entity entity) {
     totalEntityCount--;
-    entity.getCurrentComponents().forEach(componentClass -> removeComponent(entity.entityIndex, componentClass));
-    entities[entity.entityIndex] = null;
+    entity.getCurrentComponents().forEach(componentClass -> removeComponent(entity.getIndexInWorld(), componentClass));
+    entities[entity.getIndexInWorld()] = null;
   }
 
   private int nextOpenEntityIndex() {
