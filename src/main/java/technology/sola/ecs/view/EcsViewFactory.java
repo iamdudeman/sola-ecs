@@ -17,7 +17,7 @@ public class EcsViewFactory {
   List<EcsView1<C1>> of(
     Class<C1> c1Class
   ) {
-    return world.getAllEnabledEntities()
+    return world.getEnabledEntities()
       .stream()
       .map(entity -> {
         var c1 = entity.getComponent(c1Class);
@@ -34,7 +34,7 @@ public class EcsViewFactory {
   List<EcsView2<C1, C2>> of(
     Class<C1> c1Class, Class<C2> c2Class
   ) {
-    return world.getAllEnabledEntities()
+    return world.getEnabledEntities()
       .stream()
       .map(entity -> {
         var c1 = entity.getComponent(c1Class);
@@ -52,7 +52,7 @@ public class EcsViewFactory {
   List<EcsView3<C1, C2, C3>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class
   ) {
-    return world.getAllEnabledEntities()
+    return world.getEnabledEntities()
       .stream()
       .map(entity -> {
         var c1 = entity.getComponent(c1Class);
@@ -71,7 +71,7 @@ public class EcsViewFactory {
   List<EcsView4<C1, C2, C3, C4>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class
   ) {
-    return world.getAllEnabledEntities()
+    return world.getEnabledEntities()
       .stream()
       .map(entity -> {
         var c1 = entity.getComponent(c1Class);
@@ -91,7 +91,7 @@ public class EcsViewFactory {
   List<EcsView5<C1, C2, C3, C4, C5>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class, Class<C5> c5Class
   ) {
-    return world.getAllEnabledEntities()
+    return world.getEnabledEntities()
       .stream()
       .map(entity -> {
         var c1 = entity.getComponent(c1Class);
