@@ -112,4 +112,26 @@ public class EcsViewFactory implements Serializable {
       .filter(Objects::nonNull)
       .toList();
   }
+
+  public final <C1 extends Component, C2 extends Component, C3 extends Component, C4 extends Component, C5 extends Component, C6 extends Component>
+  List<EcsView6<C1, C2, C3, C4, C5, C6>> of(
+    Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class, Class<C5> c5Class, Class<C6> c6Class
+  ) {
+    return world.getEnabledEntities()
+      .stream()
+      .map(entity -> {
+        var c1 = entity.getComponent(c1Class);
+        var c2 = entity.getComponent(c2Class);
+        var c3 = entity.getComponent(c3Class);
+        var c4 = entity.getComponent(c4Class);
+        var c5 = entity.getComponent(c5Class);
+        var c6 = entity.getComponent(c6Class);
+
+        return c1 == null || c2 == null || c3 == null || c4 == null || c5 == null || c6 == null
+          ? null
+          : new EcsView6<>(entity, c1, c2, c3, c4, c5, c6);
+      })
+      .filter(Objects::nonNull)
+      .toList();
+  }
 }

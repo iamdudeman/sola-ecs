@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
+import technology.sola.ecs.exception.EcsSystemNotFoundException;
 
 import java.util.Iterator;
 
@@ -55,7 +56,7 @@ class SolaEcsTest {
   class GetTests {
     @Test
     void whenMissing_shouldReturnNull() {
-      assertNull(solaEcs.getSystem(TestUtil.TestUpdateEcsSystem.class));
+      assertThrows(EcsSystemNotFoundException.class, () -> solaEcs.getSystem(TestUtil.TestUpdateEcsSystem.class));
     }
 
     @Test

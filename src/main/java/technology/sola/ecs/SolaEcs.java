@@ -1,5 +1,7 @@
 package technology.sola.ecs;
 
+import technology.sola.ecs.exception.EcsSystemNotFoundException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,12 +49,12 @@ public class SolaEcs {
     ecsSystems.add(insertIndex, ecsSystem);
   }
 
-  public <T extends EcsSystem> T getSystem(Class<T> updateSystemClass) {
+  public <T extends EcsSystem> T getSystem(Class<T> ecsSystemClass) {
     return ecsSystems.stream()
-      .filter(updateSystemClass::isInstance)
-      .map(updateSystemClass::cast)
+      .filter(ecsSystemClass::isInstance)
+      .map(ecsSystemClass::cast)
       .findFirst()
-      .orElse(null);
+      .orElseThrow(() -> new EcsSystemNotFoundException(ecsSystemClass));
   }
 
   public Iterator<EcsSystem> systemIterator() {
