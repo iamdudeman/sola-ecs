@@ -41,6 +41,15 @@ class WorldTest {
     assertEquals(3, world.getEntityCount());
   }
 
+  @Test
+  void whenCreatingEntity_withComponents_shouldHaveComponents() {
+    World world = new World(1);
+
+    Entity entity = world.createEntity(new TestUtil.TestComponent1());
+
+    assertTrue(entity.hasComponent(TestUtil.TestComponent1.class));
+  }
+
   @Nested
   class GetEntityAtIndexTests {
     @Test

@@ -109,6 +109,16 @@ public class Entity implements Serializable {
   }
 
   /**
+   * Returns true if this {@link Entity} has the {@link Component}.
+   *
+   * @param componentClass {@code Component} class to check for
+   * @return true if {@code Entity} has the {@code Component}
+   */
+  public <T extends Component> boolean hasComponent(Class<T> componentClass) {
+    return world.getComponentForEntity(entityIndex, componentClass) != null;
+  }
+
+  /**
    * Gets an {@link Optional} for the class passed in.
    *
    * @param componentClass the class of the {@code Component} to get

@@ -34,5 +34,4 @@ public class Example {
 ```
 
 ## TODO List
-* Update JavaDocs
 * More test coverage
