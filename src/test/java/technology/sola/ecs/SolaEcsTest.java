@@ -102,9 +102,8 @@ class SolaEcsTest {
       Mockito.when(ecsSystem3.getOrder()).thenReturn(-2);
       Mockito.when(ecsSystem3.isActive()).thenReturn(true);
       World mockWorld = Mockito.mock(World.class);
-      solaEcs.setWorld(mockWorld);
-      solaEcs.addSystems(ecsSystem, ecsSystem2, ecsSystem3);
 
+      solaEcs = new SolaEcs(mockWorld, ecsSystem, ecsSystem2, ecsSystem3);
       solaEcs.updateWorld(1f);
 
       InOrder inOrder = Mockito.inOrder(ecsSystem3, ecsSystem);

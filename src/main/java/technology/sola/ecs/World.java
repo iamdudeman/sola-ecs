@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * World contains arrays of {@link Component}s and methods for creating {@link Entity} instances and searching for
+ * entities.
+ */
 public class World implements Serializable {
   @Serial
   private static final long serialVersionUID = -4446723129672527365L;
@@ -61,14 +65,15 @@ public class World implements Serializable {
   }
 
   /**
-   * Creates a new {@link Entity} inside this World with a random unique id.
+   * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with a set of components.
    * <p>
    * If the total entity count goes above the max number specified in this world then an exception will be thrown.
    *
+   * @param components the {@link Component}s to initialize the Entity with
    * @return a new {@code Entity}
    */
-  public Entity createEntity() {
-    return createEntity(null);
+  public Entity createEntity(Component... components) {
+    return createEntity(null, components);
   }
 
   /**
@@ -207,6 +212,11 @@ public class World implements Serializable {
     return entitiesWithAllComponents;
   }
 
+  /**
+   * Returns a {@link EcsViewFactory} for this {@link World}.
+   *
+   * @return a {@link EcsViewFactory} for this {@link World}
+   */
   public EcsViewFactory createView() {
     return ecsViewFactory;
   }

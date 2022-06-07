@@ -10,6 +10,14 @@ public class SolaEcs {
   private final List<EcsSystem> ecsSystems = new ArrayList<>();
   private World world = new World(1);
 
+  public SolaEcs() {
+  }
+
+  public SolaEcs(World initialWorld, EcsSystem ...initialSystems) {
+    setWorld(initialWorld);
+    addSystems(initialSystems);
+  }
+
   public World getWorld() {
     return world;
   }

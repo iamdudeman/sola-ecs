@@ -131,6 +131,11 @@ public class Entity implements Serializable {
       .toList();
   }
 
+  /**
+   * Returns a list of the current {@link Component} classes that this entity has.
+   *
+   * @return the list of {@code Component} classes
+   */
   public List<Class<? extends Component>> getCurrentComponents() {
     return currentComponents;
   }

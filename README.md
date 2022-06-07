@@ -9,12 +9,11 @@ It is being developed alongside a 2D game engine written in Java so features wil
 public class Example {
   public static void main(String[] args) {
     World world = new World(2);
-    world.createEntity().addComponent(new ExampleComponent("message one"));
-    world.createEntity().addComponent(new ExampleComponent("message two"));
 
-    SolaEcs solaEcs = new SolaEcs();
-    solaEcs.setWorld(world);
-    solaEcs.addSystem(new ExampleSystem());
+    world.createEntity(new ExampleComponent("message one"));
+    world.createEntity(new ExampleComponent("message two"));
+
+    SolaEcs solaEcs = new SolaEcs(world, new ExampleSystem());
 
     solaEcs.updateWorld(1f);
   }
@@ -28,11 +27,7 @@ public class Example {
     @Override
     public void update(World world, float deltaTime) {
       world.createView().of(ExampleComponent.class)
-        .forEach(view -> {
-          ExampleComponent exampleComponent = view.getC1();
-
-          System.out.println(exampleComponent.message());
-        });
+        .forEach(view -> System.out.println(view.getC1().message()));
     }
   }
 }
