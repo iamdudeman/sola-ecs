@@ -13,7 +13,7 @@ public class SolaEcs {
   public SolaEcs() {
   }
 
-  public SolaEcs(World initialWorld, EcsSystem ...initialSystems) {
+  public SolaEcs(World initialWorld, EcsSystem... initialSystems) {
     setWorld(initialWorld);
     addSystems(initialSystems);
   }
@@ -30,14 +30,14 @@ public class SolaEcs {
    * Called when the {@link World} should be updated. All active {@link EcsSystem#update} methods will be called.
    * After these updates any {@link Entity} that were queued to be destroyed will be cleaned up.
    *
-   * @param deltaTime  the delta time between updates
+   * @param deltaTime the delta time between updates
    */
   public void updateWorld(float deltaTime) {
     activeSystemIterator().forEachRemaining(updateSystem -> updateSystem.update(world, deltaTime));
     world.cleanupDestroyedEntities();
   }
 
-  public void addSystems(EcsSystem...ecsSystems) {
+  public void addSystems(EcsSystem... ecsSystems) {
     for (EcsSystem ecsSystem : ecsSystems) {
       addSystem(ecsSystem);
     }
