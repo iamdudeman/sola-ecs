@@ -45,7 +45,7 @@ public class Entity implements Serializable {
   }
 
   /**
-   * Sets the name of this Entity. A name can be used to look up an Entity via {@link World#getEntityByName(String)}.
+   * Sets the name of this Entity. A name can be used to look up an Entity via {@link World#findEntityByName(String)}.
    *
    * @param name the name of the Entity
    * @return this Entity

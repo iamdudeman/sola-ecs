@@ -19,27 +19,21 @@ public class Example {
     solaEcs.updateWorld(1f);
   }
 
-  private record ExampleComponent(String message) implements Component<ExampleComponent> {
+  private record ExampleComponent(String message) implements Component {
     @Serial
     private static final long serialVersionUID = 1429000931761226553L;
-
-    @Override
-    public Component<ExampleComponent> copy() { return new ExampleComponent(message); }
   }
 
   private static class ExampleSystem extends EcsSystem {
     @Override
     public void update(World world, float deltaTime) {
-      world.getView().of(ExampleComponent.class)
+      world.createView().of(ExampleComponent.class)
         .forEach(view -> {
           ExampleComponent exampleComponent = view.getC1();
 
           System.out.println(exampleComponent.message());
         });
     }
-
-    @Override
-    public int getOrder() { return 0; }
   }
 }
 ```

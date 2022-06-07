@@ -3,7 +3,6 @@ package technology.sola.ecs;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import technology.sola.ecs.exception.WorldEntityLimitException;
-import technology.sola.ecs.exception.MissingEntityException;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ class WorldTest {
         world.createEntity();
       }
     });
-    assertEquals(2, world.getEntitiesWithComponents().size());
+    assertEquals(2, world.findEntitiesWithComponents().size());
   }
 
   @Test
@@ -36,19 +35,19 @@ class WorldTest {
       world.createEntity();
     }
 
-    world.queueEntityForDestruction(world.getEntityById(0));
+    world.queueEntityForDestruction(world.getEntityAtIndex(0));
     world.cleanupDestroyedEntities();
 
-    assertEquals(3, world.getTotalEntityCount());
+    assertEquals(3, world.getEntityCount());
   }
 
   @Nested
-  class GetEntityByIdTests {
+  class GetEntityAtIndexTests {
     @Test
-    void whenEntityWithIdNotCreated_shouldThrowException() {
+    void whenEntityNotAtIndex_shouldReturnNull() {
       World world = new World(2);
 
-      assertThrows(MissingEntityException.class, () -> world.getEntityById(0));
+      assertNull(world.getEntityAtIndex(0));
     }
 
     @Test
@@ -56,23 +55,23 @@ class WorldTest {
       World world = new World(2);
       Entity entity = world.createEntity();
 
-      Entity result = world.getEntityById(entity.getIndexInWorld());
+      Entity result = world.getEntityAtIndex(entity.getIndexInWorld());
 
       assertEquals(entity, result);
     }
   }
 
   @Nested
-  class GetEntityByNameTests {
+  class FindEntityByNameTests {
     @Test
-    void whenNoEntityWithName_shouldReturnNull() {
+    void whenNoEntityWithName_shouldReturnEmpty() {
       World world = new World(2);
       world.createEntity();
       world.createEntity();
 
-      Entity result = world.getEntityByName("test");
+      var result = world.findEntityByName("test");
 
-      assertNull(result);
+      assertTrue(result.isEmpty());
     }
 
     @Test
@@ -81,9 +80,36 @@ class WorldTest {
       world.createEntity();
       Entity expected = world.createEntity().setName("test");
 
-      Entity result = world.getEntityByName("test");
+      var result = world.findEntityByName("test");
 
-      assertEquals(expected, result);
+      assertTrue(result.isPresent());
+      assertEquals(expected, result.get());
+    }
+  }
+
+  @Nested
+  class FindEntityByUniqueIdTests {
+    @Test
+    void whenNoEntityWithUniqueId_shouldReturnEmpty() {
+      World world = new World(2);
+      world.createEntity();
+      world.createEntity();
+
+      var result = world.findEntityByUniqueId("test");
+
+      assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void whenEntityFoundWithName_shouldReturnEntity() {
+      World world = new World(2);
+      world.createEntity();
+      Entity expected = world.createEntity();
+
+      var result = world.findEntityByUniqueId(expected.getUniqueId());
+
+      assertTrue(result.isPresent());
+      assertEquals(expected, result.get());
     }
   }
 
@@ -164,7 +190,7 @@ class WorldTest {
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent);
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent2);
 
-      List<Entity> entities = world.getEntitiesWithComponents(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
+      List<Entity> entities = world.findEntitiesWithComponents(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
       assertEquals(1, entities.size());
       assertEquals(entity, entities.get(entity.getIndexInWorld()));
     }
@@ -177,7 +203,7 @@ class WorldTest {
 
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent);
 
-      List<Entity> entities = world.getEntitiesWithComponents(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
+      List<Entity> entities = world.findEntitiesWithComponents(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
       assertEquals(0, entities.size());
     }
   }
@@ -194,7 +220,7 @@ class WorldTest {
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent);
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent2);
 
-      var view = world.getView().of(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
+      var view = world.createView().of(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
       assertEquals(1, view.size());
       assertEquals(entity, view.get(entity.getIndexInWorld()).entity());
     }

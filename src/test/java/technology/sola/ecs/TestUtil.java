@@ -7,11 +7,6 @@ public class TestUtil {
     @Override
     public void update(World world, float deltaTime) {
     }
-
-    @Override
-    public int getOrder() {
-      return 0;
-    }
   }
 
   public record TestComponent1() implements Component {

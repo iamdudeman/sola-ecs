@@ -6,7 +6,7 @@ public abstract class EcsSystem {
   /**
    * Called to update the state of {@link Component}s attached to an {@link Entity}.
    * <p>
-   * Implementations will usually create a view via {@link World#getView()} to get {@code Entity} instances that have
+   * Implementations will usually create a view via {@link World#createView()} to get {@code Entity} instances that have
    * a particular {@code Component} set to work on.
    *
    * @param world  the {@code World}
@@ -19,7 +19,9 @@ public abstract class EcsSystem {
    *
    * @return the order of this system
    */
-  public abstract int getOrder();
+  public int getOrder() {
+    return 0;
+  }
 
   /**
    * Gets whether or not this System is active.

@@ -1,7 +1,6 @@
 package technology.sola.ecs;
 
 import technology.sola.ecs.exception.WorldEntityLimitException;
-import technology.sola.ecs.exception.MissingEntityException;
 import technology.sola.ecs.view.EcsViewFactory;
 
 import java.io.Serial;
@@ -23,7 +22,7 @@ public class World implements Serializable {
   /**
    * Creates a new World instance with specified max {@link Entity} count.
    *
-   * @param maxEntityCount  the maximum number of {@code Entity} in this World, must be greater than 0
+   * @param maxEntityCount the maximum number of {@code Entity} in this World, must be greater than 0
    */
   public World(int maxEntityCount) {
     if (maxEntityCount < 1) {
@@ -36,7 +35,7 @@ public class World implements Serializable {
   }
 
   /**
-   * Cleans up entities that were queued for destruction. Should be called at the end of a frame.
+   * Removes entities that were queued for destruction. Should be called at the end of a frame.
    */
   public void cleanupDestroyedEntities() {
     entitiesToDestroy.forEach(this::destroyEntity);
@@ -53,28 +52,53 @@ public class World implements Serializable {
   }
 
   /**
-   * Gets the current total {@link Entity} count for this world.
+   * Gets the current number of {@link Entity} in this World.
    *
-   * @return the current total {@code Entity} count
+   * @return the current number of {@code Entity} in this World
    */
-  public int getTotalEntityCount() {
+  public int getEntityCount() {
     return totalEntityCount;
   }
 
   /**
-   * Creates a new {@link Entity} inside this World with a random UUID.
+   * Creates a new {@link Entity} inside this World with a random unique id.
    * <p>
    * If the total entity count goes above the max number specified in this world then an exception will be thrown.
    *
    * @return a new {@code Entity}
    */
   public Entity createEntity() {
-    return createEntity(UUID.randomUUID().toString());
+    return createEntity(null);
   }
 
+  /**
+   * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with name and components.
+   * <p>
+   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   *
+   * @param name       the name to initialize this Entity with
+   * @param components the {@link Component}s to initialize the Entity with
+   * @return a new {@code Entity}
+   */
   public Entity createEntity(String name, Component... components) {
-    Entity entity = createEntity();
+    return createEntity(UUID.randomUUID().toString(), name, components);
+  }
 
+  /**
+   * Creates a new {@link Entity} inside this World with a set unique id. It is initialized with name and components.
+   * <p>
+   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   *
+   * @param uniqueId   the unique id to initialize this Entity with
+   * @param name       the name to initialize this Entity with
+   * @param components the {@link Component}s to initialize the Entity with
+   * @return a new {@code Entity}
+   */
+  public Entity createEntity(String uniqueId, String name, Component... components) {
+    totalEntityCount++;
+    Entity entity = new Entity(this, nextOpenEntityIndex(), uniqueId);
+
+    entities[entity.getIndexInWorld()] = entity;
     entity.setName(name);
 
     for (Component component : components) {
@@ -84,47 +108,50 @@ public class World implements Serializable {
     return entity;
   }
 
-  public Entity createEntity(String uuid) {
-    totalEntityCount++;
-    Entity entity = new Entity(this, nextOpenEntityIndex(), uuid);
-
-    entities[entity.getIndexInWorld()] = entity;
-
-    return entity;
-  }
-
   /**
-   * Gets an {@link Entity} by id. Throws an exception if not found.
+   * Gets an {@link Entity} by index or null if one is not present.
    *
-   * @param id  the id of the {@code Entity} to retrieve
+   * @param index the index of the {@code Entity} to retrieve
    * @return the {@code Entity}
    */
-  public Entity getEntityById(int id) {
-    Entity entity = entities[id];
-
-    if (entity == null) {
-      throw new MissingEntityException(id);
-    }
-
-    return entity;
+  public Entity getEntityAtIndex(int index) {
+    return entities[index];
   }
 
   /**
-   * Gets an {@link Entity} by its name.
+   * Searches for an {@link Entity} by its name.
    *
-   * @param name  the name of the {@code Entity}
+   * @param name the name of the {@code Entity}
    * @return the {@code Entity} with desired name
    */
-  public Entity getEntityByName(String name) {
+  public Optional<Entity> findEntityByName(String name) {
     for (Entity entity : entities) {
       if (entity == null) continue;
 
       if (name.equals(entity.getName())) {
-        return entity;
+        return Optional.of(entity);
       }
     }
 
-    return null;
+    return Optional.empty();
+  }
+
+  /**
+   * Searches for an {@link Entity} by its unique id.
+   *
+   * @param uniqueId the unique id of the {@code Entity}
+   * @return the {@code Entity} with desired uniqueId
+   */
+  public Optional<Entity> findEntityByUniqueId(String uniqueId) {
+    for (Entity entity : entities) {
+      if (entity == null) continue;
+
+      if (uniqueId.equals(entity.getUniqueId())) {
+        return Optional.of(entity);
+      }
+    }
+
+    return Optional.empty();
   }
 
   /**
@@ -153,11 +180,11 @@ public class World implements Serializable {
    * Gets a {@link List} of {@link Entity} where each {@code Entity} has all of the {@link Component} classes searched for
    * and is not disabled.
    *
-   * @param componentClasses  array of {@code Component} classes each {@code Entity} will have
+   * @param componentClasses array of {@code Component} classes each {@code Entity} will have
    * @return a {@code List} of {@code Entity} each having the desired {@code Component}s
    */
   @SafeVarargs
-  public final List<Entity> getEntitiesWithComponents(Class<? extends Component> ...componentClasses) {
+  public final List<Entity> findEntitiesWithComponents(Class<? extends Component>... componentClasses) {
     List<Entity> entitiesWithAllComponents = new ArrayList<>();
 
     for (Entity entity : entities) {
@@ -180,7 +207,7 @@ public class World implements Serializable {
     return entitiesWithAllComponents;
   }
 
-  public EcsViewFactory getView() {
+  public EcsViewFactory createView() {
     return ecsViewFactory;
   }
 

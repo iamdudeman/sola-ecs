@@ -26,8 +26,8 @@ public class Base64WorldIoTest {
     String serializedWorld = base64WorldIo.stringify(world);
     World deserializedWorld = base64WorldIo.parse(serializedWorld);
 
-    assertEquals(uuid1, deserializedWorld.getView().of(TestUtil.TestComponent1.class).get(0).entity().getUniqueId());
-    assertEquals(uuid2, deserializedWorld.getView().of(TestUtil.TestComponent2.class).get(0).entity().getUniqueId());
+    assertEquals(uuid1, deserializedWorld.createView().of(TestUtil.TestComponent1.class).get(0).entity().getUniqueId());
+    assertEquals(uuid2, deserializedWorld.createView().of(TestUtil.TestComponent2.class).get(0).entity().getUniqueId());
   }
 
   @Test
