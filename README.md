@@ -15,7 +15,7 @@ public class Example {
 
     SolaEcs solaEcs = new SolaEcs(world, new ExampleSystem());
 
-    solaEcs.updateWorld(1f);
+    solaEcs.updateWorld(16f);
   }
 
   private record ExampleComponent(String message) implements Component {

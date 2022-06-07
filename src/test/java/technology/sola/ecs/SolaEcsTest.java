@@ -30,8 +30,7 @@ class SolaEcsTest {
   }
 
   @Nested
-  @DisplayName("addSystems")
-  class AddTests {
+  class AddRemoveTests {
     @Test
     void whenAdding_shouldSortByOrder() {
       EcsSystem ecsSystem = Mockito.mock(EcsSystem.class);
@@ -48,6 +47,22 @@ class SolaEcsTest {
       assertEquals(ecsSystem2, iter.next());
       assertEquals(ecsSystem3, iter.next());
       assertEquals(ecsSystem, iter.next());
+    }
+
+    @Test
+    void whenRemoving_shouldRemoveSystem() {
+      EcsSystem ecsSystem = Mockito.mock(EcsSystem.class);
+      Mockito.when(ecsSystem.getOrder()).thenReturn(1);
+      EcsSystem ecsSystem2 = Mockito.mock(EcsSystem.class);
+      Mockito.when(ecsSystem2.getOrder()).thenReturn(-2);
+
+      solaEcs.addSystems(ecsSystem, ecsSystem2);
+      solaEcs.removeSystem(ecsSystem2);
+
+      Iterator<EcsSystem> iter = solaEcs.systemIterator();
+
+      assertEquals(ecsSystem, iter.next());
+      assertFalse(iter.hasNext());
     }
   }
 
