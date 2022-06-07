@@ -3,7 +3,7 @@ package technology.sola.ecs;
 import java.io.Serializable;
 
 /**
- * Used to mark a class or record as a component.
+ * Holds data for an {@link Entity} that can be acted on via an {@link EcsSystem}.
  */
 public interface Component extends Serializable {
 }

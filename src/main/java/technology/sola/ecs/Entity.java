@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * An Entity is identified by its index in the {@link World} that ties a set of {@link Component}s together.
+ */
 public class Entity implements Serializable {
   @Serial
   private static final long serialVersionUID = 1211787104356274322L;

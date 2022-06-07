@@ -1,5 +1,8 @@
 package technology.sola.ecs;
 
+/**
+ * Acts on a group of {@link Entity} that contain a set of {@link Component}.
+ */
 public abstract class EcsSystem {
   private boolean isActive = true;
 
@@ -9,8 +12,8 @@ public abstract class EcsSystem {
    * Implementations will usually create a view via {@link World#createView()} to get {@code Entity} instances that have
    * a particular {@code Component} set to work on.
    *
-   * @param world  the {@code World}
-   * @param deltaTime  the delta time between the last frame and the current frame
+   * @param world     the {@link World}
+   * @param deltaTime the delta time between the last frame and the current frame
    */
   public abstract void update(World world, float deltaTime);
 
@@ -24,7 +27,7 @@ public abstract class EcsSystem {
   }
 
   /**
-   * Gets whether or not this System is active.
+   * Returns true if this {@link EcsSystem} is active.
    *
    * @return the active state of this system
    */
@@ -33,9 +36,9 @@ public abstract class EcsSystem {
   }
 
   /**
-   * Sets the active state of this System.
+   * Sets the active state of this {@link EcsSystem}.
    *
-   * @param isActive  the new active state
+   * @param isActive the new active state
    */
   public void setActive(boolean isActive) {
     this.isActive = isActive;
