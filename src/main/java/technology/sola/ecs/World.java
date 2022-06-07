@@ -14,7 +14,7 @@ public class World implements Serializable {
   private static final long serialVersionUID = -4446723129672527365L;
   private final int maxEntityCount;
   private final Entity[] entities;
-  private final Map<Class<? extends Component>, Component<?>[]> components = new HashMap<>();
+  private final Map<Class<? extends Component>, Component[]> components = new HashMap<>();
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
   private final List<Entity> entitiesToDestroy = new LinkedList<>();
@@ -70,6 +70,18 @@ public class World implements Serializable {
    */
   public Entity createEntity() {
     return createEntity(UUID.randomUUID().toString());
+  }
+
+  public Entity createEntity(String name, Component... components) {
+    Entity entity = createEntity();
+
+    entity.setName(name);
+
+    for (Component component : components) {
+      entity.addComponent(component);
+    }
+
+    return entity;
   }
 
   public Entity createEntity(String uuid) {
@@ -145,7 +157,7 @@ public class World implements Serializable {
    * @return a {@code List} of {@code Entity} each having the desired {@code Component}s
    */
   @SafeVarargs
-  public final List<Entity> getEntitiesWithComponents(Class<? extends Component<?>> ...componentClasses) {
+  public final List<Entity> getEntitiesWithComponents(Class<? extends Component> ...componentClasses) {
     List<Entity> entitiesWithAllComponents = new ArrayList<>();
 
     for (Entity entity : entities) {
@@ -153,7 +165,7 @@ public class World implements Serializable {
 
       boolean hasAllClasses = true;
 
-      for (Class<? extends Component<?>> componentClass : componentClasses) {
+      for (Class<? extends Component> componentClass : componentClasses) {
         if (getComponentForEntity(entity.getIndexInWorld(), componentClass) == null) {
           hasAllClasses = false;
           break;
@@ -172,14 +184,14 @@ public class World implements Serializable {
     return ecsViewFactory;
   }
 
-  void addComponentForEntity(int entityIndex, Component<?> component) {
-    Component<?>[] componentsOfType = components.computeIfAbsent(component.getClass(), key -> new Component[maxEntityCount]);
+  void addComponentForEntity(int entityIndex, Component component) {
+    Component[] componentsOfType = components.computeIfAbsent(component.getClass(), key -> new Component[maxEntityCount]);
 
     componentsOfType[entityIndex] = component;
   }
 
-  <T extends Component<?>> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
-    Component<?>[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
+  <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
+    Component[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
 
     return componentClass.cast(componentsOfType[entityIndex]);
   }

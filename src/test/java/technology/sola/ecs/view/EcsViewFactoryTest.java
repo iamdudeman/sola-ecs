@@ -38,8 +38,8 @@ public class EcsViewFactoryTest {
       var view = ecsViewFactory.of(TestUtil.TestComponent1.class);
 
       assertEquals(1, view.size());
-      assertEquals(entity, view.get(0).getEntity());
-      assertEquals(testComponent1, view.get(0).getC1());
+      assertEquals(entity, view.get(0).entity());
+      assertEquals(testComponent1, view.get(0).c1());
     }
 
     @Test
@@ -73,9 +73,9 @@ public class EcsViewFactoryTest {
       var view = ecsViewFactory.of(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
 
       assertEquals(1, view.size());
-      assertEquals(entity, view.get(0).getEntity());
-      assertEquals(testComponent1, view.get(0).getC1());
-      assertEquals(testComponent2, view.get(0).getC2());
+      assertEquals(entity, view.get(0).entity());
+      assertEquals(testComponent1, view.get(0).c1());
+      assertEquals(testComponent2, view.get(0).c2());
     }
 
     @Override

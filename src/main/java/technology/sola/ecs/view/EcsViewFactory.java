@@ -18,7 +18,7 @@ public class EcsViewFactory implements Serializable {
     this.world = world;
   }
 
-  public final <C1 extends Component<?>>
+  public final <C1 extends Component>
   List<EcsView1<C1>> of(
     Class<C1> c1Class
   ) {
@@ -35,7 +35,7 @@ public class EcsViewFactory implements Serializable {
       .toList();
   }
 
-  public final <C1 extends Component<?>, C2 extends Component<?>>
+  public final <C1 extends Component, C2 extends Component>
   List<EcsView2<C1, C2>> of(
     Class<C1> c1Class, Class<C2> c2Class
   ) {
@@ -53,7 +53,7 @@ public class EcsViewFactory implements Serializable {
       .toList();
   }
 
-  public final <C1 extends Component<?>, C2 extends Component<?>, C3 extends Component<?>>
+  public final <C1 extends Component, C2 extends Component, C3 extends Component>
   List<EcsView3<C1, C2, C3>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class
   ) {
@@ -72,7 +72,7 @@ public class EcsViewFactory implements Serializable {
       .toList();
   }
 
-  public final <C1 extends Component<?>, C2 extends Component<?>, C3 extends Component<?>, C4 extends Component<?>>
+  public final <C1 extends Component, C2 extends Component, C3 extends Component, C4 extends Component>
   List<EcsView4<C1, C2, C3, C4>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class
   ) {
@@ -92,7 +92,7 @@ public class EcsViewFactory implements Serializable {
       .toList();
   }
 
-  public final <C1 extends Component<?>, C2 extends Component<?>, C3 extends Component<?>, C4 extends Component<?>, C5 extends Component<?>>
+  public final <C1 extends Component, C2 extends Component, C3 extends Component, C4 extends Component, C5 extends Component>
   List<EcsView5<C1, C2, C3, C4, C5>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class, Class<C5> c5Class
   ) {

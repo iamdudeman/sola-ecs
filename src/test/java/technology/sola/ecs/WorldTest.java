@@ -196,7 +196,7 @@ class WorldTest {
 
       var view = world.getView().of(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
       assertEquals(1, view.size());
-      assertEquals(entity, view.get(entity.getIndexInWorld()).getEntity());
+      assertEquals(entity, view.get(entity.getIndexInWorld()).entity());
     }
   }
 }
