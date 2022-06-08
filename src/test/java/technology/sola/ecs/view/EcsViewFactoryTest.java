@@ -1,94 +1,89 @@
 package technology.sola.ecs.view;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import technology.sola.ecs.Entity;
-import technology.sola.ecs.TestUtil;
+import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EcsViewFactoryTest {
-  private static final int NUMBER_OF_VIEW_CLASSES = 5;
-  private World world;
   private EcsViewFactory ecsViewFactory;
 
   @BeforeEach
   void setup() {
-    world = new World(NUMBER_OF_VIEW_CLASSES);
+    World world = new World(1);
     ecsViewFactory = new EcsViewFactory(world);
+
+    world.createEntity(new TestComponent1());
   }
 
-  @Nested
-  class OfOneTests {
-    protected TestUtil.TestComponent1 testComponent1;
-    private Entity entity;
-
-    @BeforeEach
-    void setup() {
-      testComponent1 = new TestUtil.TestComponent1();
-
-      entity = world.createEntity()
-        .addComponent(testComponent1);
-    }
-
-    @Test
-    void whenEntityHasComponents_shouldBeInView() {
-      var view = ecsViewFactory.of(TestUtil.TestComponent1.class);
-
-      assertEquals(1, view.size());
-      assertEquals(entity, view.get(0).entity());
-      assertEquals(testComponent1, view.get(0).c1());
-    }
-
-    @Test
-    void whenEntityMissingComponent_shouldNotBeInView() {
-      assertEquals(
-        0,
-        ecsViewFactory.of(TestUtil.TestComponent2.class).size()
-      );
-    }
+  private record TestComponent1() implements Component {
   }
 
-  @Nested
-  class OfTwoTests extends OfOneTests {
-    protected TestUtil.TestComponent2 testComponent2;
-    private Entity entity;
+  private record TestComponent2() implements Component {
+  }
 
-    @BeforeEach
-    void setup() {
-      super.setup();
+  @Test
+  void of_withOne_shouldProperlyMatchForAllVariations() {
+    // match
+    assertEquals(1, ecsViewFactory.of(TestComponent1.class).size());
+    // no match
+    assertEquals(0, ecsViewFactory.of(TestComponent2.class).size());
+  }
 
-      testComponent2 = new TestUtil.TestComponent2();
+  @Test
+  void of_withTwo_shouldProperlyMatchForAllVariations() {
+    // match
+    assertEquals(1, ecsViewFactory.of(TestComponent1.class, TestComponent1.class).size());
+    // no match
+    assertEquals(0, ecsViewFactory.of(TestComponent2.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent2.class).size());
+  }
 
-      entity = world.createEntity()
-        .addComponent(testComponent1)
-        .addComponent(testComponent2);
-    }
+  @Test
+  void of_withThree_shouldProperlyMatchForAllVariations() {
+    // match
+    assertEquals(1, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    // no match
+    assertEquals(0, ecsViewFactory.of(TestComponent2.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent2.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent2.class).size());
+  }
 
-    @Override
-    @Test
-    void whenEntityHasComponents_shouldBeInView() {
-      var view = ecsViewFactory.of(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
+  @Test
+  void of_withFour_shouldProperlyMatchForAllVariations() {
+    // match
+    assertEquals(1, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    // no match
+    assertEquals(0, ecsViewFactory.of(TestComponent2.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent2.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent2.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent2.class).size());
+  }
 
-      assertEquals(1, view.size());
-      assertEquals(entity, view.get(0).entity());
-      assertEquals(testComponent1, view.get(0).c1());
-      assertEquals(testComponent2, view.get(0).c2());
-    }
+  @Test
+  void of_withFive_shouldProperlyMatchForAllVariations() {
+    // match
+    assertEquals(1, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    // no match
+    assertEquals(0, ecsViewFactory.of(TestComponent2.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent2.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent2.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent2.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent2.class).size());
+  }
 
-    @Override
-    @Test
-    void whenEntityMissingComponent_shouldNotBeInView() {
-      assertEquals(
-        0,
-        ecsViewFactory.of(TestUtil.TestComponent1.class, TestUtil.TestComponent3.class).size()
-      );
-      assertEquals(
-        0,
-        ecsViewFactory.of(TestUtil.TestComponent2.class, TestUtil.TestComponent3.class).size()
-      );
-    }
+  @Test
+  void of_withSix_shouldProperlyMatchForAllVariations() {
+    // match
+    assertEquals(1, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    // no match
+    assertEquals(0, ecsViewFactory.of(TestComponent2.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent2.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent2.class, TestComponent1.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent2.class, TestComponent1.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent2.class, TestComponent1.class).size());
+    assertEquals(0, ecsViewFactory.of(TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent1.class, TestComponent2.class).size());
   }
 }

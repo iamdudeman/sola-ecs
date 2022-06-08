@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class EcsSystemTest {
   @Test
   void whenCreated_shouldDefaultToActive() {
-    assertTrue(new TestUtil.TestUpdateEcsSystem().isActive());
+    assertTrue(new TestUpdateEcsSystem().isActive());
   }
 
   @Nested
@@ -17,7 +17,7 @@ class EcsSystemTest {
   class SetActiveTests {
     @Test
     void whenCalled_withFalse_shouldBeFalse() {
-      EcsSystem updateSystem = new TestUtil.TestUpdateEcsSystem();
+      EcsSystem updateSystem = new TestUpdateEcsSystem();
 
       updateSystem.setActive(false);
 
@@ -34,5 +34,11 @@ class EcsSystemTest {
     };
 
     assertEquals(0, ecsSystem.getOrder());
+  }
+
+  public static class TestUpdateEcsSystem extends EcsSystem {
+    @Override
+    public void update(World world, float deltaTime) {
+    }
   }
 }

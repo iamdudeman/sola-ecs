@@ -45,9 +45,9 @@ class WorldTest {
   void whenCreatingEntity_withComponents_shouldHaveComponents() {
     World world = new World(1);
 
-    Entity entity = world.createEntity(new TestUtil.TestComponent1());
+    Entity entity = world.createEntity(new TestComponent1());
 
-    assertTrue(entity.hasComponent(TestUtil.TestComponent1.class));
+    assertTrue(entity.hasComponent(TestComponent1.class));
   }
 
   @Nested
@@ -125,38 +125,38 @@ class WorldTest {
   @Test
   void whenAddingComponentsForEntity_shouldBeAbleToGetThem() {
     World world = new World(1);
-    TestUtil.TestComponent1 testComponent = new TestUtil.TestComponent1();
+    TestComponent1 testComponent = new TestComponent1();
     world.createEntity();
 
     world.addComponentForEntity(0, testComponent);
 
-    assertEquals(testComponent, world.getComponentForEntity(0, TestUtil.TestComponent1.class));
+    assertEquals(testComponent, world.getComponentForEntity(0, TestComponent1.class));
   }
 
   @Test
   void whenRemovingComponentsFromEntity_shouldNotBeAbleToGetThem() {
     World world = new World(1);
-    TestUtil.TestComponent1 testComponent = new TestUtil.TestComponent1();
+    TestComponent1 testComponent = new TestComponent1();
     world.createEntity();
 
     world.addComponentForEntity(0, testComponent);
-    world.removeComponent(0, TestUtil.TestComponent1.class);
+    world.removeComponent(0, TestComponent1.class);
 
-    assertNull(world.getComponentForEntity(0, TestUtil.TestComponent1.class));
+    assertNull(world.getComponentForEntity(0, TestComponent1.class));
   }
 
   @Test
   void whenDestroyingEntity_shouldNotBeAbleToGetComponents() {
     World world = new World(1);
-    TestUtil.TestComponent1 testComponent = new TestUtil.TestComponent1();
+    TestComponent1 testComponent = new TestComponent1();
     Entity entity = world.createEntity();
 
-    entity.getCurrentComponents().add(TestUtil.TestComponent1.class);
+    entity.getCurrentComponents().add(TestComponent1.class);
     world.addComponentForEntity(0, testComponent);
     world.queueEntityForDestruction(entity);
     world.cleanupDestroyedEntities();
 
-    assertNull(world.getComponentForEntity(0, TestUtil.TestComponent1.class));
+    assertNull(world.getComponentForEntity(0, TestComponent1.class));
   }
 
   @Nested
@@ -192,14 +192,14 @@ class WorldTest {
     @Test
     void whenEntityHasAllComponents_shouldReturnEntity() {
       World world = new World(2);
-      TestUtil.TestComponent1 testComponent = new TestUtil.TestComponent1();
-      TestUtil.TestComponent2 testComponent2 = new TestUtil.TestComponent2();
+      TestComponent1 testComponent = new TestComponent1();
+      TestComponent2 testComponent2 = new TestComponent2();
       Entity entity = world.createEntity();
 
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent);
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent2);
 
-      List<Entity> entities = world.findEntitiesWithComponents(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
+      List<Entity> entities = world.findEntitiesWithComponents(TestComponent1.class, TestComponent2.class);
       assertEquals(1, entities.size());
       assertEquals(entity, entities.get(entity.getIndexInWorld()));
     }
@@ -207,12 +207,12 @@ class WorldTest {
     @Test
     void whenEntityIsMissingComponent_shouldNotReturnEntity() {
       World world = new World(2);
-      TestUtil.TestComponent1 testComponent = new TestUtil.TestComponent1();
+      TestComponent1 testComponent = new TestComponent1();
       Entity entity = world.createEntity();
 
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent);
 
-      List<Entity> entities = world.findEntitiesWithComponents(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
+      List<Entity> entities = world.findEntitiesWithComponents(TestComponent1.class, TestComponent2.class);
       assertEquals(0, entities.size());
     }
   }
@@ -222,16 +222,22 @@ class WorldTest {
     @Test
     void whenViewCreated_shouldContainEntities() {
       World world = new World(2);
-      TestUtil.TestComponent1 testComponent = new TestUtil.TestComponent1();
-      TestUtil.TestComponent2 testComponent2 = new TestUtil.TestComponent2();
+      TestComponent1 testComponent = new TestComponent1();
+      TestComponent2 testComponent2 = new TestComponent2();
       Entity entity = world.createEntity();
 
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent);
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent2);
 
-      var view = world.createView().of(TestUtil.TestComponent1.class, TestUtil.TestComponent2.class);
+      var view = world.createView().of(TestComponent1.class, TestComponent2.class);
       assertEquals(1, view.size());
       assertEquals(entity, view.get(entity.getIndexInWorld()).entity());
     }
+  }
+
+  private record TestComponent1() implements Component {
+  }
+
+  private record TestComponent2() implements Component {
   }
 }

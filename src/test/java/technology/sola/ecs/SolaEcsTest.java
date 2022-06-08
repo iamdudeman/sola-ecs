@@ -71,16 +71,16 @@ class SolaEcsTest {
   class GetTests {
     @Test
     void whenMissing_shouldReturnNull() {
-      assertThrows(EcsSystemNotFoundException.class, () -> solaEcs.getSystem(TestUtil.TestUpdateEcsSystem.class));
+      assertThrows(EcsSystemNotFoundException.class, () -> solaEcs.getSystem(TestUpdateEcsSystem.class));
     }
 
     @Test
     void whenPresent_shouldReturnSystem() {
-      TestUtil.TestUpdateEcsSystem testUpdateSystem = new TestUtil.TestUpdateEcsSystem();
+      TestUpdateEcsSystem testUpdateSystem = new TestUpdateEcsSystem();
 
       solaEcs.addSystem(testUpdateSystem);
 
-      assertEquals(testUpdateSystem, solaEcs.getSystem(TestUtil.TestUpdateEcsSystem.class));
+      assertEquals(testUpdateSystem, solaEcs.getSystem(TestUpdateEcsSystem.class));
     }
   }
 
@@ -135,6 +135,12 @@ class SolaEcsTest {
       solaEcs.updateWorld(1f);
 
       Mockito.verify(mockWorld, Mockito.times(1)).cleanupDestroyedEntities();
+    }
+  }
+
+  public static class TestUpdateEcsSystem extends EcsSystem {
+    @Override
+    public void update(World world, float deltaTime) {
     }
   }
 }
