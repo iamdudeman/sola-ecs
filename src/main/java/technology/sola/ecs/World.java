@@ -6,7 +6,6 @@ import technology.sola.ecs.view.EcsViewFactory;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * World contains arrays of {@link Component}s and methods for creating {@link Entity} instances and searching for
@@ -167,7 +166,7 @@ public class World implements Serializable {
   public List<Entity> getEntities() {
     return Arrays.stream(entities)
       .filter(Objects::nonNull)
-      .collect(Collectors.toList());
+      .toList();
   }
 
   /**
@@ -178,7 +177,7 @@ public class World implements Serializable {
   public List<Entity> getEnabledEntities() {
     return Arrays.stream(entities)
       .filter(entity -> entity != null && !entity.isDisabled())
-      .collect(Collectors.toList());
+      .toList();
   }
 
   /**
