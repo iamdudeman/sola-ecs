@@ -53,16 +53,16 @@ public class EntityTest {
     void whenCalled_shouldAddComponentClassToCurrentComponents() {
       Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      entity.addComponent(new TestUtil.TestComponent1());
+      entity.addComponent(new TestComponent1());
 
-      assertEquals(TestUtil.TestComponent1.class, entity.getCurrentComponents().get(0));
+      assertEquals(TestComponent1.class, entity.getCurrentComponents().get(0));
     }
 
     @Test
     void whenCalled_shouldAddToWorld() {
       Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      TestUtil.TestComponent1 testComponent = new TestUtil.TestComponent1();
+      TestComponent1 testComponent = new TestComponent1();
       entity.addComponent(testComponent);
 
       Mockito.verify(mockWorld, Mockito.times(1)).addComponentForEntity(0, testComponent);
@@ -76,9 +76,9 @@ public class EntityTest {
     void whenCalled_shouldGetFromWorld() {
       Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      entity.getComponent(TestUtil.TestComponent1.class);
+      entity.getComponent(TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestUtil.TestComponent1.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestComponent1.class);
     }
   }
 
@@ -89,9 +89,9 @@ public class EntityTest {
     void whenCalled_shouldGetFromWorld() {
       Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      Optional<TestUtil.TestComponent1> result = entity.getOptionalComponent(TestUtil.TestComponent1.class);
+      Optional<TestComponent1> result = entity.getOptionalComponent(TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestUtil.TestComponent1.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestComponent1.class);
       assertTrue(result.isEmpty());
     }
   }
@@ -103,10 +103,10 @@ public class EntityTest {
     void whenCalled_shouldRemoveComponentClassFromCurrentComponents() {
       Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      entity.getCurrentComponents().add(TestUtil.TestComponent1.class);
+      entity.getCurrentComponents().add(TestComponent1.class);
       assertEquals(1, entity.getCurrentComponents().size());
 
-      entity.removeComponent(TestUtil.TestComponent1.class);
+      entity.removeComponent(TestComponent1.class);
       assertEquals(0, entity.getCurrentComponents().size());
     }
 
@@ -114,9 +114,9 @@ public class EntityTest {
     void whenCalled_shouldAddToWorld() {
       Entity entity = new Entity(mockWorld, 0, "uuid");
 
-      entity.removeComponent(TestUtil.TestComponent1.class);
+      entity.removeComponent(TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestUtil.TestComponent1.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestComponent1.class);
     }
   }
 
@@ -131,5 +131,8 @@ public class EntityTest {
 
       Mockito.verify(mockWorld, Mockito.times(1)).queueEntityForDestruction(entity);
     }
+  }
+
+  private record TestComponent1() implements Component {
   }
 }

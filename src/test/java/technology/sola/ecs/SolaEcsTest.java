@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
+import technology.sola.ecs.exception.EcsSystemNotFoundException;
 
 import java.util.Iterator;
 
@@ -29,8 +30,7 @@ class SolaEcsTest {
   }
 
   @Nested
-  @DisplayName("addSystems")
-  class AddTests {
+  class AddRemoveTests {
     @Test
     void whenAdding_shouldSortByOrder() {
       EcsSystem ecsSystem = Mockito.mock(EcsSystem.class);
@@ -48,6 +48,22 @@ class SolaEcsTest {
       assertEquals(ecsSystem3, iter.next());
       assertEquals(ecsSystem, iter.next());
     }
+
+    @Test
+    void whenRemoving_shouldRemoveSystem() {
+      EcsSystem ecsSystem = Mockito.mock(EcsSystem.class);
+      Mockito.when(ecsSystem.getOrder()).thenReturn(1);
+      EcsSystem ecsSystem2 = Mockito.mock(EcsSystem.class);
+      Mockito.when(ecsSystem2.getOrder()).thenReturn(-2);
+
+      solaEcs.addSystems(ecsSystem, ecsSystem2);
+      solaEcs.removeSystem(ecsSystem2);
+
+      Iterator<EcsSystem> iter = solaEcs.systemIterator();
+
+      assertEquals(ecsSystem, iter.next());
+      assertFalse(iter.hasNext());
+    }
   }
 
   @Nested
@@ -55,16 +71,16 @@ class SolaEcsTest {
   class GetTests {
     @Test
     void whenMissing_shouldReturnNull() {
-      assertNull(solaEcs.getSystem(TestUtil.TestUpdateEcsSystem.class));
+      assertThrows(EcsSystemNotFoundException.class, () -> solaEcs.getSystem(TestUpdateEcsSystem.class));
     }
 
     @Test
     void whenPresent_shouldReturnSystem() {
-      TestUtil.TestUpdateEcsSystem testUpdateSystem = new TestUtil.TestUpdateEcsSystem();
+      TestUpdateEcsSystem testUpdateSystem = new TestUpdateEcsSystem();
 
       solaEcs.addSystem(testUpdateSystem);
 
-      assertEquals(testUpdateSystem, solaEcs.getSystem(TestUtil.TestUpdateEcsSystem.class));
+      assertEquals(testUpdateSystem, solaEcs.getSystem(TestUpdateEcsSystem.class));
     }
   }
 
@@ -101,9 +117,8 @@ class SolaEcsTest {
       Mockito.when(ecsSystem3.getOrder()).thenReturn(-2);
       Mockito.when(ecsSystem3.isActive()).thenReturn(true);
       World mockWorld = Mockito.mock(World.class);
-      solaEcs.setWorld(mockWorld);
-      solaEcs.addSystems(ecsSystem, ecsSystem2, ecsSystem3);
 
+      solaEcs = new SolaEcs(mockWorld, ecsSystem, ecsSystem2, ecsSystem3);
       solaEcs.updateWorld(1f);
 
       InOrder inOrder = Mockito.inOrder(ecsSystem3, ecsSystem);
@@ -120,6 +135,12 @@ class SolaEcsTest {
       solaEcs.updateWorld(1f);
 
       Mockito.verify(mockWorld, Mockito.times(1)).cleanupDestroyedEntities();
+    }
+  }
+
+  public static class TestUpdateEcsSystem extends EcsSystem {
+    @Override
+    public void update(World world, float deltaTime) {
     }
   }
 }

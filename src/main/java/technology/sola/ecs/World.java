@@ -1,20 +1,22 @@
 package technology.sola.ecs;
 
 import technology.sola.ecs.exception.WorldEntityLimitException;
-import technology.sola.ecs.exception.MissingEntityException;
 import technology.sola.ecs.view.EcsViewFactory;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Collectors;
 
+/**
+ * World contains arrays of {@link Component}s and methods for creating {@link Entity} instances and searching for
+ * entities.
+ */
 public class World implements Serializable {
   @Serial
   private static final long serialVersionUID = -4446723129672527365L;
   private final int maxEntityCount;
   private final Entity[] entities;
-  private final Map<Class<? extends Component>, Component<?>[]> components = new HashMap<>();
+  private final Map<Class<? extends Component>, Component[]> components = new HashMap<>();
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
   private final List<Entity> entitiesToDestroy = new LinkedList<>();
@@ -23,7 +25,7 @@ public class World implements Serializable {
   /**
    * Creates a new World instance with specified max {@link Entity} count.
    *
-   * @param maxEntityCount  the maximum number of {@code Entity} in this World, must be greater than 0
+   * @param maxEntityCount the maximum number of {@code Entity} in this World, must be greater than 0
    */
   public World(int maxEntityCount) {
     if (maxEntityCount < 1) {
@@ -36,7 +38,7 @@ public class World implements Serializable {
   }
 
   /**
-   * Cleans up entities that were queued for destruction. Should be called at the end of a frame.
+   * Removes entities that were queued for destruction. Should be called at the end of a frame.
    */
   public void cleanupDestroyedEntities() {
     entitiesToDestroy.forEach(this::destroyEntity);
@@ -53,66 +55,107 @@ public class World implements Serializable {
   }
 
   /**
-   * Gets the current total {@link Entity} count for this world.
+   * Gets the current number of {@link Entity} in this World.
    *
-   * @return the current total {@code Entity} count
+   * @return the current number of {@code Entity} in this World
    */
-  public int getTotalEntityCount() {
+  public int getEntityCount() {
     return totalEntityCount;
   }
 
   /**
-   * Creates a new {@link Entity} inside this World with a random UUID.
+   * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with a set of components.
    * <p>
    * If the total entity count goes above the max number specified in this world then an exception will be thrown.
    *
+   * @param components the {@link Component}s to initialize the Entity with
    * @return a new {@code Entity}
    */
-  public Entity createEntity() {
-    return createEntity(UUID.randomUUID().toString());
-  }
-
-  public Entity createEntity(String uuid) {
-    totalEntityCount++;
-    Entity entity = new Entity(this, nextOpenEntityIndex(), uuid);
-
-    entities[entity.getIndexInWorld()] = entity;
-
-    return entity;
+  public Entity createEntity(Component... components) {
+    return createEntity(null, components);
   }
 
   /**
-   * Gets an {@link Entity} by id. Throws an exception if not found.
+   * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with name and components.
+   * <p>
+   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
    *
-   * @param id  the id of the {@code Entity} to retrieve
-   * @return the {@code Entity}
+   * @param name       the name to initialize this Entity with
+   * @param components the {@link Component}s to initialize the Entity with
+   * @return a new {@code Entity}
    */
-  public Entity getEntityById(int id) {
-    Entity entity = entities[id];
+  public Entity createEntity(String name, Component... components) {
+    return createEntity(UUID.randomUUID().toString(), name, components);
+  }
 
-    if (entity == null) {
-      throw new MissingEntityException(id);
+  /**
+   * Creates a new {@link Entity} inside this World with a set unique id. It is initialized with name and components.
+   * <p>
+   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   *
+   * @param uniqueId   the unique id to initialize this Entity with
+   * @param name       the name to initialize this Entity with
+   * @param components the {@link Component}s to initialize the Entity with
+   * @return a new {@code Entity}
+   */
+  public Entity createEntity(String uniqueId, String name, Component... components) {
+    totalEntityCount++;
+    Entity entity = new Entity(this, nextOpenEntityIndex(), uniqueId);
+
+    entities[entity.getIndexInWorld()] = entity;
+    entity.setName(name);
+
+    for (Component component : components) {
+      entity.addComponent(component);
     }
 
     return entity;
   }
 
   /**
-   * Gets an {@link Entity} by its name.
+   * Gets an {@link Entity} by index or null if one is not present.
    *
-   * @param name  the name of the {@code Entity}
+   * @param index the index of the {@code Entity} to retrieve
+   * @return the {@code Entity}
+   */
+  public Entity getEntityAtIndex(int index) {
+    return entities[index];
+  }
+
+  /**
+   * Searches for an {@link Entity} by its name.
+   *
+   * @param name the name of the {@code Entity}
    * @return the {@code Entity} with desired name
    */
-  public Entity getEntityByName(String name) {
+  public Optional<Entity> findEntityByName(String name) {
     for (Entity entity : entities) {
       if (entity == null) continue;
 
       if (name.equals(entity.getName())) {
-        return entity;
+        return Optional.of(entity);
       }
     }
 
-    return null;
+    return Optional.empty();
+  }
+
+  /**
+   * Searches for an {@link Entity} by its unique id.
+   *
+   * @param uniqueId the unique id of the {@code Entity}
+   * @return the {@code Entity} with desired uniqueId
+   */
+  public Optional<Entity> findEntityByUniqueId(String uniqueId) {
+    for (Entity entity : entities) {
+      if (entity == null) continue;
+
+      if (uniqueId.equals(entity.getUniqueId())) {
+        return Optional.of(entity);
+      }
+    }
+
+    return Optional.empty();
   }
 
   /**
@@ -123,7 +166,7 @@ public class World implements Serializable {
   public List<Entity> getEntities() {
     return Arrays.stream(entities)
       .filter(Objects::nonNull)
-      .collect(Collectors.toList());
+      .toList();
   }
 
   /**
@@ -134,18 +177,18 @@ public class World implements Serializable {
   public List<Entity> getEnabledEntities() {
     return Arrays.stream(entities)
       .filter(entity -> entity != null && !entity.isDisabled())
-      .collect(Collectors.toList());
+      .toList();
   }
 
   /**
    * Gets a {@link List} of {@link Entity} where each {@code Entity} has all of the {@link Component} classes searched for
    * and is not disabled.
    *
-   * @param componentClasses  array of {@code Component} classes each {@code Entity} will have
+   * @param componentClasses array of {@code Component} classes each {@code Entity} will have
    * @return a {@code List} of {@code Entity} each having the desired {@code Component}s
    */
   @SafeVarargs
-  public final List<Entity> getEntitiesWithComponents(Class<? extends Component<?>> ...componentClasses) {
+  public final List<Entity> findEntitiesWithComponents(Class<? extends Component>... componentClasses) {
     List<Entity> entitiesWithAllComponents = new ArrayList<>();
 
     for (Entity entity : entities) {
@@ -153,7 +196,7 @@ public class World implements Serializable {
 
       boolean hasAllClasses = true;
 
-      for (Class<? extends Component<?>> componentClass : componentClasses) {
+      for (Class<? extends Component> componentClass : componentClasses) {
         if (getComponentForEntity(entity.getIndexInWorld(), componentClass) == null) {
           hasAllClasses = false;
           break;
@@ -168,18 +211,23 @@ public class World implements Serializable {
     return entitiesWithAllComponents;
   }
 
-  public EcsViewFactory getView() {
+  /**
+   * Returns a {@link EcsViewFactory} for this {@link World}.
+   *
+   * @return a {@link EcsViewFactory} for this {@link World}
+   */
+  public EcsViewFactory createView() {
     return ecsViewFactory;
   }
 
-  void addComponentForEntity(int entityIndex, Component<?> component) {
-    Component<?>[] componentsOfType = components.computeIfAbsent(component.getClass(), key -> new Component[maxEntityCount]);
+  void addComponentForEntity(int entityIndex, Component component) {
+    Component[] componentsOfType = components.computeIfAbsent(component.getClass(), key -> new Component[maxEntityCount]);
 
     componentsOfType[entityIndex] = component;
   }
 
-  <T extends Component<?>> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
-    Component<?>[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
+  <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
+    Component[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
 
     return componentClass.cast(componentsOfType[entityIndex]);
   }

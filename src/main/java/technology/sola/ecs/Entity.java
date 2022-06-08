@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * An Entity is identified by its index in the {@link World} that ties a set of {@link Component}s together.
+ */
 public class Entity implements Serializable {
   @Serial
   private static final long serialVersionUID = 1211787104356274322L;
@@ -45,7 +48,7 @@ public class Entity implements Serializable {
   }
 
   /**
-   * Sets the name of this Entity. A name can be used to look up an Entity via {@link World#getEntityByName(String)}.
+   * Sets the name of this Entity. A name can be used to look up an Entity via {@link World#findEntityByName(String)}.
    *
    * @param name the name of the Entity
    * @return this Entity
@@ -87,7 +90,7 @@ public class Entity implements Serializable {
    * @param component the {@code Component} to add
    * @return this Entity
    */
-  public Entity addComponent(Component<?> component) {
+  public Entity addComponent(Component component) {
     world.addComponentForEntity(entityIndex, component);
     currentComponents.add(component.getClass());
 
@@ -101,8 +104,18 @@ public class Entity implements Serializable {
    * @param <T>            the type of the {@code Component} class to get
    * @return the {@code Component} instance or null
    */
-  public <T extends Component<?>> T getComponent(Class<T> componentClass) {
+  public <T extends Component> T getComponent(Class<T> componentClass) {
     return world.getComponentForEntity(entityIndex, componentClass);
+  }
+
+  /**
+   * Returns true if this {@link Entity} has the {@link Component}.
+   *
+   * @param componentClass {@code Component} class to check for
+   * @return true if {@code Entity} has the {@code Component}
+   */
+  public <T extends Component> boolean hasComponent(Class<T> componentClass) {
+    return world.getComponentForEntity(entityIndex, componentClass) != null;
   }
 
   /**
@@ -112,7 +125,7 @@ public class Entity implements Serializable {
    * @param <T>            the type of the {@code Component} class to get
    * @return the {@code Optional}
    */
-  public <T extends Component<?>> Optional<T> getOptionalComponent(Class<T> componentClass) {
+  public <T extends Component> Optional<T> getOptionalComponent(Class<T> componentClass) {
     return Optional.ofNullable(world.getComponentForEntity(entityIndex, componentClass));
   }
 
@@ -121,13 +134,18 @@ public class Entity implements Serializable {
    *
    * @param componentClassToRemove the Class of the {@code Component} to remove
    */
-  public void removeComponent(Class<? extends Component<?>> componentClassToRemove) {
+  public void removeComponent(Class<? extends Component> componentClassToRemove) {
     world.removeComponent(entityIndex, componentClassToRemove);
     currentComponents = currentComponents.stream()
       .filter(currentComponentClass -> componentClassToRemove != currentComponentClass)
       .toList();
   }
 
+  /**
+   * Returns a list of the current {@link Component} classes that this entity has.
+   *
+   * @return the list of {@code Component} classes
+   */
   public List<Class<? extends Component>> getCurrentComponents() {
     return currentComponents;
   }
