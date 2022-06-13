@@ -28,16 +28,18 @@ class WorldJsonMapper implements JsonMapper<World> {
       JsonArray componentsArray = new JsonArray();
 
       entity.getCurrentComponents().forEach(componentClass -> {
+        String componentClassName = componentClass.getName();
         Component component = entity.getComponent(componentClass);
-        JsonMapper componentMapper = componentJsonMappers.get(componentClass.getName());
+        @SuppressWarnings("unchecked")
+        JsonMapper<Component> componentMapper = (JsonMapper<Component>) componentJsonMappers.get(componentClassName);
 
         if (componentMapper == null) {
-          throw new ComponentJsonMapperNotFoundException(componentClass.getName());
+          throw new ComponentJsonMapperNotFoundException(componentClassName);
         }
 
         JsonObject componentObject = componentMapper.toJson(component);
 
-        componentObject.put("_class", componentClass.getName());
+        componentObject.put("_class", componentClassName);
 
         componentsArray.add(componentObject);
       });
@@ -71,10 +73,11 @@ class WorldJsonMapper implements JsonMapper<World> {
 
       entityObject.getArray("components").forEach(componentJson -> {
         JsonObject componentObject = componentJson.asObject();
-        JsonMapper<? extends Component> componentMapper = componentJsonMappers.get(componentObject.getString("_class"));
+        String componentClassName = componentObject.getString("_class");
+        JsonMapper<? extends Component> componentMapper = componentJsonMappers.get(componentClassName);
 
         if (componentMapper == null) {
-          throw new ComponentJsonMapperNotFoundException(componentObject.getString("class"));
+          throw new ComponentJsonMapperNotFoundException(componentClassName);
         }
 
         entity.addComponent(componentMapper.toObject(componentObject));
