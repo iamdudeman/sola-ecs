@@ -39,21 +39,21 @@ class WorldJsonMapper implements JsonMapper<World> {
 
         JsonObject componentObject = componentMapper.toJson(component);
 
-        componentObject.put("_class", componentClassName);
+        componentObject.put(FieldKeys.COMPONENT_CLASS, componentClassName);
 
         componentsArray.add(componentObject);
       });
 
-      entityObject.put("uniqueId", entity.getUniqueId());
-      entityObject.put("name", entity.getName());
-      entityObject.put("components", componentsArray);
+      entityObject.put(FieldKeys.UNIQUE_ID, entity.getUniqueId());
+      entityObject.put(FieldKeys.NAME, entity.getName());
+      entityObject.put(FieldKeys.COMPONENTS, componentsArray);
 
       entityArray.add(entityObject);
     });
 
     JsonObject worldObject = new JsonObject();
-    worldObject.put("maxEntityCount", world.getMaxEntityCount());
-    worldObject.put("entities", entityArray);
+    worldObject.put(FieldKeys.MAX_ENTITY_COUNT, world.getMaxEntityCount());
+    worldObject.put(FieldKeys.ENTITIES, entityArray);
 
     return worldObject;
   }
@@ -61,19 +61,19 @@ class WorldJsonMapper implements JsonMapper<World> {
   @Override
   public World toObject(JsonObject jsonObject) {
     World world = new World(
-      jsonObject.getInt("maxEntityCount")
+      jsonObject.getInt(FieldKeys.MAX_ENTITY_COUNT)
     );
 
-    jsonObject.getArray("entities").forEach(entityJson -> {
+    jsonObject.getArray(FieldKeys.ENTITIES).forEach(entityJson -> {
       JsonObject entityObject = entityJson.asObject();
       Entity entity = world.createEntity(
-        entityObject.getString("uniqueId"),
-        entityObject.isNull("name") ? null : entityObject.getString("name")
+        entityObject.getString(FieldKeys.UNIQUE_ID),
+        entityObject.isNull(FieldKeys.NAME) ? null : entityObject.getString(FieldKeys.NAME)
       );
 
-      entityObject.getArray("components").forEach(componentJson -> {
+      entityObject.getArray(FieldKeys.COMPONENTS).forEach(componentJson -> {
         JsonObject componentObject = componentJson.asObject();
-        String componentClassName = componentObject.getString("_class");
+        String componentClassName = componentObject.getString(FieldKeys.COMPONENT_CLASS);
         JsonMapper<? extends Component> componentMapper = componentJsonMappers.get(componentClassName);
 
         if (componentMapper == null) {
@@ -85,5 +85,14 @@ class WorldJsonMapper implements JsonMapper<World> {
     });
 
     return world;
+  }
+
+  private static class FieldKeys {
+    static final String COMPONENT_CLASS = "_class";
+    static final String COMPONENTS = "components";
+    static final String UNIQUE_ID = "uniqueId";
+    static final String NAME = "name";
+    static final String ENTITIES = "entities";
+    static final String MAX_ENTITY_COUNT = "maxEntityCount";
   }
 }
