@@ -5,18 +5,30 @@ import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
 import technology.sola.ecs.exception.ComponentJsonMapperNotFoundException;
 import technology.sola.json.JsonArray;
-import technology.sola.json.JsonMapper;
 import technology.sola.json.JsonObject;
+import technology.sola.json.mapper.JsonMapper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-class WorldJsonMapper implements JsonMapper<World> {
+/**
+ * {@link JsonMapper} implementation for {@link World}.
+ */
+public class WorldJsonMapper implements JsonMapper<World> {
   private final Map<String, JsonMapper<? extends Component>> componentJsonMappers;
 
-  WorldJsonMapper(Map<Class<? extends Component>, JsonMapper<? extends Component>> componentJsonMappers) {
+  public WorldJsonMapper(List<JsonMapper<? extends Component>> componentJsonMappers) {
     this.componentJsonMappers = new HashMap<>();
-    componentJsonMappers.forEach((key, value) -> this.componentJsonMappers.put(key.getName(), value));
+
+    for (JsonMapper<? extends Component> componentJsonMapper : componentJsonMappers) {
+      this.componentJsonMappers.put(componentJsonMapper.getObjectClass().getName(), componentJsonMapper);
+    }
+  }
+
+  @Override
+  public Class<World> getObjectClass() {
+    return World.class;
   }
 
   @Override
@@ -24,7 +36,6 @@ class WorldJsonMapper implements JsonMapper<World> {
     JsonArray entityArray = new JsonArray();
 
     world.getEntities().forEach(entity -> {
-      JsonObject entityObject = new JsonObject();
       JsonArray componentsArray = new JsonArray();
 
       entity.getCurrentComponents().forEach(componentClass -> {
@@ -43,6 +54,8 @@ class WorldJsonMapper implements JsonMapper<World> {
 
         componentsArray.add(componentObject);
       });
+
+      JsonObject entityObject = new JsonObject();
 
       entityObject.put(FieldKeys.UNIQUE_ID, entity.getUniqueId());
       entityObject.put(FieldKeys.NAME, entity.getName());
@@ -68,7 +81,7 @@ class WorldJsonMapper implements JsonMapper<World> {
       JsonObject entityObject = entityJson.asObject();
       Entity entity = world.createEntity(
         entityObject.getString(FieldKeys.UNIQUE_ID),
-        entityObject.isNull(FieldKeys.NAME) ? null : entityObject.getString(FieldKeys.NAME)
+        entityObject.getString(FieldKeys.NAME, null)
       );
 
       entityObject.getArray(FieldKeys.COMPONENTS).forEach(componentJson -> {

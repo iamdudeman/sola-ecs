@@ -4,10 +4,11 @@ import org.junit.jupiter.api.Test;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
 import technology.sola.ecs.exception.ComponentJsonMapperNotFoundException;
-import technology.sola.json.JsonMapper;
 import technology.sola.json.JsonObject;
+import technology.sola.json.builder.JsonObjectBuilder;
+import technology.sola.json.mapper.JsonMapper;
 
-import java.util.Map;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,10 +27,7 @@ public class JsonWorldIoTest {
       .getUniqueId();
 
     JsonWorldIo base64WorldIo = new JsonWorldIo(
-      Map.of(
-        TestComponent1.class, TestComponent1.mapper,
-        TestComponent2.class, TestComponent2.mapper
-      )
+      List.of(TestComponent1.mapper, TestComponent2.mapper)
     );
     String serializedWorld = base64WorldIo.stringify(world);
     World deserializedWorld = base64WorldIo.parse(serializedWorld);
@@ -52,9 +50,7 @@ public class JsonWorldIoTest {
       .addComponent(new TestComponent1("test"));
 
     JsonWorldIo base64WorldIo = new JsonWorldIo(
-      Map.of(
-        TestComponent2.class, TestComponent2.mapper
-      )
+      List.of(TestComponent2.mapper)
     );
 
     assertThrows(ComponentJsonMapperNotFoundException.class, () -> base64WorldIo.stringify(world));
@@ -63,12 +59,15 @@ public class JsonWorldIoTest {
   private record TestComponent1(String string) implements Component {
     static final JsonMapper<TestComponent1> mapper = new JsonMapper<>() {
       @Override
+      public Class<TestComponent1> getObjectClass() {
+        return TestComponent1.class;
+      }
+
+      @Override
       public JsonObject toJson(TestComponent1 testComponent1) {
-        JsonObject jsonObject = new JsonObject();
-
-        jsonObject.put("string", testComponent1.string());
-
-        return jsonObject;
+        return new JsonObjectBuilder()
+          .addString("string", testComponent1.string())
+          .build();
       }
 
       @Override
@@ -81,12 +80,15 @@ public class JsonWorldIoTest {
   private record TestComponent2(int number) implements Component {
     static final JsonMapper<TestComponent2> mapper = new JsonMapper<>() {
       @Override
+      public Class<TestComponent2> getObjectClass() {
+        return TestComponent2.class;
+      }
+
+      @Override
       public JsonObject toJson(TestComponent2 testComponent2) {
-        JsonObject jsonObject = new JsonObject();
-
-        jsonObject.put("number", testComponent2.number());
-
-        return jsonObject;
+        return new JsonObjectBuilder()
+          .addInt("number", testComponent2.number())
+          .build();
       }
 
       @Override

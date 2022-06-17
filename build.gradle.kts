@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
   // TODO get from maven when it is published there
-  implementation(files("libs/sola-json-2.0.1.jar"))
+  implementation(files("libs/sola-json-2.1.0.jar"))
 
   testImplementation(platform("org.junit:junit-bom:5.7.1"))
   testImplementation("org.junit.jupiter:junit-jupiter")
