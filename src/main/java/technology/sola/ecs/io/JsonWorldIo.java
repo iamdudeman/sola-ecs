@@ -21,7 +21,7 @@ public class JsonWorldIo implements WorldIo {
 
   @Override
   public String stringify(World world) {
-    return solaJson.serialize(world, worldJsonMapper);
+    return solaJson.stringify(world, worldJsonMapper);
   }
 
   @Override
