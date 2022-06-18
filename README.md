@@ -32,6 +32,3 @@ public class Example {
   }
 }
 ```
-
-## TODO List
-* JsonWorldIo implementation
