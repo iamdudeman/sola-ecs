@@ -29,7 +29,11 @@ public class Base64WorldIo implements WorldIo {
     final byte[] data = Base64.getDecoder().decode(worldString);
 
     try (final ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(data))) {
-      return (World) ois.readObject();
+      World world = (World) ois.readObject();
+
+      WorldIo.processWorldAfterDeserialize(world);
+
+      return world;
     } catch (IOException ex) {
       throw new Base64WorldIoException(ex);
     } catch (ClassNotFoundException ex) {
