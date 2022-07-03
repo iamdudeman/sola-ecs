@@ -21,4 +21,18 @@ public interface WorldIo {
    * @return the deserialized {@code World}
    */
   World parse(String worldString);
+
+  /**
+   * Loops through each {@link technology.sola.ecs.Entity} in a {@link World} and calls
+   * {@link technology.sola.ecs.Component#afterDeserialize(World)} for each {@link technology.sola.ecs.Component} of the
+   * {@code Entity}.
+   *
+   * @param world the {@code World} to process
+   */
+  static void processWorldAfterDeserialize(World world) {
+    world.getEntities()
+      .forEach(entity -> entity.getCurrentComponents().stream()
+        .map(entity::getComponent)
+        .forEach(component -> component.afterDeserialize(world)));
+  }
 }

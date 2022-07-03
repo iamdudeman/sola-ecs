@@ -1,6 +1,10 @@
 package technology.sola.ecs.io;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
 import technology.sola.ecs.exception.ComponentJsonMapperNotFoundException;
@@ -9,11 +13,16 @@ import technology.sola.json.builder.JsonObjectBuilder;
 import technology.sola.json.mapper.JsonMapper;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class JsonWorldIoTest {
+@ExtendWith(MockitoExtension.class)
+class JsonWorldIoTest {
+  @Mock
+  private static Consumer<String> mockConsumer;
+
   @Test
   void integrationTest() {
     World world = new World(2);
@@ -36,11 +45,13 @@ public class JsonWorldIoTest {
     assertEquals(uuid1, view1.get(0).entity().getUniqueId());
     assertEquals("name1", view1.get(0).entity().getName());
     assertEquals("test", view1.get(0).c1().string());
+    Mockito.verify(mockConsumer, Mockito.times(1)).accept("test1");
 
     var view2 = deserializedWorld.createView().of(TestComponent2.class);
     assertEquals(uuid2, view2.get(0).entity().getUniqueId());
     assertEquals("name2", view2.get(0).entity().getName());
     assertEquals(5, view2.get(0).c1().number());
+    Mockito.verify(mockConsumer, Mockito.times(1)).accept("test2");
   }
 
   @Test
@@ -57,6 +68,11 @@ public class JsonWorldIoTest {
   }
 
   private record TestComponent1(String string) implements Component {
+    @Override
+    public void afterDeserialize(World world) {
+      mockConsumer.accept("test1");
+    }
+
     static final JsonMapper<TestComponent1> mapper = new JsonMapper<>() {
       @Override
       public Class<TestComponent1> getObjectClass() {
@@ -78,6 +94,11 @@ public class JsonWorldIoTest {
   }
 
   private record TestComponent2(int number) implements Component {
+    @Override
+    public void afterDeserialize(World world) {
+      mockConsumer.accept("test2");
+    }
+
     static final JsonMapper<TestComponent2> mapper = new JsonMapper<>() {
       @Override
       public Class<TestComponent2> getObjectClass() {

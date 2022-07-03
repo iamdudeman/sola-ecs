@@ -26,6 +26,10 @@ public class JsonWorldIo implements WorldIo {
 
   @Override
   public World parse(String worldString) {
-    return solaJson.parse(worldString, worldJsonMapper);
+    World world = solaJson.parse(worldString, worldJsonMapper);
+
+    WorldIo.processWorldAfterDeserialize(world);
+
+    return world;
   }
 }

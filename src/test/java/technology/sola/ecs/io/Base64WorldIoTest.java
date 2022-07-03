@@ -1,17 +1,26 @@
 package technology.sola.ecs.io;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
 import technology.sola.ecs.exception.Base64WorldIoException;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class Base64WorldIoTest {
+@ExtendWith(MockitoExtension.class)
+class Base64WorldIoTest {
+  @Mock
+  private static Consumer<String> mockConsumer;
+
   @Test
   void integrationTest() {
     World world = new World(2);
@@ -28,6 +37,9 @@ public class Base64WorldIoTest {
 
     assertEquals(uuid1, deserializedWorld.createView().of(TestComponent1.class).get(0).entity().getUniqueId());
     assertEquals(uuid2, deserializedWorld.createView().of(TestComponent2.class).get(0).entity().getUniqueId());
+    Mockito.verify(mockConsumer, Mockito.times(1)).accept("test1");
+    Mockito.verify(mockConsumer, Mockito.times(1)).accept("test2");
+
   }
 
   @Test
@@ -36,8 +48,16 @@ public class Base64WorldIoTest {
   }
 
   private record TestComponent1() implements Component {
+    @Override
+    public void afterDeserialize(World world) {
+      mockConsumer.accept("test1");
+    }
   }
 
   private record TestComponent2() implements Component {
+    @Override
+    public void afterDeserialize(World world) {
+      mockConsumer.accept("test2");
+    }
   }
 }
