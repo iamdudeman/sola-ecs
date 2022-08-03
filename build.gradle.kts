@@ -2,11 +2,11 @@ plugins {
   id("java-library")
 }
 
-version = "2.0.2"
+version = "2.0.3"
 
 java {
   toolchain {
-    languageVersion.set(JavaLanguageVersion.of(18))
+    languageVersion.set(JavaLanguageVersion.of(17))
   }
 }
 
@@ -16,7 +16,7 @@ repositories {
 
 dependencies {
   // TODO get from maven when it is published there
-  implementation(files("libs/sola-json-2.1.0.jar"))
+  implementation(files("libs/sola-json-2.1.1.jar"))
 
   testImplementation(platform("org.junit:junit-bom:5.7.1"))
   testImplementation("org.junit.jupiter:junit-jupiter")
