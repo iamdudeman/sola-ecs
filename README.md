@@ -36,5 +36,4 @@ public class Example {
 ## TODO List
 
 * Publish to maven
-* Fix bug where Entity remove will use filter which creates an immutable list!
 * Improve performance of Entity#hasComponent (can utilize list tracked internally probably)

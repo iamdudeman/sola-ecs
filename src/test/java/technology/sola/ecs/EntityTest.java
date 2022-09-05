@@ -111,12 +111,22 @@ public class EntityTest {
     }
 
     @Test
-    void whenCalled_shouldAddToWorld() {
+    void whenCalled_shouldRemoveFromWorld() {
       Entity entity = new Entity(mockWorld, 0, "uuid");
 
       entity.removeComponent(TestComponent1.class);
 
       Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestComponent1.class);
+    }
+
+    @Test
+    void whenCalled_shouldNotCreateImmutableList() {
+      Entity entity = new Entity(mockWorld, 0, "uuid");
+
+      entity.addComponent(new TestComponent1());
+      entity.removeComponent(TestComponent1.class);
+
+      assertDoesNotThrow(() -> entity.addComponent(new TestComponent1()));
     }
   }
 
