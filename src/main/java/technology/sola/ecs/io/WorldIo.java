@@ -1,5 +1,7 @@
 package technology.sola.ecs.io;
 
+import technology.sola.ecs.Component;
+import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
 
 /**
@@ -30,9 +32,10 @@ public interface WorldIo {
    * @param world the {@code World} to process
    */
   static void processWorldAfterDeserialize(World world) {
-    world.getEntities()
-      .forEach(entity -> entity.getCurrentComponents().stream()
-        .map(entity::getComponent)
-        .forEach(component -> component.afterDeserialize(world)));
+    for (Entity entity : world.getEntities()) {
+      for (Class<? extends Component> componentClass : entity.getCurrentComponents()) {
+        entity.getComponent(componentClass).afterDeserialize(world);
+      }
+    }
   }
 }

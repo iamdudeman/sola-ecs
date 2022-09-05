@@ -54,7 +54,10 @@ public class EntityTest {
       Entity entity = new Entity(mockWorld, 0, "uuid");
 
       entity.addComponent(new TestComponent1());
+      entity.addComponent(new TestComponent1());
 
+      assertEquals(1, entity.getCurrentComponents().size());
+      assertTrue(entity.hasComponent(TestComponent1.class));
       assertEquals(TestComponent1.class, entity.getCurrentComponents().get(0));
     }
 

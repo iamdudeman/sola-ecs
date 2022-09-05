@@ -92,7 +92,12 @@ public class Entity implements Serializable {
    */
   public Entity addComponent(Component component) {
     world.addComponentForEntity(entityIndex, component);
-    currentComponents.add(component.getClass());
+
+    Class<? extends Component> componentClass = component.getClass();
+
+    if (!currentComponents.contains(componentClass)) {
+      currentComponents.add(componentClass);
+    }
 
     return this;
   }
@@ -115,7 +120,7 @@ public class Entity implements Serializable {
    * @return true if {@code Entity} has the {@code Component}
    */
   public <T extends Component> boolean hasComponent(Class<T> componentClass) {
-    return world.getComponentForEntity(entityIndex, componentClass) != null;
+    return currentComponents.contains(componentClass);
   }
 
   /**

@@ -36,4 +36,3 @@ public class Example {
 ## TODO List
 
 * Publish to maven
-* Improve performance of Entity#hasComponent (can utilize list tracked internally probably)
