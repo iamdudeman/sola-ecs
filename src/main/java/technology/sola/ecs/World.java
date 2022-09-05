@@ -19,7 +19,7 @@ public class World implements Serializable {
   private final Map<Class<? extends Component>, Component[]> components = new HashMap<>();
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
-  private final List<Entity> entitiesToDestroy = new LinkedList<>();
+  private final List<Entity> entitiesToDestroy = new ArrayList<>();
   private final EcsViewFactory ecsViewFactory;
 
   /**
@@ -41,7 +41,10 @@ public class World implements Serializable {
    * Removes entities that were queued for destruction. Should be called at the end of a frame.
    */
   public void cleanupDestroyedEntities() {
-    entitiesToDestroy.forEach(this::destroyEntity);
+    for (Entity entity : entitiesToDestroy) {
+      destroyEntity(entity);
+    }
+
     entitiesToDestroy.clear();
   }
 
@@ -164,9 +167,15 @@ public class World implements Serializable {
    * @return a {@code List} of all {@code Entity}
    */
   public List<Entity> getEntities() {
-    return Arrays.stream(entities)
-      .filter(Objects::nonNull)
-      .toList();
+    List<Entity> entityList = new ArrayList<>(entities.length);
+
+    for (Entity entity : entities) {
+      if (entity != null) {
+        entityList.add(entity);
+      }
+    }
+
+    return entityList;
   }
 
   /**
@@ -175,9 +184,15 @@ public class World implements Serializable {
    * @return a {@code List} of all enabled {@code Entity}
    */
   public List<Entity> getEnabledEntities() {
-    return Arrays.stream(entities)
-      .filter(entity -> entity != null && !entity.isDisabled())
-      .toList();
+    List<Entity> entityList = new ArrayList<>(entities.length);
+
+    for (Entity entity : entities) {
+      if (entity != null && !entity.isDisabled()) {
+        entityList.add(entity);
+      }
+    }
+
+    return entityList;
   }
 
   /**
