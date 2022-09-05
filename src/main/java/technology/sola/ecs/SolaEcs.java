@@ -55,7 +55,12 @@ public class SolaEcs {
    * @param deltaTime the delta time between updates
    */
   public void updateWorld(float deltaTime) {
-    activeSystemIterator().forEachRemaining(updateSystem -> updateSystem.update(world, deltaTime));
+    for (EcsSystem ecsSystem : ecsSystems) {
+      if (ecsSystem.isActive()) {
+        ecsSystem.update(world, deltaTime);
+      }
+    }
+
     world.cleanupDestroyedEntities();
   }
 
@@ -106,11 +111,20 @@ public class SolaEcs {
    * @throws EcsSystemNotFoundException when not found
    */
   public <T extends EcsSystem> T getSystem(Class<T> ecsSystemClass) {
-    return ecsSystems.stream()
-      .filter(ecsSystemClass::isInstance)
-      .map(ecsSystemClass::cast)
-      .findFirst()
-      .orElseThrow(() -> new EcsSystemNotFoundException(ecsSystemClass));
+    for (EcsSystem ecsSystem : ecsSystems) {
+      if (ecsSystemClass.isInstance(ecsSystem)) {
+        return ecsSystemClass.cast(ecsSystem);
+      }
+    }
+
+    throw new EcsSystemNotFoundException(ecsSystemClass);
+  }
+
+  /**
+   * @return a {@link List} of the current {@link EcsSystem}s
+   */
+  public List<EcsSystem> getSystems() {
+    return ecsSystems;
   }
 
   /**

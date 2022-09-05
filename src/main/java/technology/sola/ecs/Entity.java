@@ -16,7 +16,7 @@ public class Entity implements Serializable {
   private final int entityIndex;
   private final String uniqueId;
   private final World world;
-  private List<Class<? extends Component>> currentComponents = new ArrayList<>();
+  private final List<Class<? extends Component>> currentComponents = new ArrayList<>();
   private String name = null;
   private boolean isDisabled = false;
 
@@ -92,7 +92,12 @@ public class Entity implements Serializable {
    */
   public Entity addComponent(Component component) {
     world.addComponentForEntity(entityIndex, component);
-    currentComponents.add(component.getClass());
+
+    Class<? extends Component> componentClass = component.getClass();
+
+    if (!currentComponents.contains(componentClass)) {
+      currentComponents.add(componentClass);
+    }
 
     return this;
   }
@@ -115,7 +120,7 @@ public class Entity implements Serializable {
    * @return true if {@code Entity} has the {@code Component}
    */
   public <T extends Component> boolean hasComponent(Class<T> componentClass) {
-    return world.getComponentForEntity(entityIndex, componentClass) != null;
+    return currentComponents.contains(componentClass);
   }
 
   /**
@@ -136,9 +141,7 @@ public class Entity implements Serializable {
    */
   public void removeComponent(Class<? extends Component> componentClassToRemove) {
     world.removeComponent(entityIndex, componentClassToRemove);
-    currentComponents = currentComponents.stream()
-      .filter(currentComponentClass -> componentClassToRemove != currentComponentClass)
-      .toList();
+    currentComponents.remove(componentClassToRemove);
   }
 
   /**

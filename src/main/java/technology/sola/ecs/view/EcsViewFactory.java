@@ -1,12 +1,13 @@
 package technology.sola.ecs.view;
 
 import technology.sola.ecs.Component;
+import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * EcsViewFactory handles creating views of {@link technology.sola.ecs.Entity} that have desired {@link Component}s.
@@ -36,17 +37,17 @@ public class EcsViewFactory implements Serializable {
   List<EcsView1<C1>> of(
     Class<C1> c1Class
   ) {
-    return world.getEnabledEntities()
-      .stream()
-      .map(entity -> {
-        var c1 = entity.getComponent(c1Class);
+    var views = new ArrayList<EcsView1<C1>>();
 
-        return c1 == null
-          ? null
-          : new EcsView1<>(entity, c1);
-      })
-      .filter(Objects::nonNull)
-      .toList();
+    for (Entity entity : world.getEnabledEntities()) {
+      var c1 = entity.getComponent(c1Class);
+
+      if (c1 != null) {
+        views.add(new EcsView1<>(entity, c1));
+      }
+    }
+
+    return views;
   }
 
   /**
@@ -60,18 +61,18 @@ public class EcsViewFactory implements Serializable {
   List<EcsView2<C1, C2>> of(
     Class<C1> c1Class, Class<C2> c2Class
   ) {
-    return world.getEnabledEntities()
-      .stream()
-      .map(entity -> {
-        var c1 = entity.getComponent(c1Class);
-        var c2 = entity.getComponent(c2Class);
+    var views = new ArrayList<EcsView2<C1, C2>>();
 
-        return c1 == null || c2 == null
-          ? null
-          : new EcsView2<>(entity, c1, c2);
-      })
-      .filter(Objects::nonNull)
-      .toList();
+    for (Entity entity : world.getEnabledEntities()) {
+      var c1 = entity.getComponent(c1Class);
+      var c2 = entity.getComponent(c2Class);
+
+      if (c1 != null && c2 != null) {
+        views.add(new EcsView2<>(entity, c1, c2));
+      }
+    }
+
+    return views;
   }
 
   /**
@@ -86,19 +87,19 @@ public class EcsViewFactory implements Serializable {
   List<EcsView3<C1, C2, C3>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class
   ) {
-    return world.getEnabledEntities()
-      .stream()
-      .map(entity -> {
-        var c1 = entity.getComponent(c1Class);
-        var c2 = entity.getComponent(c2Class);
-        var c3 = entity.getComponent(c3Class);
+    var views = new ArrayList<EcsView3<C1, C2, C3>>();
 
-        return c1 == null || c2 == null || c3 == null
-          ? null
-          : new EcsView3<>(entity, c1, c2, c3);
-      })
-      .filter(Objects::nonNull)
-      .toList();
+    for (Entity entity : world.getEnabledEntities()) {
+      var c1 = entity.getComponent(c1Class);
+      var c2 = entity.getComponent(c2Class);
+      var c3 = entity.getComponent(c3Class);
+
+      if (c1 != null && c2 != null && c3 != null) {
+        views.add(new EcsView3<>(entity, c1, c2, c3));
+      }
+    }
+
+    return views;
   }
 
   /**
@@ -114,20 +115,20 @@ public class EcsViewFactory implements Serializable {
   List<EcsView4<C1, C2, C3, C4>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class
   ) {
-    return world.getEnabledEntities()
-      .stream()
-      .map(entity -> {
-        var c1 = entity.getComponent(c1Class);
-        var c2 = entity.getComponent(c2Class);
-        var c3 = entity.getComponent(c3Class);
-        var c4 = entity.getComponent(c4Class);
+    var views = new ArrayList<EcsView4<C1, C2, C3, C4>>();
 
-        return c1 == null || c2 == null || c3 == null || c4 == null
-          ? null
-          : new EcsView4<>(entity, c1, c2, c3, c4);
-      })
-      .filter(Objects::nonNull)
-      .toList();
+    for (Entity entity : world.getEnabledEntities()) {
+      var c1 = entity.getComponent(c1Class);
+      var c2 = entity.getComponent(c2Class);
+      var c3 = entity.getComponent(c3Class);
+      var c4 = entity.getComponent(c4Class);
+
+      if (c1 != null && c2 != null && c3 != null && c4 != null) {
+        views.add(new EcsView4<>(entity, c1, c2, c3, c4));
+      }
+    }
+
+    return views;
   }
 
   /**
@@ -144,21 +145,21 @@ public class EcsViewFactory implements Serializable {
   List<EcsView5<C1, C2, C3, C4, C5>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class, Class<C5> c5Class
   ) {
-    return world.getEnabledEntities()
-      .stream()
-      .map(entity -> {
-        var c1 = entity.getComponent(c1Class);
-        var c2 = entity.getComponent(c2Class);
-        var c3 = entity.getComponent(c3Class);
-        var c4 = entity.getComponent(c4Class);
-        var c5 = entity.getComponent(c5Class);
+    var views = new ArrayList<EcsView5<C1, C2, C3, C4, C5>>();
 
-        return c1 == null || c2 == null || c3 == null || c4 == null || c5 == null
-          ? null
-          : new EcsView5<>(entity, c1, c2, c3, c4, c5);
-      })
-      .filter(Objects::nonNull)
-      .toList();
+    for (Entity entity : world.getEnabledEntities()) {
+      var c1 = entity.getComponent(c1Class);
+      var c2 = entity.getComponent(c2Class);
+      var c3 = entity.getComponent(c3Class);
+      var c4 = entity.getComponent(c4Class);
+      var c5 = entity.getComponent(c5Class);
+
+      if (c1 != null && c2 != null && c3 != null && c4 != null && c5 != null) {
+        views.add(new EcsView5<>(entity, c1, c2, c3, c4, c5));
+      }
+    }
+
+    return views;
   }
 
   /**
@@ -176,21 +177,21 @@ public class EcsViewFactory implements Serializable {
   List<EcsView6<C1, C2, C3, C4, C5, C6>> of(
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class, Class<C5> c5Class, Class<C6> c6Class
   ) {
-    return world.getEnabledEntities()
-      .stream()
-      .map(entity -> {
-        var c1 = entity.getComponent(c1Class);
-        var c2 = entity.getComponent(c2Class);
-        var c3 = entity.getComponent(c3Class);
-        var c4 = entity.getComponent(c4Class);
-        var c5 = entity.getComponent(c5Class);
-        var c6 = entity.getComponent(c6Class);
+    var views = new ArrayList<EcsView6<C1, C2, C3, C4, C5, C6>>();
 
-        return c1 == null || c2 == null || c3 == null || c4 == null || c5 == null || c6 == null
-          ? null
-          : new EcsView6<>(entity, c1, c2, c3, c4, c5, c6);
-      })
-      .filter(Objects::nonNull)
-      .toList();
+    for (Entity entity : world.getEnabledEntities()) {
+      var c1 = entity.getComponent(c1Class);
+      var c2 = entity.getComponent(c2Class);
+      var c3 = entity.getComponent(c3Class);
+      var c4 = entity.getComponent(c4Class);
+      var c5 = entity.getComponent(c5Class);
+      var c6 = entity.getComponent(c6Class);
+
+      if (c1 != null && c2 != null && c3 != null && c4 != null && c5 != null && c6 != null) {
+        views.add(new EcsView6<>(entity, c1, c2, c3, c4, c5, c6));
+      }
+    }
+
+    return views;
   }
 }

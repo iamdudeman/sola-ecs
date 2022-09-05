@@ -59,10 +59,8 @@ class SolaEcsTest {
       solaEcs.addSystems(ecsSystem, ecsSystem2);
       solaEcs.removeSystem(ecsSystem2);
 
-      Iterator<EcsSystem> iter = solaEcs.systemIterator();
-
-      assertEquals(ecsSystem, iter.next());
-      assertFalse(iter.hasNext());
+      assertEquals(1, solaEcs.getSystems().size());
+      assertEquals(ecsSystem, solaEcs.getSystems().get(0));
     }
   }
 
