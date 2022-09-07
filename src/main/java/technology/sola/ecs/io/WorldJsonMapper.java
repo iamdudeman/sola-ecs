@@ -18,6 +18,11 @@ import java.util.Map;
 public class WorldJsonMapper implements JsonMapper<World> {
   private final Map<String, JsonMapper<? extends Component>> componentJsonMappers;
 
+  /**
+   * Creates a new JsonWorldIo instance with desired {@link JsonMapper}s.
+   *
+   * @param componentJsonMappers the {@code JsonMapper}s to be used during mapping between JSON and {@link World}
+   */
   public WorldJsonMapper(List<JsonMapper<? extends Component>> componentJsonMappers) {
     this.componentJsonMappers = new HashMap<>();
 
