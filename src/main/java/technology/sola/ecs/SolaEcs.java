@@ -106,6 +106,7 @@ public class SolaEcs {
   /**
    * Returns the {@link EcsSystem} corresponding to the passed class.
    *
+   * @param <T>            the type extending {@code EcsSystem}
    * @param ecsSystemClass the class for the desired {@code EcsSystem}
    * @return the {@code EcsSystem}
    * @throws EcsSystemNotFoundException when not found
