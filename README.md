@@ -2,7 +2,26 @@
 SolaEcs is a small entity component system implementation for Java 17.
 It is being developed alongside a 2D game engine written in Java so features will be added as the engine requires them.
 
-[![Java CI](https://github.com/iamdudeman/sola-ecs/actions/workflows/gradle.yml/badge.svg)](https://github.com/iamdudeman/sola-ecs/actions/workflows/gradle.yml)
+[![Java CI](https://github.com/iamdudeman/sola-ecs/actions/workflows/ci_build.yml/badge.svg)](https://github.com/iamdudeman/sola-ecs/actions/workflows/ci_build.yml)
+[![Javadocs Link](https://img.shields.io/badge/Javadocs-blue.svg)](https://iamdudeman.github.io/sola-ecs/)
+
+## Download
+### Gradle + Jitpack:
+```kotlin
+repositories {
+  maven {
+    url = uri("https://jitpack.io")
+  }
+}
+
+dependencies {
+  implementation("com.github.iamdudeman:sola-ecs:SOLA_ECS_VERSION")
+}
+```
+
+### GitHub Releases:
+[sola-ecs jar downloads](https://github.com/iamdudeman/sola-ecs/releases) hosted on GitHub.
+
 
 ## Example usage
 ```java
@@ -32,7 +51,3 @@ public class Example {
   }
 }
 ```
-
-## TODO List
-
-* Publish to maven
