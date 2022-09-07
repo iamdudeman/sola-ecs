@@ -116,6 +116,7 @@ public class Entity implements Serializable {
   /**
    * Returns true if this {@link Entity} has the {@link Component}.
    *
+   * @param <T>            the type extending {@code Component}
    * @param componentClass {@code Component} class to check for
    * @return true if {@code Entity} has the {@code Component}
    */

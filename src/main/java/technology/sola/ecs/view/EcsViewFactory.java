@@ -15,7 +15,6 @@ import java.util.List;
 public class EcsViewFactory implements Serializable {
   @Serial
   private static final long serialVersionUID = -8949269697037114181L;
-
   private final World world;
 
   /**

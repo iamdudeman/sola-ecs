@@ -14,6 +14,11 @@ public class JsonWorldIo implements WorldIo {
   private final SolaJson solaJson;
   private final WorldJsonMapper worldJsonMapper;
 
+  /**
+   * Creates a new JsonWorldIo instance with desired {@link JsonMapper}s.
+   *
+   * @param componentJsonMappers the {@code JsonMapper}s to be used during serialization and deserialization
+   */
   public JsonWorldIo(List<JsonMapper<? extends Component>> componentJsonMappers) {
     solaJson = new SolaJson();
     worldJsonMapper = new WorldJsonMapper(componentJsonMappers);
