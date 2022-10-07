@@ -3,7 +3,7 @@ plugins {
   id("maven-publish")
 }
 
-version = "2.0.5"
+version = "2.0.6"
 
 java {
   toolchain {
