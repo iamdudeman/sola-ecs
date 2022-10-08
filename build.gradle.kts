@@ -3,7 +3,7 @@ plugins {
   id("maven-publish")
 }
 
-version = "2.0.5"
+version = "2.0.6"
 
 java {
   toolchain {
@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-  api("com.github.iamdudeman:sola-json:2.1.2")
+  api("com.github.iamdudeman:sola-json:2.1.3")
 
   testImplementation(platform("org.junit:junit-bom:5.7.1"))
   testImplementation("org.junit.jupiter:junit-jupiter")
