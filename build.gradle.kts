@@ -22,8 +22,7 @@ repositories {
 }
 
 dependencies {
-  // todo change to use 2.1.3 when released
-  api("com.github.iamdudeman:sola-json:5bbe20408a")
+  api("com.github.iamdudeman:sola-json:2.1.3")
 
   testImplementation(platform("org.junit:junit-bom:5.7.1"))
   testImplementation("org.junit.jupiter:junit-jupiter")
