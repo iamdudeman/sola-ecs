@@ -14,13 +14,13 @@ import java.util.*;
 public class World implements Serializable {
   @Serial
   private static final long serialVersionUID = -4446723129672527365L;
+  private transient final EcsViewFactory ecsViewFactory;
   private final int maxEntityCount;
   private final Entity[] entities;
   private final Map<Class<? extends Component>, Component[]> components = new HashMap<>();
+  private final List<Entity> entitiesToDestroy = new ArrayList<>();
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
-  private final List<Entity> entitiesToDestroy = new ArrayList<>();
-  private final EcsViewFactory ecsViewFactory;
 
   /**
    * Creates a new World instance with specified max {@link Entity} count.
