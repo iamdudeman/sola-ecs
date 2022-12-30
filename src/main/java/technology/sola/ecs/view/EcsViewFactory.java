@@ -4,8 +4,6 @@ import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +16,7 @@ import java.util.List;
 /**
  * EcsViewFactory handles creating views of {@link technology.sola.ecs.Entity} that have desired {@link Component}s.
  */
-public class EcsViewFactory implements Serializable {
-  @Serial
-  private static final long serialVersionUID = -8949269697037114181L;
+public class EcsViewFactory {
   private final World world;
 
   /**
