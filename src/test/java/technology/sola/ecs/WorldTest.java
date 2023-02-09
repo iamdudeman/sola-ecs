@@ -80,7 +80,7 @@ class WorldTest {
 
       var result = world.findEntityByName("test");
 
-      assertTrue(result.isEmpty());
+      assertNull(result);
     }
 
     @Test
@@ -91,8 +91,7 @@ class WorldTest {
 
       var result = world.findEntityByName("test");
 
-      assertTrue(result.isPresent());
-      assertEquals(expected, result.get());
+      assertEquals(expected, result);
     }
   }
 
@@ -106,7 +105,7 @@ class WorldTest {
 
       var result = world.findEntityByUniqueId("test");
 
-      assertTrue(result.isEmpty());
+      assertNull(result);
     }
 
     @Test
@@ -117,8 +116,7 @@ class WorldTest {
 
       var result = world.findEntityByUniqueId(expected.getUniqueId());
 
-      assertTrue(result.isPresent());
-      assertEquals(expected, result.get());
+      assertEquals(expected, result);
     }
   }
 

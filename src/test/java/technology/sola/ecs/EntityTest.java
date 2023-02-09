@@ -86,20 +86,6 @@ public class EntityTest {
   }
 
   @Nested
-  @DisplayName("getOptionalComponent")
-  class GetOptionalComponentTests {
-    @Test
-    void whenCalled_shouldGetFromWorld() {
-      Entity entity = new Entity(mockWorld, 0, "uuid");
-
-      Optional<TestComponent1> result = entity.getOptionalComponent(TestComponent1.class);
-
-      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestComponent1.class);
-      assertTrue(result.isEmpty());
-    }
-  }
-
-  @Nested
   @DisplayName("removeComponent")
   class RemoveComponentTests {
     @Test

@@ -126,39 +126,39 @@ public class World implements Serializable {
   }
 
   /**
-   * Searches for an {@link Entity} by its name.
+   * Searches for an {@link Entity} by its name. Returns null if not ofund
    *
    * @param name the name of the {@code Entity}
-   * @return the {@code Entity} with desired name
+   * @return the {@code Entity} with desired name or null if not found
    */
-  public Optional<Entity> findEntityByName(String name) {
+  public Entity findEntityByName(String name) {
     for (Entity entity : entities) {
       if (entity == null) continue;
 
       if (name.equals(entity.getName())) {
-        return Optional.of(entity);
+        return entity;
       }
     }
 
-    return Optional.empty();
+    return null;
   }
 
   /**
-   * Searches for an {@link Entity} by its unique id.
+   * Searches for an {@link Entity} by its unique id. Returns null if not found.
    *
    * @param uniqueId the unique id of the {@code Entity}
-   * @return the {@code Entity} with desired uniqueId
+   * @return the {@code Entity} with desired uniqueId or null if not found
    */
-  public Optional<Entity> findEntityByUniqueId(String uniqueId) {
+  public Entity findEntityByUniqueId(String uniqueId) {
     for (Entity entity : entities) {
       if (entity == null) continue;
 
       if (uniqueId.equals(entity.getUniqueId())) {
-        return Optional.of(entity);
+        return entity;
       }
     }
 
-    return Optional.empty();
+    return null;
   }
 
   /**
