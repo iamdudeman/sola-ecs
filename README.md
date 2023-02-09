@@ -65,7 +65,8 @@ public class Example {
   * need a container of views (maybe World owns that?)
   * maybe need ability to destroy a view once it is no longer needed?
   * update readme example once this is refactored
-* entity name caching lookup
-  * extra HashMap for name -> entity that is updated on entity#setName and entity#delete
+* ~~entity name caching lookup~~
+  * ~~remove Optional from api~~
+  * ~~extra HashMap for name -> entity that is updated on entity#setName and entity#delete~~
 * consider performance testing?
   * https://github.com/clarkware/junitperf
