@@ -143,19 +143,38 @@ class WorldTest {
     assertNull(world.getComponentForEntity(0, TestComponent1.class));
   }
 
-  @Test
-  void whenDestroyingEntity_shouldNotBeAbleToGetComponents() {
-    World world = new World(1);
-    TestComponent1 testComponent = new TestComponent1();
-    Entity entity = world.createEntity();
+  @Nested
+  class cleanupDestroyedEntities {
+    @Test
+    void whenDestroyingEntity_shouldNotBeAbleToGetComponents() {
+      World world = new World(1);
+      TestComponent1 testComponent = new TestComponent1();
+      Entity entity = world.createEntity();
 
-    entity.getCurrentComponents().add(TestComponent1.class);
-    world.addComponentForEntity(0, testComponent);
-    world.queueEntityForDestruction(entity);
-    world.cleanupDestroyedEntities();
+      entity.getCurrentComponents().add(TestComponent1.class);
+      world.addComponentForEntity(0, testComponent);
+      world.queueEntityForDestruction(entity);
+      world.cleanupDestroyedEntities();
 
-    assertNull(world.getComponentForEntity(0, TestComponent1.class));
+      assertNull(world.getComponentForEntity(0, TestComponent1.class));
+    }
+
+    @Test
+    void whenDestroyingEntity_shouldNotBeAbleToGetByName() {
+      World world = new World(1);
+
+      Entity entity = world.createEntity().setName("test");
+
+      assertEquals(entity, world.findEntityByName("test"));
+
+      world.queueEntityForDestruction(entity);
+      world.cleanupDestroyedEntities();
+
+      assertNull(world.findEntityByName("test"));
+    }
   }
+
+
 
   @Nested
   class GetEntitiesTests {

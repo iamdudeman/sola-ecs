@@ -1,5 +1,6 @@
 package technology.sola.ecs;
 
+import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
 import technology.sola.ecs.view.EcsViewFactory;
 
@@ -21,6 +22,7 @@ public class World implements Serializable {
   private final List<Entity> entitiesToDestroy = new ArrayList<>();
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
+  private final EntityNameCache entityNameCache = new EntityNameCache();
 
   /**
    * Creates a new World instance with specified max {@link Entity} count.
@@ -43,6 +45,7 @@ public class World implements Serializable {
   public void cleanupDestroyedEntities() {
     for (Entity entity : entitiesToDestroy) {
       destroyEntity(entity);
+      entityNameCache.remove(entity);
     }
 
     entitiesToDestroy.clear();
@@ -132,15 +135,7 @@ public class World implements Serializable {
    * @return the {@code Entity} with desired name or null if not found
    */
   public Entity findEntityByName(String name) {
-    for (Entity entity : entities) {
-      if (entity == null) continue;
-
-      if (name.equals(entity.getName())) {
-        return entity;
-      }
-    }
-
-    return null;
+    return entityNameCache.get(name);
   }
 
   /**
@@ -262,6 +257,16 @@ public class World implements Serializable {
 
     if (!entitiesToDestroy.contains(entity)) {
       entitiesToDestroy.add(entity);
+    }
+  }
+
+  void updateEntityNameCache(Entity entity) {
+    String name = entity.getName();
+
+    if (name == null) {
+      entityNameCache.remove(entity);
+    } else {
+      entityNameCache.add(entity);
     }
   }
 

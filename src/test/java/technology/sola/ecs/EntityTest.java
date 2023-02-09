@@ -33,6 +33,7 @@ public class EntityTest {
     entity.setName("test");
 
     assertEquals("test", entity.getName());
+    Mockito.verify(mockWorld).updateEntityNameCache(entity);
   }
 
   @Test
