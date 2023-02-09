@@ -7,12 +7,6 @@ import technology.sola.ecs.World;
 import java.util.ArrayList;
 import java.util.List;
 
-// todo consider a mechanism where views are cached
-//  when entities are created or destroyed view updates
-//  when components added/removed view updates
-//  might instead be at the EcsSystem level instead of view
-
-
 /**
  * EcsViewFactory handles creating views of {@link technology.sola.ecs.Entity} that have desired {@link Component}s.
  */

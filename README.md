@@ -52,3 +52,20 @@ public class Example {
   }
 }
 ```
+
+
+## TODO List
+
+* view caching
+  * a view is just a list of entities
+  * Whenever a view is created it is cached
+  * views update when
+    * component add or delete of relevant component type
+    * entity destruction if has component type
+  * need a container of views (maybe World owns that?)
+  * maybe need ability to destroy a view once it is no longer needed?
+* entity name caching lookup
+  * remove Optional from api
+  * extra HashMap for name -> entity that is updated on entity#setName and entity#delete
+* consider performance testing?
+  * https://github.com/clarkware/junitperf
