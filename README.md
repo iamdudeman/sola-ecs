@@ -68,5 +68,6 @@ public class Example {
 * ~~entity name caching lookup~~
   * ~~remove Optional from api~~
   * ~~extra HashMap for name -> entity that is updated on entity#setName and entity#delete~~
+* consider removing Base64WorldIo and usages of Serializable
 * consider performance testing?
   * https://github.com/clarkware/junitperf
