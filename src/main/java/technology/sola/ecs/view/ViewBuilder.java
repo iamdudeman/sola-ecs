@@ -1,8 +1,8 @@
-package technology.sola.ecs.cache;
+package technology.sola.ecs.view;
 
 import technology.sola.ecs.Component;
-import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
+import technology.sola.ecs.cache.ViewCache;
 
 public class ViewBuilder {
   private final ViewCache viewCache;
@@ -14,26 +14,18 @@ public class ViewBuilder {
   }
 
   public <C1 extends Component> View1<C1> createView(Class<C1> componentClass) {
-    var view = new View1<>(viewCache, componentClass);
+    var view = new View1<>(viewCache, world, componentClass);
 
-    initializeView(view);
+    viewCache.addViewToCache(view);
 
     return view;
   }
 
   public <C1 extends Component, C2 extends Component> View2<C1, C2> createView(Class<C1> c1Class, Class<C2> c2Class) {
-    var view = new View2<>(viewCache, c1Class, c2Class);
-
-    initializeView(view);
-
-    return view;
-  }
-
-  private void initializeView(View<?> view) {
-    for (Entity entity : world.getEntities()) {
-      view.addEntityIfValidEntry(entity);
-    }
+    var view = new View2<>(viewCache, world, c1Class, c2Class);
 
     viewCache.addViewToCache(view);
+
+    return view;
   }
 }

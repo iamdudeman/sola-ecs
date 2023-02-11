@@ -1,4 +1,4 @@
-package technology.sola.ecs.cache;
+package technology.sola.ecs.view;
 
 import technology.sola.ecs.Entity;
 
