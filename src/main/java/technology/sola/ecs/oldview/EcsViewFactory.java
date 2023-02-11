@@ -1,4 +1,4 @@
-package technology.sola.ecs.view;
+package technology.sola.ecs.oldview;
 
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
@@ -29,16 +29,16 @@ public class EcsViewFactory {
    * @return view of {@link technology.sola.ecs.Entity} that have one {@link Component}
    */
   public final <C1 extends Component>
-  List<EcsView1<C1>> of(
+  List<OldEcsView1<C1>> of(
     Class<C1> c1Class
   ) {
-    var views = new ArrayList<EcsView1<C1>>();
+    var views = new ArrayList<OldEcsView1<C1>>();
 
     for (Entity entity : world.getEnabledEntities()) {
       var c1 = entity.getComponent(c1Class);
 
       if (c1 != null) {
-        views.add(new EcsView1<>(entity, c1));
+        views.add(new OldEcsView1<>(entity, c1));
       }
     }
 
@@ -53,17 +53,17 @@ public class EcsViewFactory {
    * @return view of {@link technology.sola.ecs.Entity} that have two {@link Component}s
    */
   public final <C1 extends Component, C2 extends Component>
-  List<EcsView2<C1, C2>> of(
+  List<OldEcsView2<C1, C2>> of(
     Class<C1> c1Class, Class<C2> c2Class
   ) {
-    var views = new ArrayList<EcsView2<C1, C2>>();
+    var views = new ArrayList<OldEcsView2<C1, C2>>();
 
     for (Entity entity : world.getEnabledEntities()) {
       var c1 = entity.getComponent(c1Class);
       var c2 = entity.getComponent(c2Class);
 
       if (c1 != null && c2 != null) {
-        views.add(new EcsView2<>(entity, c1, c2));
+        views.add(new OldEcsView2<>(entity, c1, c2));
       }
     }
 

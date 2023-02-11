@@ -1,28 +1,47 @@
 package technology.sola.ecs.cache;
 
 import technology.sola.ecs.Component;
+import technology.sola.ecs.Entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ViewCache {
-  public static void main(String[] args) {
-    var view = new ViewCache().createView(TestComponent.class);
-    var view2 = new ViewCache().createView(TestComponent.class, TestComponent2.class);
+  private final List<View<?>> viewList = new ArrayList<>();
+  private final List<View<?>> viewsToDestroy = new ArrayList<>();
 
-    TestComponent testComponent = view.getEntries().get(0).c1();
-    TestComponent2 testComponent2 = view2.getEntries().get(0).c2();
+  public void addViewToCache(View<?> view) {
+    viewList.add(view);
   }
 
-  private record TestComponent() implements Component {
+  public void queueViewForDestruction(View<?> view) {
+    viewsToDestroy.add(view);
   }
 
-  private record TestComponent2() implements Component {
+  public void cleanupCache() {
+    for (var view : viewsToDestroy) {
+      viewList.remove(view);
+      view.getEntries().clear();
+    }
+
+    viewsToDestroy.clear();
   }
 
-
-  public <C1 extends Component> EcsView1<C1> createView(Class<C1> componentClass) {
-    return new EcsView1<>(componentClass);
+  public void updateForAddComponent(Entity entity, Component component) {
+    for (var view : viewList) {
+      view.updateForAddComponent(entity, component);
+    }
   }
 
-  public <C1 extends Component, C2 extends Component> EcsView2<C1, C2> createView(Class<C1> c1Class, Class<C2> c2Class) {
-    return new EcsView2<>(c1Class, c2Class);
+  public void updateCacheForRemoveComponent(Entity entity, Component component) {
+    for (var view : viewList) {
+      view.updateForRemoveComponent(entity, component);
+    }
+  }
+
+  public void updateCacheForDeletedEntity(Entity entity) {
+    for (var view : viewList) {
+      view.updateForDeletedEntity(entity);
+    }
   }
 }

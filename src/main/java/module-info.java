@@ -7,5 +7,5 @@ module technology.sola.ecs {
   exports technology.sola.ecs;
   exports technology.sola.ecs.exception;
   exports technology.sola.ecs.io;
-  exports technology.sola.ecs.view;
+  exports technology.sola.ecs.oldview;
 }

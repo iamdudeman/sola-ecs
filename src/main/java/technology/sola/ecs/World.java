@@ -2,7 +2,7 @@ package technology.sola.ecs;
 
 import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
-import technology.sola.ecs.view.EcsViewFactory;
+import technology.sola.ecs.oldview.EcsViewFactory;
 
 import java.io.Serial;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package technology.sola.ecs.view;
+package technology.sola.ecs.oldview;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,7 +7,7 @@ import technology.sola.ecs.World;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EcsViewFactoryTest {
+public class ViewFactoryTest {
   private EcsViewFactory ecsViewFactory;
 
   @BeforeEach

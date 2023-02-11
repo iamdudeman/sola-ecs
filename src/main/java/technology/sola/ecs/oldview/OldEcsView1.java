@@ -1,4 +1,4 @@
-package technology.sola.ecs.view;
+package technology.sola.ecs.oldview;
 
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
@@ -9,5 +9,5 @@ import technology.sola.ecs.Entity;
  * @param entity the {@link Entity}
  * @param c1     the first component
  */
-public record EcsView1<C1 extends Component>(Entity entity, C1 c1) {
+public record OldEcsView1<C1 extends Component>(Entity entity, C1 c1) {
 }

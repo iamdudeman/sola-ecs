@@ -1,4 +1,4 @@
-package technology.sola.ecs.view;
+package technology.sola.ecs.oldview;
 
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;

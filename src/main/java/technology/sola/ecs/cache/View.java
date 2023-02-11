@@ -7,48 +7,52 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class EcsView<EcsViewEntry extends ViewEntry> {
+public abstract class View<E extends ViewEntry> {
+  private final ViewCache viewCache;
   private final List<Class<? extends Component>> componentClasses;
-  private final List<EcsViewEntry> entries = new LinkedList<>();
+  private final List<E> entries = new LinkedList<>();
 
-  public EcsView(List<Class<? extends Component>> componentClasses) {
+  public View(ViewCache viewCache, List<Class<? extends Component>> componentClasses) {
+    this.viewCache = viewCache;
     this.componentClasses = componentClasses;
   }
 
-  public abstract EcsViewEntry createEntryFromEntity(Entity entity);
-
-  public List<Class<? extends Component>> getComponentClasses() {
-    return componentClasses;
-  }
-
-  public List<EcsViewEntry> getEntries() {
+  public List<E> getEntries() {
     return entries;
   }
 
-  public void updateCacheForAddComponent(Entity entity, Component component) {
+  public void delete() {
+    viewCache.queueViewForDestruction(this);
+  }
+
+  protected abstract E createEntryFromEntity(Entity entity);
+
+  void addEntityIfValidEntry(Entity entity) {
+    var entry = createEntryFromEntity(entity);
+
+    if (entry != null) {
+      entries.add(entry);
+    }
+  }
+
+  void updateForAddComponent(Entity entity, Component component) {
     if (isCached(entity)) {
       return;
     }
 
     if (isViewWatchingComponent(component.getClass())) {
-      for (var componentClass : componentClasses) {
-        if (!entity.hasComponent(componentClass)) {
-          return;
-        }
-      }
-
-      entries.add(createEntryFromEntity(entity));
+      addEntityIfValidEntry(entity);
     }
   }
 
-  public void updateCacheForRemoveComponent(Entity entity, Component component) {
+  void updateForRemoveComponent(Entity entity, Component component) {
     if (isViewWatchingComponent(component.getClass())) {
-      updateCacheForDeletedEntity(entity);
+      updateForDeletedEntity(entity);
     }
   }
 
-  public void updateCacheForDeletedEntity(Entity entity) {
-    Iterator<EcsViewEntry> entryIterator = entries.iterator();
+  void updateForDeletedEntity(Entity entity) {
+    Iterator<E> entryIterator = entries.iterator();
 
     while (entryIterator.hasNext()) {
       var entry = entryIterator.next();
