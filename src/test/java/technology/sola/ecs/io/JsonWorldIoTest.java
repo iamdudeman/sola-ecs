@@ -41,16 +41,16 @@ class JsonWorldIoTest {
     String serializedWorld = base64WorldIo.stringify(world);
     World deserializedWorld = base64WorldIo.parse(serializedWorld);
 
-    var view1 = deserializedWorld.createView().of(TestComponent1.class);
-    assertEquals(uuid1, view1.get(0).entity().getUniqueId());
-    assertEquals("name1", view1.get(0).entity().getName());
-    assertEquals("test", view1.get(0).c1().string());
+    var view1 = deserializedWorld.viewBuilder().createView(TestComponent1.class);
+    assertEquals(uuid1, view1.getEntries().get(0).entity().getUniqueId());
+    assertEquals("name1", view1.getEntries().get(0).entity().getName());
+    assertEquals("test", view1.getEntries().get(0).c1().string());
     Mockito.verify(mockConsumer, Mockito.times(1)).accept("test1");
 
-    var view2 = deserializedWorld.createView().of(TestComponent2.class);
-    assertEquals(uuid2, view2.get(0).entity().getUniqueId());
-    assertEquals("name2", view2.get(0).entity().getName());
-    assertEquals(5, view2.get(0).c1().number());
+    var view2 = deserializedWorld.viewBuilder().createView(TestComponent2.class);
+    assertEquals(uuid2, view2.getEntries().get(0).entity().getUniqueId());
+    assertEquals("name2", view2.getEntries().get(0).entity().getName());
+    assertEquals(5, view2.getEntries().get(0).c1().number());
     Mockito.verify(mockConsumer, Mockito.times(1)).accept("test2");
   }
 

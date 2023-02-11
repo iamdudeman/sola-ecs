@@ -12,10 +12,11 @@ public class View2<C1 extends Component, C2 extends Component> extends View<View
   private final Class<C1> c1Class;
   private final Class<C2> c2Class;
 
-  public View2(ViewCache viewCache, World world, Class<C1> c1Class, Class<C2> c2Class) {
-    super(viewCache, world, List.of(c1Class));
+  View2(ViewCache viewCache, World world, Class<C1> c1Class, Class<C2> c2Class) {
+    super(viewCache, List.of(c1Class));
     this.c1Class = c1Class;
     this.c2Class = c2Class;
+    initializeView(world);
   }
 
   @Override

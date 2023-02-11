@@ -14,13 +14,9 @@ public abstract class View<E extends ViewEntry> {
   private final List<Class<? extends Component>> componentClasses;
   private final List<E> entries = new LinkedList<>();
 
-  public View(ViewCache viewCache, World world, List<Class<? extends Component>> componentClasses) {
+  public View(ViewCache viewCache, List<Class<? extends Component>> componentClasses) {
     this.viewCache = viewCache;
     this.componentClasses = componentClasses;
-
-    for (Entity entity : world.getEntities()) {
-      addEntityIfValidEntry(entity);
-    }
   }
 
   public List<E> getEntries() {
@@ -67,6 +63,12 @@ public abstract class View<E extends ViewEntry> {
         entryIterator.remove();
         break;
       }
+    }
+  }
+
+  protected void initializeView(World world) {
+    for (Entity entity : world.getEntities()) {
+      addEntityIfValidEntry(entity);
     }
   }
 

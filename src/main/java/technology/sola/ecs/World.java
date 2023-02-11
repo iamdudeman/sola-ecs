@@ -1,8 +1,9 @@
 package technology.sola.ecs;
 
 import technology.sola.ecs.cache.EntityNameCache;
+import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
-import technology.sola.ecs.oldview.EcsViewFactory;
+import technology.sola.ecs.view.ViewBuilder;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -15,14 +16,15 @@ import java.util.*;
 public class World implements Serializable {
   @Serial
   private static final long serialVersionUID = -4446723129672527365L;
-  private transient final EcsViewFactory ecsViewFactory;
+  private final EntityNameCache entityNameCache = new EntityNameCache();
+  private final ViewCache viewCache;
+  private final ViewBuilder viewBuilder;
   private final int maxEntityCount;
   private final Entity[] entities;
   private final Map<Class<? extends Component>, Component[]> components = new HashMap<>();
   private final List<Entity> entitiesToDestroy = new ArrayList<>();
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
-  private final EntityNameCache entityNameCache = new EntityNameCache();
 
   /**
    * Creates a new World instance with specified max {@link Entity} count.
@@ -36,7 +38,8 @@ public class World implements Serializable {
 
     this.maxEntityCount = maxEntityCount;
     entities = new Entity[maxEntityCount];
-    ecsViewFactory = new EcsViewFactory(this);
+    viewCache = new ViewCache();
+    viewBuilder = new ViewBuilder(viewCache, this);
   }
 
   /**
@@ -46,9 +49,11 @@ public class World implements Serializable {
     for (Entity entity : entitiesToDestroy) {
       destroyEntity(entity);
       entityNameCache.remove(entity);
+      viewCache.updateCacheForDeletedEntity(entity);
     }
 
     entitiesToDestroy.clear();
+    viewCache.cleanupCache();
   }
 
   /**
@@ -221,19 +226,16 @@ public class World implements Serializable {
     return entitiesWithAllComponents;
   }
 
-  /**
-   * Returns a {@link EcsViewFactory} for this {@link World}.
-   *
-   * @return a {@link EcsViewFactory} for this {@link World}
-   */
-  public EcsViewFactory createView() {
-    return ecsViewFactory;
+  public ViewBuilder viewBuilder() {
+    return viewBuilder;
   }
 
   void addComponentForEntity(int entityIndex, Component component) {
     Component[] componentsOfType = components.computeIfAbsent(component.getClass(), key -> new Component[maxEntityCount]);
 
     componentsOfType[entityIndex] = component;
+
+    viewCache.updateForAddComponent(entities[entityIndex], component);
   }
 
   <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
@@ -243,10 +245,11 @@ public class World implements Serializable {
   }
 
   void removeComponent(int entityIndex, Class<? extends Component> componentClass) {
-    components.computeIfPresent(componentClass, (key, value) -> {
-      value[entityIndex] = null;
+    components.computeIfPresent(componentClass, (key, componentArray) -> {
+      viewCache.updateCacheForRemoveComponent(entities[entityIndex], componentArray[entityIndex]);
+      componentArray[entityIndex] = null;
 
-      return value;
+      return componentArray;
     });
   }
 
