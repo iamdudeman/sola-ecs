@@ -3,7 +3,6 @@ package technology.sola.ecs;
 import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
-import technology.sola.ecs.view.ViewBuilder;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -38,8 +37,8 @@ public class World implements Serializable {
 
     this.maxEntityCount = maxEntityCount;
     entities = new Entity[maxEntityCount];
-    viewCache = new ViewCache();
-    viewBuilder = new ViewBuilder(viewCache, this);
+    viewCache = new ViewCache(this);
+    viewBuilder = new ViewBuilder(viewCache);
   }
 
   /**
@@ -53,7 +52,6 @@ public class World implements Serializable {
     }
 
     entitiesToDestroy.clear();
-    viewCache.cleanupCache();
   }
 
   /**
@@ -226,7 +224,7 @@ public class World implements Serializable {
     return entitiesWithAllComponents;
   }
 
-  public ViewBuilder viewBuilder() {
+  public ViewBuilder createView() {
     return viewBuilder;
   }
 

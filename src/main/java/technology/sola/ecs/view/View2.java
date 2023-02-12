@@ -2,9 +2,7 @@ package technology.sola.ecs.view;
 
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
-import technology.sola.ecs.World;
 import technology.sola.ecs.cache.View;
-import technology.sola.ecs.cache.ViewCache;
 
 import java.util.List;
 
@@ -12,11 +10,10 @@ public class View2<C1 extends Component, C2 extends Component> extends View<View
   private final Class<C1> c1Class;
   private final Class<C2> c2Class;
 
-  View2(ViewCache viewCache, World world, Class<C1> c1Class, Class<C2> c2Class) {
-    super(viewCache, List.of(c1Class));
+  public View2(Class<C1> c1Class, Class<C2> c2Class) {
+    super(List.of(c1Class));
     this.c1Class = c1Class;
     this.c2Class = c2Class;
-    initializeView(world);
   }
 
   @Override

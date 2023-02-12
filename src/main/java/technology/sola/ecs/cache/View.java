@@ -2,29 +2,22 @@ package technology.sola.ecs.cache;
 
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
-import technology.sola.ecs.World;
 import technology.sola.ecs.view.ViewEntry;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 public abstract class View<E extends ViewEntry> {
-  private final ViewCache viewCache;
   private final List<Class<? extends Component>> componentClasses;
-  private final List<E> entries = new LinkedList<>();
+  private final List<E> entries = new ArrayList<>();
 
-  public View(ViewCache viewCache, List<Class<? extends Component>> componentClasses) {
-    this.viewCache = viewCache;
+  public View(List<Class<? extends Component>> componentClasses) {
     this.componentClasses = componentClasses;
   }
 
   public List<E> getEntries() {
     return entries;
-  }
-
-  public void delete() {
-    viewCache.queueViewForDestruction(this);
   }
 
   protected abstract E createEntryFromEntity(Entity entity);
@@ -63,12 +56,6 @@ public abstract class View<E extends ViewEntry> {
         entryIterator.remove();
         break;
       }
-    }
-  }
-
-  protected void initializeView(World world) {
-    for (Entity entity : world.getEntities()) {
-      addEntityIfValidEntry(entity);
     }
   }
 

@@ -63,7 +63,6 @@ public class Example {
     * component add or delete of relevant component type
     * entity destruction if has component type
   * need a container of views (maybe World owns that?)
-  * maybe need ability to destroy a view once it is no longer needed?
   * update readme example once this is refactored
 * ~~entity name caching lookup~~
   * ~~remove Optional from api~~

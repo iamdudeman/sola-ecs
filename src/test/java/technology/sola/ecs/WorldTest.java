@@ -246,7 +246,7 @@ class WorldTest {
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent);
       world.addComponentForEntity(entity.getIndexInWorld(), testComponent2);
 
-      var view = world.viewBuilder().createView(TestComponent1.class, TestComponent2.class);
+      var view = world.createView().of(TestComponent1.class, TestComponent2.class);
       assertEquals(1, view.getEntries().size());
       assertEquals(entity, view.getEntries().get(entity.getIndexInWorld()).entity());
     }
