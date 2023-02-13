@@ -5,6 +5,7 @@ import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
 import technology.sola.ecs.view.View1;
 import technology.sola.ecs.view.View2;
+import technology.sola.ecs.view.View3;
 
 import java.util.*;
 
@@ -42,6 +43,20 @@ public class ViewCache {
     }
 
     return (View2<C1, C2>) view;
+  }
+
+  public <C1 extends Component, C2 extends Component, C3 extends Component> View3<C1, C2, C3> createView(Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class) {
+    int hash = Objects.hash(c1Class, c2Class, c3Class);
+    var view = builtViews.get(hash);
+
+    if (view == null) {
+      view = new View3<>(c1Class, c2Class, c3Class);
+      initializeView(view);
+
+      builtViews.put(hash, view);
+    }
+
+    return (View3<C1, C2, C3>) view;
   }
 
   public void updateForAddComponent(Entity entity, Component component) {
