@@ -10,7 +10,8 @@ import java.util.List;
 
 /**
  * The View class is a container of {@link ViewEntry} that are updated whenever a {@link technology.sola.ecs.World}
- * updates an {@link Entity} that has, or no longer has, a {@link List} of watched {@link Component}s.
+ * updates an {@link Entity}'s components that now satisfies or no longer satisfies the {@link List} of watched
+ * {@link Component}s.
  *
  * @param <E> the {@link ViewEntry} implementation
  */

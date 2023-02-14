@@ -6,7 +6,7 @@ import technology.sola.ecs.cache.View;
 
 import java.util.List;
 
-public class View3<C1 extends Component, C2 extends Component, C3 extends Component> extends View<View3.EcsViewEntry<C1, C2, C3>> {
+public class View3<C1 extends Component, C2 extends Component, C3 extends Component> extends View<View3.View3Entry<C1, C2, C3>> {
   private final Class<C1> c1Class;
   private final Class<C2> c2Class;
   private final Class<C3> c3Class;
@@ -19,7 +19,7 @@ public class View3<C1 extends Component, C2 extends Component, C3 extends Compon
   }
 
   @Override
-  protected EcsViewEntry<C1, C2, C3> createEntryFromEntity(Entity entity) {
+  protected View3Entry<C1, C2, C3> createEntryFromEntity(Entity entity) {
     C1 c1 = entity.getComponent(c1Class);
     if (c1 == null) return null;
 
@@ -29,9 +29,9 @@ public class View3<C1 extends Component, C2 extends Component, C3 extends Compon
     C3 c3 = entity.getComponent(c3Class);
     if (c3 == null) return null;
 
-    return new EcsViewEntry<>(entity, c1, c2, c3);
+    return new View3Entry<>(entity, c1, c2, c3);
   }
 
-  public record EcsViewEntry<C1 extends Component, C2 extends Component, C3 extends Component>(Entity entity, C1 c1, C2 c2, C3 c3) implements ViewEntry {
+  public record View3Entry<C1 extends Component, C2 extends Component, C3 extends Component>(Entity entity, C1 c1, C2 c2, C3 c3) implements ViewEntry {
   }
 }
