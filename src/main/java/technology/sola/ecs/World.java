@@ -224,6 +224,12 @@ public class World implements Serializable {
     return entitiesWithAllComponents;
   }
 
+  /**
+   * Returns a {@link ViewBuilder} instance for creating a {@link technology.sola.ecs.cache.View} of
+   * {@link technology.sola.ecs.view.ViewEntry} with desired {@link Component}s
+   *
+   * @return the {@code ViewBuilder} instance
+   */
   public ViewBuilder createView() {
     return viewBuilder;
   }

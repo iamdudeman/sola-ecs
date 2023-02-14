@@ -18,33 +18,45 @@ public class ViewBuilder {
   /**
    * Returns a {@link View1} of entries having one {@link Component}.
    *
+   * @param <C1>    the type of the component
    * @param c1Class the class for the component
    * @return the view
    */
-  public <C1 extends Component> View1<C1> of(Class<C1> c1Class) {
+  public <C1 extends Component> View1<C1> of(
+    Class<C1> c1Class
+  ) {
     return viewCache.createView(c1Class);
   }
 
   /**
    * Returns a {@link View2} of entries having two {@link Component}s.
    *
+   * @param <C1>    the type for the first component
+   * @param <C2>    the type for the second component
    * @param c1Class the class for the first component
    * @param c2Class the class for the second component
    * @return the view
    */
-  public <C1 extends Component, C2 extends Component> View2<C1, C2> of(Class<C1> c1Class, Class<C2> c2Class) {
+  public <C1 extends Component, C2 extends Component> View2<C1, C2> of(
+    Class<C1> c1Class, Class<C2> c2Class
+  ) {
     return viewCache.createView(c1Class, c2Class);
   }
 
   /**
    * Returns a {@link View3} of entries having three {@link Component}s.
    *
+   * @param <C1>    the type for the first component
+   * @param <C2>    the type for the second component
+   * @param <C3>    the type for the third component
    * @param c1Class the class for the first component
    * @param c2Class the class for the second component
    * @param c3Class the class for the third component
    * @return the view
    */
-  public <C1 extends Component, C2 extends Component, C3 extends Component> View3<C1, C2, C3> of(Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class) {
+  public <C1 extends Component, C2 extends Component, C3 extends Component> View3<C1, C2, C3> of(
+    Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class
+  ) {
     return viewCache.createView(c1Class, c2Class, c3Class);
   }
 }
