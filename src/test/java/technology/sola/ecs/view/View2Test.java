@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class View2Test extends ViewTestBase {
+class View2Test extends ViewNTestBase {
   private View2<TestComponent, TestComponent2> view;
 
   @BeforeEach

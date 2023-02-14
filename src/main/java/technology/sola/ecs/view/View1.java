@@ -6,7 +6,6 @@ import technology.sola.ecs.cache.View;
 
 import java.util.List;
 
-
 public class View1<C1 extends Component> extends View<View1.EcsViewEntry<C1>> {
   private final Class<C1> c1Class;
 

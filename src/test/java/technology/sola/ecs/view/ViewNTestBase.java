@@ -4,7 +4,7 @@ import org.mockito.Mockito;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 
-abstract class ViewTestBase {
+abstract class ViewNTestBase {
   protected final TestComponent testComponent = new TestComponent();
   protected final TestComponent2 testComponent2 = new TestComponent2();
   protected final TestComponent3 testComponent3 = new TestComponent3();
