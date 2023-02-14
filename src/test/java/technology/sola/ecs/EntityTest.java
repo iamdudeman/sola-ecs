@@ -8,8 +8,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,7 +31,7 @@ public class EntityTest {
     entity.setName("test");
 
     assertEquals("test", entity.getName());
-    Mockito.verify(mockWorld).updateEntityNameCache(entity);
+    Mockito.verify(mockWorld).updateEntityNameCache(entity, null);
   }
 
   @Test

@@ -53,9 +53,10 @@ public class Entity implements Serializable {
    * @return this Entity
    */
   public Entity setName(String name) {
+    String previousName = this.name;
     this.name = name;
 
-    world.updateEntityNameCache(this);
+    world.updateEntityNameCache(this, previousName);
 
     return this;
   }

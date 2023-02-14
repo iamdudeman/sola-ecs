@@ -47,7 +47,7 @@ public class World implements Serializable {
   public void cleanupDestroyedEntities() {
     for (Entity entity : entitiesToDestroy) {
       destroyEntity(entity);
-      entityNameCache.remove(entity);
+      entityNameCache.remove(entity.getName());
       viewCache.updateCacheForDeletedEntity(entity);
     }
 
@@ -261,14 +261,8 @@ public class World implements Serializable {
     }
   }
 
-  void updateEntityNameCache(Entity entity) {
-    String name = entity.getName();
-
-    if (name == null) {
-      entityNameCache.remove(entity);
-    } else {
-      entityNameCache.add(entity);
-    }
+  void updateEntityNameCache(Entity entity, String previousName) {
+    entityNameCache.update(entity, previousName);
   }
 
   private void destroyEntity(Entity entity) {

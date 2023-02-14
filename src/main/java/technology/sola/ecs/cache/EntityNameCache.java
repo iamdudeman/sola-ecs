@@ -8,15 +8,23 @@ import java.util.Map;
 public class EntityNameCache {
   private final Map<String, Entity> nameToEntityMap = new HashMap<>();
 
-  public void add(Entity entity) {
-    nameToEntityMap.put(entity.getName(), entity);
-  }
-
-  public void remove(Entity entity) {
-    nameToEntityMap.remove(entity.getName());
-  }
-
   public Entity get(String name) {
     return nameToEntityMap.get(name);
+  }
+
+  public void update(Entity entity, String previousName) {
+    remove(previousName);
+
+    String name = entity.getName();
+
+    if (name != null) {
+      nameToEntityMap.put(name, entity);
+    }
+  }
+
+  public void remove(String name) {
+    if (name != null) {
+      nameToEntityMap.remove(name);
+    }
   }
 }

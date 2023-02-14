@@ -18,15 +18,20 @@ class EntityNameCacheTest {
 
   @Test
   void fullTest() {
-    Entity mockEntity = Mockito.mock(Entity.class);
-    Mockito.when(mockEntity.getName()).thenReturn("test");
-
     assertNull(entityNameCache.get("test"));
 
-    entityNameCache.add(mockEntity);
+    Entity mockEntity = Mockito.mock(Entity.class);
+
+    Mockito.when(mockEntity.getName()).thenReturn("test");
+    entityNameCache.update(mockEntity, null);
     assertEquals(mockEntity, entityNameCache.get("test"));
 
-    entityNameCache.remove(mockEntity);
+    Mockito.when(mockEntity.getName()).thenReturn("updated");
+    entityNameCache.update(mockEntity, "test");
     assertNull(entityNameCache.get("test"));
+    assertEquals(mockEntity, entityNameCache.get("updated"));
+
+    entityNameCache.remove("updated");
+    assertNull(entityNameCache.get("updated"));
   }
 }
