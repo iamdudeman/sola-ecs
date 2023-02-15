@@ -59,15 +59,15 @@ public class ViewCache {
     return (View3<C1, C2, C3>) view;
   }
 
-  public void updateForAddComponent(Entity entity, Component component) {
+  public void updateForAddComponent(Entity entity, Class<? extends Component> componentClass) {
     for (var view : builtViews.values()) {
-      view.updateForAddComponent(entity, component);
+      view.updateForAddComponent(entity, componentClass);
     }
   }
 
-  public void updateCacheForRemoveComponent(Entity entity, Component component) {
+  public void updateCacheForRemoveComponent(Entity entity, Class<? extends Component> componentClass) {
     for (var view : builtViews.values()) {
-      view.updateForRemoveComponent(entity, component);
+      view.updateForRemoveComponent(entity, componentClass);
     }
   }
 

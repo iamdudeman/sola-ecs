@@ -50,17 +50,33 @@ class ViewTest {
   class updateForAddComponent {
     @Test
     void whenAlreadyCached_shouldDoNothing() {
-      // todo
+      TestView spiedView = Mockito.spy(testView);
+      Entity mockEntity = Mockito.mock(Entity.class);
+
+      spiedView.getEntries().add(new TestView.TestViewEntry(mockEntity));
+      spiedView.updateForAddComponent(mockEntity, TestComponent.class);
+
+      Mockito.verify(spiedView, Mockito.times(0)).addEntryIfValidEntity(mockEntity);
     }
 
     @Test
     void whenWatchingComponent_shouldAddEntryIfValid() {
-      // todo
+      TestView spiedView = Mockito.spy(testView);
+      Entity mockEntity = Mockito.mock(Entity.class);
+
+      spiedView.updateForAddComponent(mockEntity, TestComponent.class);
+
+      Mockito.verify(spiedView, Mockito.times(1)).addEntryIfValidEntity(mockEntity);
     }
 
     @Test
-    void whenWatchingComponent_shouldNotAddEntryIfInvalid() {
-      // todo
+    void whenNotWatchingComponent_shouldNotAddEntry() {
+      TestView spiedView = Mockito.spy(testView);
+      Entity mockEntity = Mockito.mock(Entity.class);
+
+      spiedView.updateForAddComponent(mockEntity, TestComponent3.class);
+
+      Mockito.verify(spiedView, Mockito.times(0)).addEntryIfValidEntity(mockEntity);
     }
   }
 
@@ -68,12 +84,22 @@ class ViewTest {
   class updateForRemoveComponent {
     @Test
     void whenWatchingComponent_shouldRemoveEntry() {
-      // todo
+      TestView spiedView = Mockito.spy(testView);
+      Entity mockEntity = Mockito.mock(Entity.class);
+
+      spiedView.updateForRemoveComponent(mockEntity, TestComponent.class);
+
+      Mockito.verify(spiedView, Mockito.times(1)).updateForDeletedEntity(mockEntity);
     }
 
     @Test
     void whenNotWatchingComponent_shouldDoNothing() {
-      // todo
+      TestView spiedView = Mockito.spy(testView);
+      Entity mockEntity = Mockito.mock(Entity.class);
+
+      spiedView.updateForRemoveComponent(mockEntity, TestComponent3.class);
+
+      Mockito.verify(spiedView, Mockito.times(0)).updateForDeletedEntity(mockEntity);
     }
   }
 
@@ -81,7 +107,12 @@ class ViewTest {
   class updateForDeletedEntity {
     @Test
     void shouldRemoveEntryIfFound() {
+      Entity mockEntity = Mockito.mock(Entity.class);
+      testView.getEntries().add(new TestView.TestViewEntry(mockEntity));
 
+      testView.updateForDeletedEntity(mockEntity);
+
+      assertEquals(0, testView.getEntries().size());
     }
   }
 
@@ -107,5 +138,8 @@ class ViewTest {
   }
 
   private record TestComponent2() implements Component {
+  }
+
+  private record TestComponent3() implements Component {
   }
 }

@@ -51,18 +51,18 @@ public abstract class View<E extends ViewEntry> {
     }
   }
 
-  void updateForAddComponent(Entity entity, Component component) {
+  void updateForAddComponent(Entity entity, Class<? extends Component> componentClass) {
     if (isCached(entity)) {
       return;
     }
 
-    if (isViewWatchingComponent(component.getClass())) {
+    if (isViewWatchingComponent(componentClass)) {
       addEntryIfValidEntity(entity);
     }
   }
 
-  void updateForRemoveComponent(Entity entity, Component component) {
-    if (isViewWatchingComponent(component.getClass())) {
+  void updateForRemoveComponent(Entity entity, Class<? extends Component> componentClass) {
+    if (isViewWatchingComponent(componentClass)) {
       updateForDeletedEntity(entity);
     }
   }

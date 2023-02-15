@@ -235,11 +235,12 @@ public class World implements Serializable {
   }
 
   void addComponentForEntity(int entityIndex, Component component) {
-    Component[] componentsOfType = components.computeIfAbsent(component.getClass(), key -> new Component[maxEntityCount]);
+    Class<? extends Component> componentClass = component.getClass();
+    Component[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
 
     componentsOfType[entityIndex] = component;
 
-    viewCache.updateForAddComponent(entities[entityIndex], component);
+    viewCache.updateForAddComponent(entities[entityIndex], componentClass);
   }
 
   <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
@@ -250,7 +251,7 @@ public class World implements Serializable {
 
   void removeComponent(int entityIndex, Class<? extends Component> componentClass) {
     components.computeIfPresent(componentClass, (key, componentArray) -> {
-      viewCache.updateCacheForRemoveComponent(entities[entityIndex], componentArray[entityIndex]);
+      viewCache.updateCacheForRemoveComponent(entities[entityIndex], componentClass);
       componentArray[entityIndex] = null;
 
       return componentArray;
