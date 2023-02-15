@@ -11,7 +11,7 @@ public class View2<C1 extends Component, C2 extends Component> extends View<View
   private final Class<C2> c2Class;
 
   public View2(Class<C1> c1Class, Class<C2> c2Class) {
-    super(List.of(c1Class));
+    super(List.of(c1Class, c2Class));
     this.c1Class = c1Class;
     this.c2Class = c2Class;
   }

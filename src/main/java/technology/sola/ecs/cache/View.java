@@ -35,6 +35,16 @@ public abstract class View<E extends ViewEntry> {
     return entries;
   }
 
+  public boolean isWatchingComponent(Class<? extends Component> componentClassToCheck) {
+    for (var componentClass : componentClasses) {
+      if (componentClass.equals(componentClassToCheck)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   /**
    * Creates an {@link ViewEntry} from a {@link Entity}.
    *
@@ -56,13 +66,13 @@ public abstract class View<E extends ViewEntry> {
       return;
     }
 
-    if (isViewWatchingComponent(componentClass)) {
+    if (isWatchingComponent(componentClass)) {
       addEntryIfValidEntity(entity);
     }
   }
 
   void updateForRemoveComponent(Entity entity, Class<? extends Component> componentClass) {
-    if (isViewWatchingComponent(componentClass)) {
+    if (isWatchingComponent(componentClass)) {
       updateForDeletedEntity(entity);
     }
   }
@@ -78,16 +88,6 @@ public abstract class View<E extends ViewEntry> {
         break;
       }
     }
-  }
-
-  private boolean isViewWatchingComponent(Class<? extends Component> componentClassToCheck) {
-    for (var componentClass : componentClasses) {
-      if (componentClass.equals(componentClassToCheck)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   private boolean isCached(Entity entity) {

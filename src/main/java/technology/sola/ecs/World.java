@@ -48,7 +48,7 @@ public class World implements Serializable {
     for (Entity entity : entitiesToDestroy) {
       destroyEntity(entity);
       entityNameCache.remove(entity.getName());
-      viewCache.updateCacheForDeletedEntity(entity);
+      viewCache.updateForDeletedEntity(entity);
     }
 
     entitiesToDestroy.clear();
@@ -251,7 +251,7 @@ public class World implements Serializable {
 
   void removeComponent(int entityIndex, Class<? extends Component> componentClass) {
     components.computeIfPresent(componentClass, (key, componentArray) -> {
-      viewCache.updateCacheForRemoveComponent(entities[entityIndex], componentClass);
+      viewCache.updateForRemoveComponent(entities[entityIndex], componentClass);
       componentArray[entityIndex] = null;
 
       return componentArray;

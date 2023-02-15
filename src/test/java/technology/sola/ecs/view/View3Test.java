@@ -17,6 +17,14 @@ class View3Test extends ViewNTestBase {
     view = new View3<>(TestComponent.class, TestComponent2.class, TestComponent3.class);
   }
 
+  @Test
+  void isWatchingComponent_shouldWatchCorrectComponents() {
+    assertTrue(view.isWatchingComponent(TestComponent.class));
+    assertTrue(view.isWatchingComponent(TestComponent2.class));
+    assertTrue(view.isWatchingComponent(TestComponent3.class));
+    assertFalse(view.isWatchingComponent(TestComponent4.class));
+  }
+
   @Nested
   class createEntryFromEntity {
     @Test

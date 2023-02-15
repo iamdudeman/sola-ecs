@@ -12,7 +12,7 @@ public class View3<C1 extends Component, C2 extends Component, C3 extends Compon
   private final Class<C3> c3Class;
 
   public View3(Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class) {
-    super(List.of(c1Class));
+    super(List.of(c1Class, c2Class, c3Class));
     this.c1Class = c1Class;
     this.c2Class = c2Class;
     this.c3Class = c3Class;

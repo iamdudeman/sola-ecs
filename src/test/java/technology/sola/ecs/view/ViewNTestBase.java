@@ -32,4 +32,7 @@ abstract class ViewNTestBase {
 
   protected record TestComponent3() implements Component {
   }
+
+  protected record TestComponent4() implements Component {
+  }
 }
