@@ -35,6 +35,13 @@ public abstract class View<E extends ViewEntry> {
     return entries;
   }
 
+  /**
+   * Checks if this view responds to an {@link Entity} adding or removing the component type
+   * or if an entity is deleted while having the component type.
+   *
+   * @param componentClassToCheck the {@link Component} class to check
+   * @return true if view will update
+   */
   public boolean isWatchingComponent(Class<? extends Component> componentClassToCheck) {
     for (var componentClass : componentClasses) {
       if (componentClass.equals(componentClassToCheck)) {
