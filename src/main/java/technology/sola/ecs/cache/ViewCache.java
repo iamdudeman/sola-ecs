@@ -79,7 +79,7 @@ public class ViewCache {
 
   private void initializeView(View<?> view) {
     for (Entity entity : world.getEntities()) {
-      view.addEntityIfValidEntry(entity);
+      view.addEntryIfValidEntity(entity);
     }
   }
 }

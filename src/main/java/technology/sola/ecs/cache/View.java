@@ -43,7 +43,7 @@ public abstract class View<E extends ViewEntry> {
    */
   protected abstract E createEntryFromEntity(Entity entity);
 
-  void addEntityIfValidEntry(Entity entity) {
+  void addEntryIfValidEntity(Entity entity) {
     var entry = createEntryFromEntity(entity);
 
     if (entry != null) {
@@ -57,7 +57,7 @@ public abstract class View<E extends ViewEntry> {
     }
 
     if (isViewWatchingComponent(component.getClass())) {
-      addEntityIfValidEntry(entity);
+      addEntryIfValidEntity(entity);
     }
   }
 
