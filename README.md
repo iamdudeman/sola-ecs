@@ -39,8 +39,6 @@ public class Example {
   }
 
   private record ExampleComponent(String message) implements Component {
-    @Serial
-    private static final long serialVersionUID = 1429000931761226553L;
   }
 
   private static class ExampleSystem extends EcsSystem {
