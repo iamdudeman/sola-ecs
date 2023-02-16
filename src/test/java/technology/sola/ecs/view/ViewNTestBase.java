@@ -8,6 +8,7 @@ abstract class ViewNTestBase {
   protected final TestComponent testComponent = new TestComponent();
   protected final TestComponent2 testComponent2 = new TestComponent2();
   protected final TestComponent3 testComponent3 = new TestComponent3();
+  protected final TestComponent4 testComponent4 = new TestComponent4();
 
   protected Entity createMockEntity(ComponentMapping<?>... componentMappings) {
     Entity mockEntity = Mockito.mock(Entity.class);
@@ -34,5 +35,8 @@ abstract class ViewNTestBase {
   }
 
   protected record TestComponent4() implements Component {
+  }
+
+  protected record TestComponent5() implements Component {
   }
 }

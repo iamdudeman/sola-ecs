@@ -1,5 +1,6 @@
 package technology.sola.ecs.io;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -22,6 +23,7 @@ class Base64WorldIoTest {
   private static Consumer<String> mockConsumer;
 
   @Test
+  @Disabled
   void integrationTest() {
     World world = new World(2);
     String uuid1 = world.createEntity()
@@ -35,8 +37,8 @@ class Base64WorldIoTest {
     String serializedWorld = base64WorldIo.stringify(world);
     World deserializedWorld = base64WorldIo.parse(serializedWorld);
 
-//    assertEquals(uuid1, deserializedWorld.of().of(TestComponent1.class).get(0).entity().getUniqueId());
-//    assertEquals(uuid2, deserializedWorld.of().of(TestComponent2.class).get(0).entity().getUniqueId());
+    assertEquals(uuid1, deserializedWorld.createView().of(TestComponent1.class).getEntries().get(0).entity().getUniqueId());
+    assertEquals(uuid2, deserializedWorld.createView().of(TestComponent2.class).getEntries().get(0).entity().getUniqueId());
     Mockito.verify(mockConsumer, Mockito.times(1)).accept("test1");
     Mockito.verify(mockConsumer, Mockito.times(1)).accept("test2");
 

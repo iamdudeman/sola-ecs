@@ -6,6 +6,7 @@ import technology.sola.ecs.World;
 import technology.sola.ecs.view.View1;
 import technology.sola.ecs.view.View2;
 import technology.sola.ecs.view.View3;
+import technology.sola.ecs.view.View4;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -72,6 +73,26 @@ public class ViewCache {
   public <C1 extends Component, C2 extends Component, C3 extends Component> View3<C1, C2, C3> createView(Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class) {
     return (View3<C1, C2, C3>) getCachedViewOrCreate(() -> new View3<>(c1Class, c2Class, c3Class), new Class[]{
       c1Class, c2Class, c3Class
+    });
+  }
+
+  /**
+   * Gets a {@link View4} for the desired component classes from the cache or creates it if it does not exist.
+   *
+   * @param c1Class the first {@link Component} class
+   * @param c2Class the second {@code Component} class
+   * @param c3Class the third {@code Component} class
+   * @param c4Class the fourth {@code Component} class
+   * @param <C1>    the first component type
+   * @param <C2>    the second component type
+   * @param <C3>    the third component type
+   * @param <C4>    the fourth component type
+   * @return the {@code View3}
+   */
+  @SuppressWarnings("unchecked")
+  public <C1 extends Component, C2 extends Component, C3 extends Component, C4 extends Component> View4<C1, C2, C3, C4> createView(Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class) {
+    return (View4<C1, C2, C3, C4>) getCachedViewOrCreate(() -> new View4<>(c1Class, c2Class, c3Class, c4Class), new Class[]{
+      c1Class, c2Class, c3Class, c4Class
     });
   }
 
