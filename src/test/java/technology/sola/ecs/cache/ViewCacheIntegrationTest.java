@@ -1,15 +1,18 @@
-package technology.sola.ecs;
+package technology.sola.ecs.cache;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import technology.sola.ecs.Component;
+import technology.sola.ecs.Entity;
+import technology.sola.ecs.World;
 import technology.sola.ecs.view.View1;
 import technology.sola.ecs.view.View2;
 import technology.sola.ecs.view.View3;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ViewIntegrationTest {
+public class ViewCacheIntegrationTest {
   private World testWorld;
   private View1<TestComponent> testComponentView1;
   private View2<TestComponent, TestComponent2> testComponentView12;
