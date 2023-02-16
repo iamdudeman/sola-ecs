@@ -16,7 +16,6 @@ public class ViewIntegrationTest {
   private View3<TestComponent, TestComponent2, TestComponent3> testComponentView123;
 
   private Entity entityWithNoComponents;
-  private Entity entityWithTestComponent;
   private Entity entityWithTestComponent12;
   private Entity entityWithTestComponent123;
 
@@ -36,7 +35,7 @@ public class ViewIntegrationTest {
     testWorld.createEntity(
       new TestComponent2(), new TestComponent3()
     );
-    entityWithTestComponent = testWorld.createEntity(
+    testWorld.createEntity(
       new TestComponent()
     );
     entityWithNoComponents = testWorld.createEntity();
@@ -83,12 +82,41 @@ public class ViewIntegrationTest {
 
   @Test
   void updateForRemoveComponent_integrationTest() {
-    // todo
+    entityWithNoComponents.removeComponent(TestComponent.class);
+    assertEquals(4, testComponentView1.getEntries().size());
+    assertEquals(2, testComponentView12.getEntries().size());
+    assertEquals(1, testComponentView123.getEntries().size());
+
+    entityWithTestComponent123.removeComponent(TestComponent3.class);
+    assertEquals(4, testComponentView1.getEntries().size());
+    assertEquals(2, testComponentView12.getEntries().size());
+    assertEquals(0, testComponentView123.getEntries().size());
+
+    entityWithTestComponent123.removeComponent(TestComponent.class);
+    assertEquals(3, testComponentView1.getEntries().size());
+    assertEquals(1, testComponentView12.getEntries().size());
+    assertEquals(0, testComponentView123.getEntries().size());
   }
 
   @Test
   void updateForDeletedEntity_integrationTest() {
-    // todo
+    entityWithNoComponents.destroy();
+    testWorld.cleanupDestroyedEntities();
+    assertEquals(4, testComponentView1.getEntries().size());
+    assertEquals(2, testComponentView12.getEntries().size());
+    assertEquals(1, testComponentView123.getEntries().size());
+
+    entityWithTestComponent123.destroy();
+    testWorld.cleanupDestroyedEntities();
+    assertEquals(3, testComponentView1.getEntries().size());
+    assertEquals(1, testComponentView12.getEntries().size());
+    assertEquals(0, testComponentView123.getEntries().size());
+
+    entityWithTestComponent12.destroy();
+    testWorld.cleanupDestroyedEntities();
+    assertEquals(2, testComponentView1.getEntries().size());
+    assertEquals(0, testComponentView12.getEntries().size());
+    assertEquals(0, testComponentView123.getEntries().size());
   }
 
   private record TestComponent() implements Component {
