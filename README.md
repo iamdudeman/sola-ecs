@@ -46,7 +46,7 @@ public class Example {
   private static class ExampleSystem extends EcsSystem {
     @Override
     public void update(World world, float deltaTime) {
-      world.createView().of(ExampleComponent.class)
+      world.createView().of(ExampleComponent.class).getEntries()
         .forEach(view -> System.out.println(view.getC1().message()));
     }
   }
@@ -56,17 +56,6 @@ public class Example {
 
 ## TODO List
 
-* view caching
-  * a view is just a list of entities
-  * Whenever a view is created it is cached
-  * views update when
-    * component add or delete of relevant component type
-    * entity destruction if has component type
-  * need a container of views (maybe World owns that?)
-  * update readme example once this is refactored
-* ~~entity name caching lookup~~
-  * ~~remove Optional from api~~
-  * ~~extra HashMap for name -> entity that is updated on entity#setName and entity#delete~~
 * consider removing Base64WorldIo and usages of Serializable
 * consider performance testing?
   * https://github.com/clarkware/junitperf
