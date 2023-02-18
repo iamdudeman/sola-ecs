@@ -4,17 +4,13 @@ import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.*;
 
 /**
  * World contains arrays of {@link Component}s and methods for creating {@link Entity} instances and searching for
  * entities.
  */
-public class World implements Serializable {
-  @Serial
-  private static final long serialVersionUID = -4446723129672527365L;
+public class World {
   private final EntityNameCache entityNameCache = new EntityNameCache();
   private final ViewCache viewCache;
   private final ViewBuilder viewBuilder;

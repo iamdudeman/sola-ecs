@@ -55,6 +55,5 @@ public class Example {
 
 ## TODO List
 
-* consider removing Base64WorldIo and usages of Serializable
 * consider performance testing?
   * https://github.com/clarkware/junitperf
