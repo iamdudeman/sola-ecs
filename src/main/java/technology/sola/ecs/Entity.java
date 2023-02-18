@@ -1,17 +1,12 @@
 package technology.sola.ecs;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * An Entity is identified by its index in the {@link World} that ties a set of {@link Component}s together.
  */
-public class Entity implements Serializable {
-  @Serial
-  private static final long serialVersionUID = 1211787104356274322L;
-
+public class Entity {
   private final int entityIndex;
   private final String uniqueId;
   private final World world;
