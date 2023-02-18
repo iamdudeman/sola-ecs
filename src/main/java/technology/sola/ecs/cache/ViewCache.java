@@ -150,7 +150,9 @@ public class ViewCache {
 
   private void initializeView(ViewImpl<?> view) {
     for (Entity entity : world.getEntities()) {
-      view.addEntryIfValidEntity(entity);
+      if (!entity.isDisabled()) {
+        view.addEntryIfValidEntity(entity);
+      }
     }
   }
 }

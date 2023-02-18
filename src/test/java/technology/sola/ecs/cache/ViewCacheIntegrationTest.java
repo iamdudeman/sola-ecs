@@ -22,7 +22,6 @@ public class ViewCacheIntegrationTest {
 
   private Entity entityWithNoComponents;
   private Entity entityWithTestComponent12;
-  private Entity entityWithTestComponent123;
   private Entity entityWithTestComponent1234;
 
   @BeforeEach
@@ -32,7 +31,7 @@ public class ViewCacheIntegrationTest {
     entityWithTestComponent1234 = testWorld.createEntity(
       new TestComponent(), new TestComponent2(), new TestComponent3(), new TestComponent4()
     );
-    entityWithTestComponent123 = testWorld.createEntity(
+    testWorld.createEntity(
       new TestComponent(), new TestComponent2(), new TestComponent3()
     );
     entityWithTestComponent12 = testWorld.createEntity(
@@ -48,6 +47,9 @@ public class ViewCacheIntegrationTest {
       new TestComponent()
     );
     entityWithNoComponents = testWorld.createEntity();
+    testWorld.createEntity(
+      new TestComponent(), new TestComponent2(), new TestComponent3(), new TestComponent4()
+    ).setDisabled(true);
 
     testComponentView1 = testWorld.createView().of(TestComponent.class);
     testComponentView12 = testWorld.createView().of(TestComponent.class, TestComponent2.class);
