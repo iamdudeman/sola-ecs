@@ -44,7 +44,8 @@ public class Example {
   private static class ExampleSystem extends EcsSystem {
     @Override
     public void update(World world, float deltaTime) {
-      world.createView().of(ExampleComponent.class).getEntries()
+      world.createView().of(ExampleComponent.class)
+        .getEntries()
         .forEach(view -> System.out.println(view.getC1().message()));
     }
   }
