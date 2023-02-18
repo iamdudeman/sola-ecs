@@ -268,6 +268,10 @@ public class World {
     entityNameCache.update(entity, previousName);
   }
 
+  void updateDisabledStateCache(Entity entity) {
+    viewCache.updateForDisabledStateChange(entity);
+  }
+
   private void destroyEntity(Entity entity) {
     totalEntityCount--;
     entity.getCurrentComponents().forEach(componentClass -> removeComponent(entity.getIndexInWorld(), componentClass));

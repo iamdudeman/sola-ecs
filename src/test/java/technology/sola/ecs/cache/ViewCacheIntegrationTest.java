@@ -23,6 +23,7 @@ public class ViewCacheIntegrationTest {
   private Entity entityWithNoComponents;
   private Entity entityWithTestComponent12;
   private Entity entityWithTestComponent1234;
+  private Entity entityDisabled;
 
   @BeforeEach
   void setup() {
@@ -47,7 +48,7 @@ public class ViewCacheIntegrationTest {
       new TestComponent()
     );
     entityWithNoComponents = testWorld.createEntity();
-    testWorld.createEntity(
+    entityDisabled = testWorld.createEntity(
       new TestComponent(), new TestComponent2(), new TestComponent3(), new TestComponent4()
     ).setDisabled(true);
 
@@ -117,6 +118,21 @@ public class ViewCacheIntegrationTest {
     assertEquals(2, testComponentView12.getEntries().size());
     assertEquals(1, testComponentView123.getEntries().size());
     assertEquals(0, testComponentView1234.getEntries().size());
+  }
+
+  @Test
+  void updateForDisabledStateChange_integrationTest() {
+    entityDisabled.setDisabled(false);
+    assertEquals(6, testComponentView1.getEntries().size());
+    assertEquals(4, testComponentView12.getEntries().size());
+    assertEquals(3, testComponentView123.getEntries().size());
+    assertEquals(2, testComponentView1234.getEntries().size());
+
+    entityDisabled.setDisabled(true);
+    assertEquals(5, testComponentView1.getEntries().size());
+    assertEquals(3, testComponentView12.getEntries().size());
+    assertEquals(2, testComponentView123.getEntries().size());
+    assertEquals(1, testComponentView1234.getEntries().size());
   }
 
   @Test
