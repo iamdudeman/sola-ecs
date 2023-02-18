@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
-<script type="text/javascript" src="script-dir/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="script-dir/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="tree-page">
@@ -51,6 +51,7 @@ loadScripts(document, 'script');</script>
 <span class="package-hierarchy-label">Package Hierarchies:</span>
 <ul class="horizontal">
 <li><a href="technology.sola.ecs/technology/sola/ecs/package-tree.html">technology.sola.ecs</a>, </li>
+<li><a href="technology.sola.ecs/technology/sola/ecs/cache/package-tree.html">technology.sola.ecs.cache</a>, </li>
 <li><a href="technology.sola.ecs/technology/sola/ecs/exception/package-tree.html">technology.sola.ecs.exception</a>, </li>
 <li><a href="technology.sola.ecs/technology/sola/ecs/io/package-tree.html">technology.sola.ecs.io</a>, </li>
 <li><a href="technology.sola.ecs/technology/sola/ecs/view/package-tree.html">technology.sola.ecs.view</a></li>
@@ -63,17 +64,15 @@ loadScripts(document, 'script');</script>
 <ul>
 <li class="circle">technology.sola.ecs.io.<a href="technology.sola.ecs/technology/sola/ecs/io/Base64WorldIo.html" class="type-name-link" title="class in technology.sola.ecs.io">Base64WorldIo</a> (implements technology.sola.ecs.io.<a href="technology.sola.ecs/technology/sola/ecs/io/WorldIo.html" title="interface in technology.sola.ecs.io">WorldIo</a>)</li>
 <li class="circle">technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/EcsSystem.html" class="type-name-link" title="class in technology.sola.ecs">EcsSystem</a></li>
-<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/EcsViewFactory.html" class="type-name-link" title="class in technology.sola.ecs.view">EcsViewFactory</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)</li>
 <li class="circle">technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/Entity.html" class="type-name-link" title="class in technology.sola.ecs">Entity</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)</li>
+<li class="circle">technology.sola.ecs.cache.<a href="technology.sola.ecs/technology/sola/ecs/cache/EntityNameCache.html" class="type-name-link" title="class in technology.sola.ecs.cache">EntityNameCache</a></li>
 <li class="circle">technology.sola.ecs.io.<a href="technology.sola.ecs/technology/sola/ecs/io/JsonWorldIo.html" class="type-name-link" title="class in technology.sola.ecs.io">JsonWorldIo</a> (implements technology.sola.ecs.io.<a href="technology.sola.ecs/technology/sola/ecs/io/WorldIo.html" title="interface in technology.sola.ecs.io">WorldIo</a>)</li>
 <li class="circle">java.lang.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Record.html" class="type-name-link external-link" title="class or interface in java.lang">Record</a>
 <ul>
-<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/EcsView1.html" class="type-name-link" title="class in technology.sola.ecs.view">EcsView1</a>&lt;C1&gt;</li>
-<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/EcsView2.html" class="type-name-link" title="class in technology.sola.ecs.view">EcsView2</a>&lt;C1,<wbr>C2&gt;</li>
-<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/EcsView3.html" class="type-name-link" title="class in technology.sola.ecs.view">EcsView3</a>&lt;C1,<wbr>C2,<wbr>C3&gt;</li>
-<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/EcsView4.html" class="type-name-link" title="class in technology.sola.ecs.view">EcsView4</a>&lt;C1,<wbr>C2,<wbr>C3,<wbr>C4&gt;</li>
-<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/EcsView5.html" class="type-name-link" title="class in technology.sola.ecs.view">EcsView5</a>&lt;C1,<wbr>C2,<wbr>C3,<wbr>C4,<wbr>C5&gt;</li>
-<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/EcsView6.html" class="type-name-link" title="class in technology.sola.ecs.view">EcsView6</a>&lt;C1,<wbr>C2,<wbr>C3,<wbr>C4,<wbr>C5,<wbr>C6&gt;</li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View1Entry.html" class="type-name-link" title="class in technology.sola.ecs.view">View1Entry</a>&lt;C1&gt; (implements technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" title="interface in technology.sola.ecs.view">ViewEntry</a>)</li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View2Entry.html" class="type-name-link" title="class in technology.sola.ecs.view">View2Entry</a>&lt;C1,<wbr>C2&gt; (implements technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" title="interface in technology.sola.ecs.view">ViewEntry</a>)</li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View3Entry.html" class="type-name-link" title="class in technology.sola.ecs.view">View3Entry</a>&lt;C1,<wbr>C2,<wbr>C3&gt; (implements technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" title="interface in technology.sola.ecs.view">ViewEntry</a>)</li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View4Entry.html" class="type-name-link" title="class in technology.sola.ecs.view">View4Entry</a>&lt;C1,<wbr>C2,<wbr>C3,<wbr>C4&gt; (implements technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" title="interface in technology.sola.ecs.view">ViewEntry</a>)</li>
 </ul>
 </li>
 <li class="circle">technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/SolaEcs.html" class="type-name-link" title="class in technology.sola.ecs">SolaEcs</a></li>
@@ -93,6 +92,16 @@ loadScripts(document, 'script');</script>
 </li>
 </ul>
 </li>
+<li class="circle">technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html" class="type-name-link" title="class in technology.sola.ecs">ViewBuilder</a></li>
+<li class="circle">technology.sola.ecs.cache.<a href="technology.sola.ecs/technology/sola/ecs/cache/ViewCache.html" class="type-name-link" title="class in technology.sola.ecs.cache">ViewCache</a></li>
+<li class="circle">technology.sola.ecs.cache.<a href="technology.sola.ecs/technology/sola/ecs/cache/ViewImpl.html" class="type-name-link" title="class in technology.sola.ecs.cache">ViewImpl</a>&lt;E&gt; (implements technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View.html" title="interface in technology.sola.ecs.view">View</a>&lt;E&gt;)
+<ul>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View1.html" class="type-name-link" title="class in technology.sola.ecs.view">View1</a>&lt;C1&gt;</li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View2.html" class="type-name-link" title="class in technology.sola.ecs.view">View2</a>&lt;C1,<wbr>C2&gt;</li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View3.html" class="type-name-link" title="class in technology.sola.ecs.view">View3</a>&lt;C1,<wbr>C2,<wbr>C3&gt;</li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View4.html" class="type-name-link" title="class in technology.sola.ecs.view">View4</a>&lt;C1,<wbr>C2,<wbr>C3,<wbr>C4&gt;</li>
+</ul>
+</li>
 <li class="circle">technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/World.html" class="type-name-link" title="class in technology.sola.ecs">World</a> (implements java.io.<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a>)</li>
 <li class="circle">technology.sola.ecs.io.<a href="technology.sola.ecs/technology/sola/ecs/io/WorldJsonMapper.html" class="type-name-link" title="class in technology.sola.ecs.io">WorldJsonMapper</a> (implements technology.sola.json.mapper.JsonMapper&lt;T&gt;)</li>
 </ul>
@@ -107,6 +116,8 @@ loadScripts(document, 'script');</script>
 <li class="circle">technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/Component.html" class="type-name-link" title="interface in technology.sola.ecs">Component</a></li>
 </ul>
 </li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View.html" class="type-name-link" title="interface in technology.sola.ecs.view">View</a>&lt;E&gt;</li>
+<li class="circle">technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" class="type-name-link" title="interface in technology.sola.ecs.view">ViewEntry</a></li>
 <li class="circle">technology.sola.ecs.io.<a href="technology.sola.ecs/technology/sola/ecs/io/WorldIo.html" class="type-name-link" title="interface in technology.sola.ecs.io">WorldIo</a></li>
 </ul>
 </section>

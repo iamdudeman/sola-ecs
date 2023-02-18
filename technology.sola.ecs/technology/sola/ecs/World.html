@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="../../../../script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="../../../../script.js"></script>
-<script type="text/javascript" src="../../../../script-dir/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="../../../../script-dir/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="../../../../script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="class-declaration-page">
@@ -145,10 +145,11 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a new <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> inside this World with a random unique id.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="view/EcsViewFactory.html" title="class in technology.sola.ecs.view">EcsViewFactory</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ViewBuilder.html" title="class in technology.sola.ecs">ViewBuilder</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#createView()" class="member-name-link">createView</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns a <a href="view/EcsViewFactory.html" title="class in technology.sola.ecs.view"><code>EcsViewFactory</code></a> for this <a href="World.html" title="class in technology.sola.ecs"><code>World</code></a>.</div>
+<div class="block">Returns a <a href="ViewBuilder.html" title="class in technology.sola.ecs"><code>ViewBuilder</code></a> instance for creating a <a href="view/View.html" title="interface in technology.sola.ecs.view"><code>View</code></a> of
+ <a href="view/ViewEntry.html" title="interface in technology.sola.ecs.view"><code>ViewEntry</code></a> with desired <a href="Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Entity.html" title="class in technology.sola.ecs">Entity</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findEntitiesWithComponents(java.lang.Class...)" class="member-name-link">findEntitiesWithComponents</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Component.html" title="interface in technology.sola.ecs">Component</a>&gt;...&nbsp;componentClasses)</code></div>
@@ -156,12 +157,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="block">Gets a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> where each <code>Entity</code> has all of the <a href="Component.html" title="interface in technology.sola.ecs"><code>Component</code></a> classes searched for
  and is not disabled.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Entity.html" title="class in technology.sola.ecs">Entity</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in technology.sola.ecs">Entity</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findEntityByName(java.lang.String)" class="member-name-link">findEntityByName</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Searches for an <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> by its name.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Entity.html" title="class in technology.sola.ecs">Entity</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Entity.html" title="class in technology.sola.ecs">Entity</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#findEntityByUniqueId(java.lang.String)" class="member-name-link">findEntityByUniqueId</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;uniqueId)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Searches for an <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> by its unique id.</div>
@@ -323,26 +324,26 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="findEntityByName(java.lang.String)">
 <h3>findEntityByName</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Entity.html" title="class in technology.sola.ecs">Entity</a>&gt;</span>&nbsp;<span class="element-name">findEntityByName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
-<div class="block">Searches for an <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> by its name.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in technology.sola.ecs">Entity</a></span>&nbsp;<span class="element-name">findEntityByName</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="block">Searches for an <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> by its name. Returns null if not ofund</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>name</code> - the name of the <code>Entity</code></dd>
 <dt>Returns:</dt>
-<dd>the <code>Entity</code> with desired name</dd>
+<dd>the <code>Entity</code> with desired name or null if not found</dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="findEntityByUniqueId(java.lang.String)">
 <h3>findEntityByUniqueId</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Entity.html" title="class in technology.sola.ecs">Entity</a>&gt;</span>&nbsp;<span class="element-name">findEntityByUniqueId</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;uniqueId)</span></div>
-<div class="block">Searches for an <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> by its unique id.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in technology.sola.ecs">Entity</a></span>&nbsp;<span class="element-name">findEntityByUniqueId</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;uniqueId)</span></div>
+<div class="block">Searches for an <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> by its unique id. Returns null if not found.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>uniqueId</code> - the unique id of the <code>Entity</code></dd>
 <dt>Returns:</dt>
-<dd>the <code>Entity</code> with desired uniqueId</dd>
+<dd>the <code>Entity</code> with desired uniqueId or null if not found</dd>
 </dl>
 </section>
 </li>
@@ -386,11 +387,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <li>
 <section class="detail" id="createView()">
 <h3>createView</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="view/EcsViewFactory.html" title="class in technology.sola.ecs.view">EcsViewFactory</a></span>&nbsp;<span class="element-name">createView</span>()</div>
-<div class="block">Returns a <a href="view/EcsViewFactory.html" title="class in technology.sola.ecs.view"><code>EcsViewFactory</code></a> for this <a href="World.html" title="class in technology.sola.ecs"><code>World</code></a>.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ViewBuilder.html" title="class in technology.sola.ecs">ViewBuilder</a></span>&nbsp;<span class="element-name">createView</span>()</div>
+<div class="block">Returns a <a href="ViewBuilder.html" title="class in technology.sola.ecs"><code>ViewBuilder</code></a> instance for creating a <a href="view/View.html" title="interface in technology.sola.ecs.view"><code>View</code></a> of
+ <a href="view/ViewEntry.html" title="interface in technology.sola.ecs.view"><code>ViewEntry</code></a> with desired <a href="Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>a <a href="view/EcsViewFactory.html" title="class in technology.sola.ecs.view"><code>EcsViewFactory</code></a> for this <a href="World.html" title="class in technology.sola.ecs"><code>World</code></a></dd>
+<dd>the <code>ViewBuilder</code> instance</dd>
 </dl>
 </section>
 </li>

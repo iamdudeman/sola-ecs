@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="script-dir/jquery-ui.min.css" title="Style">
 <link rel="stylesheet" type="text/css" href="jquery-ui.overrides.css" title="Style">
 <script type="text/javascript" src="script.js"></script>
-<script type="text/javascript" src="script-dir/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="script-dir/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="script-dir/jquery-ui.min.js"></script>
 </head>
 <body class="serialized-form-page">
@@ -119,10 +119,6 @@ loadScripts(document, 'script');</script>
 <pre>int currentEntityIndex</pre>
 </li>
 <li class="block-list">
-<h5>ecsViewFactory</h5>
-<pre><a href="technology.sola.ecs/technology/sola/ecs/view/EcsViewFactory.html" title="class in technology.sola.ecs.view">EcsViewFactory</a> ecsViewFactory</pre>
-</li>
-<li class="block-list">
 <h5>entities</h5>
 <pre><a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs">Entity</a>[] entities</pre>
 </li>
@@ -131,12 +127,24 @@ loadScripts(document, 'script');</script>
 <pre><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs">Entity</a>&gt; entitiesToDestroy</pre>
 </li>
 <li class="block-list">
+<h5>entityNameCache</h5>
+<pre><a href="technology.sola.ecs/technology/sola/ecs/cache/EntityNameCache.html" title="class in technology.sola.ecs.cache">EntityNameCache</a> entityNameCache</pre>
+</li>
+<li class="block-list">
 <h5>maxEntityCount</h5>
 <pre>int maxEntityCount</pre>
 </li>
 <li class="block-list">
 <h5>totalEntityCount</h5>
 <pre>int totalEntityCount</pre>
+</li>
+<li class="block-list">
+<h5>viewBuilder</h5>
+<pre><a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html" title="class in technology.sola.ecs">ViewBuilder</a> viewBuilder</pre>
+</li>
+<li class="block-list">
+<h5>viewCache</h5>
+<pre><a href="technology.sola.ecs/technology/sola/ecs/cache/ViewCache.html" title="class in technology.sola.ecs.cache">ViewCache</a> viewCache</pre>
 </li>
 </ul>
 </section>
@@ -189,36 +197,6 @@ loadScripts(document, 'script');</script>
 <dt>serialVersionUID:</dt>
 <dd>-2660810517587662465L</dd>
 </dl>
-</section>
-</li>
-</ul>
-</section>
-</li>
-<li>
-<section class="serialized-package-container">
-<h2 title="Package">Package&nbsp;<a href="technology.sola.ecs/technology/sola/ecs/view/package-summary.html">technology.sola.ecs.view</a></h2>
-<ul class="block-list">
-<li>
-<section class="serialized-class-details" id="technology.sola.ecs.view.EcsViewFactory">
-<h3>Class&nbsp;<a href="technology.sola.ecs/technology/sola/ecs/view/EcsViewFactory.html" title="class in technology.sola.ecs.view">technology.sola.ecs.view.EcsViewFactory</a></h3>
-<div class="type-signature">class EcsViewFactory extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a> implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></div>
-<dl class="name-value">
-<dt>serialVersionUID:</dt>
-<dd>-8949269697037114181L</dd>
-</dl>
-<ul class="block-list">
-<li>
-<section class="detail">
-<h4>Serialized Fields</h4>
-<ul class="block-list">
-<li class="block-list">
-<h5>world</h5>
-<pre><a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs">World</a> world</pre>
-</li>
-</ul>
-</section>
-</li>
-</ul>
 </section>
 </li>
 </ul>
