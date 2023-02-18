@@ -69,9 +69,13 @@ public class Entity {
    * Updates the disabled state of this Entity.
    *
    * @param disabled the new disabled state of this Entity
+   * @return this
    */
-  public void setDisabled(boolean disabled) {
+  public Entity setDisabled(boolean disabled) {
     isDisabled = disabled;
+    world.updateDisabledStateCache(this);
+
+    return this;
   }
 
   /**

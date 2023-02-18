@@ -121,6 +121,17 @@ public class ViewCache {
   }
 
   /**
+   * Updates cached {@link ViewImpl}s for an {@link Entity} that was disabled or enabled.
+   *
+   * @param entity the {@code Entity} update
+   */
+  public void updateForDisabledStateChange(Entity entity) {
+    for (var view : builtViews.values()) {
+      view.updateForDisabledStateChange(entity);
+    }
+  }
+
+  /**
    * Updates cached {@link ViewImpl}s for a deleted {@link Entity}.
    *
    * @param entity the {@code Entity} deleted

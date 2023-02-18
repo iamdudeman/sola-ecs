@@ -85,6 +85,14 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
     }
   }
 
+  void updateForDisabledStateChange(Entity entity) {
+    if (entity.isDisabled()) {
+      updateForDeletedEntity(entity);
+    } else {
+      addEntryIfValidEntity(entity);
+    }
+  }
+
   void updateForDeletedEntity(Entity entity) {
     Iterator<E> entryIterator = entries.iterator();
 

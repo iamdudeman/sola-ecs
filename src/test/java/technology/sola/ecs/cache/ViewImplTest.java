@@ -104,6 +104,33 @@ class ViewImplTest {
   }
 
   @Nested
+  class updateForDisabledStateChange {
+    @Test
+    void whenEnabled_shouldAddEntryIfValid() {
+      Entity mockEntity = Mockito.mock(Entity.class);
+      testView.getEntries().add(new TestView.TestViewEntry(mockEntity));
+      Mockito.when(mockEntity.isDisabled()).thenReturn(false);
+
+      testView.updateForDisabledStateChange(mockEntity);
+
+      assertEquals(1, testView.getEntries().size());
+    }
+
+    @Test
+    void whenDisabled_shouldRemoveEntryIfFound() {
+      Entity mockEntity = Mockito.mock(Entity.class);
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
+      testView.getEntries().add(new TestView.TestViewEntry(mockEntity));
+      Mockito.when(mockEntity.isDisabled()).thenReturn(true);
+
+      testView.updateForDisabledStateChange(mockEntity);
+
+      assertEquals(0, testView.getEntries().size());
+    }
+  }
+
+  @Nested
   class updateForDeletedEntity {
     @Test
     void shouldRemoveEntryIfFound() {
