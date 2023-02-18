@@ -49,14 +49,15 @@ class ViewImplTest {
   @Nested
   class updateForAddComponent {
     @Test
-    void whenAlreadyCached_shouldDoNothing() {
+    void whenAlreadyCached_shouldRemoveAndAddAgain() {
       TestView spiedView = Mockito.spy(testView);
       Entity mockEntity = Mockito.mock(Entity.class);
 
       spiedView.getEntries().add(new TestView.TestViewEntry(mockEntity));
       spiedView.updateForAddComponent(mockEntity, TestComponent.class);
 
-      Mockito.verify(spiedView, Mockito.times(0)).addEntryIfValidEntity(mockEntity);
+      Mockito.verify(spiedView, Mockito.times(1)).updateForDeletedEntity(mockEntity);
+      Mockito.verify(spiedView, Mockito.times(1)).addEntryIfValidEntity(mockEntity);
     }
 
     @Test

@@ -70,11 +70,9 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
   }
 
   void updateForAddComponent(Entity entity, Class<? extends Component> componentClass) {
-    if (isCached(entity)) {
-      return;
-    }
-
     if (isWatchingComponent(componentClass)) {
+      // remove old one first in case component instance was updated
+      updateForDeletedEntity(entity);
       addEntryIfValidEntity(entity);
     }
   }
