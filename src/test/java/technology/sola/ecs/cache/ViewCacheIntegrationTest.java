@@ -11,7 +11,7 @@ import technology.sola.ecs.view.View2;
 import technology.sola.ecs.view.View3;
 import technology.sola.ecs.view.View4;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ViewCacheIntegrationTest {
   private World testWorld;
@@ -79,11 +79,21 @@ public class ViewCacheIntegrationTest {
 
   @Test
   void updateForAddComponent_integrationTest() {
-    entityWithNoComponents.addComponent(new TestComponent());
+    var originalTestComponentAdded = new TestComponent();
+    entityWithNoComponents.addComponent(originalTestComponentAdded);
     assertEquals(6, testComponentView1.getEntries().size());
     assertEquals(3, testComponentView12.getEntries().size());
     assertEquals(2, testComponentView123.getEntries().size());
     assertEquals(1, testComponentView1234.getEntries().size());
+
+    entityWithNoComponents.addComponent(new TestComponent("test2"));
+    testComponentView1.getEntries().stream()
+      .filter(entry -> entry.entity() == entityWithNoComponents)
+      .findFirst()
+      .ifPresentOrElse(
+        entry -> assertNotEquals(originalTestComponentAdded.message, entry.c1().message, "TestComponent instance should update"),
+        () -> fail("entityWithNoComponents should still be in testComponentView1")
+      );
 
     entityWithNoComponents.addComponent(new TestComponent2());
     assertEquals(6, testComponentView1.getEntries().size());
@@ -159,7 +169,10 @@ public class ViewCacheIntegrationTest {
     assertEquals(0, testComponentView1234.getEntries().size());
   }
 
-  private record TestComponent() implements Component {
+  private record TestComponent(String message) implements Component {
+    public TestComponent() {
+      this("test");
+    }
   }
 
   private record TestComponent2() implements Component {
