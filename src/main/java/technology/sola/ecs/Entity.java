@@ -4,7 +4,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * An Entity is identified by its index in the {@link World} that ties a set of {@link Component}s together.
@@ -54,7 +53,10 @@ public class Entity implements Serializable {
    * @return this Entity
    */
   public Entity setName(String name) {
+    String previousName = this.name;
     this.name = name;
+
+    world.updateEntityNameCache(this, previousName);
 
     return this;
   }
@@ -122,17 +124,6 @@ public class Entity implements Serializable {
    */
   public <T extends Component> boolean hasComponent(Class<T> componentClass) {
     return currentComponents.contains(componentClass);
-  }
-
-  /**
-   * Gets an {@link Optional} for the class passed in.
-   *
-   * @param componentClass the class of the {@code Component} to get
-   * @param <T>            the type of the {@code Component} class to get
-   * @return the {@code Optional}
-   */
-  public <T extends Component> Optional<T> getOptionalComponent(Class<T> componentClass) {
-    return Optional.ofNullable(world.getComponentForEntity(entityIndex, componentClass));
   }
 
   /**

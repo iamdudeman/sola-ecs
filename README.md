@@ -39,16 +39,22 @@ public class Example {
   }
 
   private record ExampleComponent(String message) implements Component {
-    @Serial
-    private static final long serialVersionUID = 1429000931761226553L;
   }
 
   private static class ExampleSystem extends EcsSystem {
     @Override
     public void update(World world, float deltaTime) {
       world.createView().of(ExampleComponent.class)
+        .getEntries()
         .forEach(view -> System.out.println(view.getC1().message()));
     }
   }
 }
 ```
+
+
+## TODO List
+
+* consider removing Base64WorldIo and usages of Serializable
+* consider performance testing?
+  * https://github.com/clarkware/junitperf

@@ -1,7 +1,8 @@
 package technology.sola.ecs;
 
+import technology.sola.ecs.cache.EntityNameCache;
+import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
-import technology.sola.ecs.view.EcsViewFactory;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -14,13 +15,15 @@ import java.util.*;
 public class World implements Serializable {
   @Serial
   private static final long serialVersionUID = -4446723129672527365L;
+  private final EntityNameCache entityNameCache = new EntityNameCache();
+  private final ViewCache viewCache;
+  private final ViewBuilder viewBuilder;
   private final int maxEntityCount;
   private final Entity[] entities;
   private final Map<Class<? extends Component>, Component[]> components = new HashMap<>();
+  private final List<Entity> entitiesToDestroy = new ArrayList<>();
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
-  private final List<Entity> entitiesToDestroy = new ArrayList<>();
-  private final EcsViewFactory ecsViewFactory;
 
   /**
    * Creates a new World instance with specified max {@link Entity} count.
@@ -34,7 +37,8 @@ public class World implements Serializable {
 
     this.maxEntityCount = maxEntityCount;
     entities = new Entity[maxEntityCount];
-    ecsViewFactory = new EcsViewFactory(this);
+    viewCache = new ViewCache(this);
+    viewBuilder = new ViewBuilder(viewCache);
   }
 
   /**
@@ -43,6 +47,8 @@ public class World implements Serializable {
   public void cleanupDestroyedEntities() {
     for (Entity entity : entitiesToDestroy) {
       destroyEntity(entity);
+      entityNameCache.remove(entity.getName());
+      viewCache.updateForDeletedEntity(entity);
     }
 
     entitiesToDestroy.clear();
@@ -126,39 +132,31 @@ public class World implements Serializable {
   }
 
   /**
-   * Searches for an {@link Entity} by its name.
+   * Searches for an {@link Entity} by its name. Returns null if not ofund
    *
    * @param name the name of the {@code Entity}
-   * @return the {@code Entity} with desired name
+   * @return the {@code Entity} with desired name or null if not found
    */
-  public Optional<Entity> findEntityByName(String name) {
-    for (Entity entity : entities) {
-      if (entity == null) continue;
-
-      if (name.equals(entity.getName())) {
-        return Optional.of(entity);
-      }
-    }
-
-    return Optional.empty();
+  public Entity findEntityByName(String name) {
+    return entityNameCache.get(name);
   }
 
   /**
-   * Searches for an {@link Entity} by its unique id.
+   * Searches for an {@link Entity} by its unique id. Returns null if not found.
    *
    * @param uniqueId the unique id of the {@code Entity}
-   * @return the {@code Entity} with desired uniqueId
+   * @return the {@code Entity} with desired uniqueId or null if not found
    */
-  public Optional<Entity> findEntityByUniqueId(String uniqueId) {
+  public Entity findEntityByUniqueId(String uniqueId) {
     for (Entity entity : entities) {
       if (entity == null) continue;
 
       if (uniqueId.equals(entity.getUniqueId())) {
-        return Optional.of(entity);
+        return entity;
       }
     }
 
-    return Optional.empty();
+    return null;
   }
 
   /**
@@ -227,18 +225,22 @@ public class World implements Serializable {
   }
 
   /**
-   * Returns a {@link EcsViewFactory} for this {@link World}.
+   * Returns a {@link ViewBuilder} instance for creating a {@link technology.sola.ecs.view.View} of
+   * {@link technology.sola.ecs.view.ViewEntry} with desired {@link Component}s
    *
-   * @return a {@link EcsViewFactory} for this {@link World}
+   * @return the {@code ViewBuilder} instance
    */
-  public EcsViewFactory createView() {
-    return ecsViewFactory;
+  public ViewBuilder createView() {
+    return viewBuilder;
   }
 
   void addComponentForEntity(int entityIndex, Component component) {
-    Component[] componentsOfType = components.computeIfAbsent(component.getClass(), key -> new Component[maxEntityCount]);
+    Class<? extends Component> componentClass = component.getClass();
+    Component[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
 
     componentsOfType[entityIndex] = component;
+
+    viewCache.updateForAddComponent(entities[entityIndex], componentClass);
   }
 
   <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
@@ -248,10 +250,11 @@ public class World implements Serializable {
   }
 
   void removeComponent(int entityIndex, Class<? extends Component> componentClass) {
-    components.computeIfPresent(componentClass, (key, value) -> {
-      value[entityIndex] = null;
+    components.computeIfPresent(componentClass, (key, componentArray) -> {
+      viewCache.updateForRemoveComponent(entities[entityIndex], componentClass);
+      componentArray[entityIndex] = null;
 
-      return value;
+      return componentArray;
     });
   }
 
@@ -263,6 +266,10 @@ public class World implements Serializable {
     if (!entitiesToDestroy.contains(entity)) {
       entitiesToDestroy.add(entity);
     }
+  }
+
+  void updateEntityNameCache(Entity entity, String previousName) {
+    entityNameCache.update(entity, previousName);
   }
 
   private void destroyEntity(Entity entity) {

@@ -6,6 +6,7 @@ package technology.sola.ecs;
 public abstract class EcsSystem {
   private boolean isActive = true;
 
+  // todo update javadoc
   /**
    * Called to update the state of {@link Component}s attached to an {@link Entity}.
    * <p>

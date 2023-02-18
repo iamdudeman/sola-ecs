@@ -8,8 +8,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +31,7 @@ public class EntityTest {
     entity.setName("test");
 
     assertEquals("test", entity.getName());
+    Mockito.verify(mockWorld).updateEntityNameCache(entity, null);
   }
 
   @Test
@@ -82,20 +81,6 @@ public class EntityTest {
       entity.getComponent(TestComponent1.class);
 
       Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestComponent1.class);
-    }
-  }
-
-  @Nested
-  @DisplayName("getOptionalComponent")
-  class GetOptionalComponentTests {
-    @Test
-    void whenCalled_shouldGetFromWorld() {
-      Entity entity = new Entity(mockWorld, 0, "uuid");
-
-      Optional<TestComponent1> result = entity.getOptionalComponent(TestComponent1.class);
-
-      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestComponent1.class);
-      assertTrue(result.isEmpty());
     }
   }
 
