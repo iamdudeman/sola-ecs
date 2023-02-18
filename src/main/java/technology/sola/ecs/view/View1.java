@@ -2,16 +2,16 @@ package technology.sola.ecs.view;
 
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
-import technology.sola.ecs.cache.View;
+import technology.sola.ecs.cache.ViewImpl;
 
 import java.util.List;
 
 /**
- * View1 is a {@link View} implementation for {@link ViewEntry} for one {@link Component}.
+ * View1 is a {@link ViewImpl} implementation for {@link ViewEntry} for one {@link Component}.
  *
  * @param <C1> the component type
  */
-public class View1<C1 extends Component> extends View<View1Entry<C1>> {
+public class View1<C1 extends Component> extends ViewImpl<View1Entry<C1>> {
   private final Class<C1> c1Class;
 
   /**
@@ -31,5 +31,4 @@ public class View1<C1 extends Component> extends View<View1Entry<C1>> {
 
     return new View1Entry<>(entity, c1);
   }
-
 }

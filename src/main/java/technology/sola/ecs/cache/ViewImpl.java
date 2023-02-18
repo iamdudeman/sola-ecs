@@ -2,6 +2,7 @@ package technology.sola.ecs.cache;
 
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
+import technology.sola.ecs.view.View;
 import technology.sola.ecs.view.ViewEntry;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @param <E> the {@link ViewEntry} implementation
  */
-public abstract class View<E extends ViewEntry> {
+public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
   private final List<Class<? extends Component>> componentClasses;
   private final List<E> entries = new ArrayList<>();
 
@@ -24,7 +25,7 @@ public abstract class View<E extends ViewEntry> {
    *
    * @param componentClasses the {@link Component} classes to watch
    */
-  public View(List<Class<? extends Component>> componentClasses) {
+  public ViewImpl(List<Class<? extends Component>> componentClasses) {
     this.componentClasses = componentClasses;
   }
 

@@ -225,7 +225,7 @@ public class World implements Serializable {
   }
 
   /**
-   * Returns a {@link ViewBuilder} instance for creating a {@link technology.sola.ecs.cache.View} of
+   * Returns a {@link ViewBuilder} instance for creating a {@link technology.sola.ecs.view.View} of
    * {@link technology.sola.ecs.view.ViewEntry} with desired {@link Component}s
    *
    * @return the {@code ViewBuilder} instance

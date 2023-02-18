@@ -12,11 +12,11 @@ import java.util.*;
 import java.util.function.Supplier;
 
 /**
- * The ViewCache classes handles caching and updating {@link View} instances when {@link Entity} modifications are made
+ * The ViewCache classes handles caching and updating {@link ViewImpl} instances when {@link Entity} modifications are made
  * in a {@link World}.
  */
 public class ViewCache {
-  private final Map<Integer, View<?>> builtViews = new HashMap<>();
+  private final Map<Integer, ViewImpl<?>> builtViews = new HashMap<>();
   private final World world;
 
   /**
@@ -97,7 +97,7 @@ public class ViewCache {
   }
 
   /**
-   * Updates cached {@link View}s for an {@link Entity}'s added {@link Component}.
+   * Updates cached {@link ViewImpl}s for an {@link Entity}'s added {@link Component}.
    *
    * @param entity         the {@code Entity} updated
    * @param componentClass the class of the {@code Component} added to the entity
@@ -109,7 +109,7 @@ public class ViewCache {
   }
 
   /**
-   * Updates cached {@link View}s for an {@link Entity}'s removed {@link Component}.
+   * Updates cached {@link ViewImpl}s for an {@link Entity}'s removed {@link Component}.
    *
    * @param entity         the {@code Entity} updated
    * @param componentClass the class of the {@code Component} removed from the entity
@@ -121,7 +121,7 @@ public class ViewCache {
   }
 
   /**
-   * Updates cached {@link View}s for a deleted {@link Entity}.
+   * Updates cached {@link ViewImpl}s for a deleted {@link Entity}.
    *
    * @param entity the {@code Entity} deleted
    */
@@ -131,7 +131,7 @@ public class ViewCache {
     }
   }
 
-  private View<?> getCachedViewOrCreate(Supplier<View<?>> newViewSupplier, Class<? extends Component>[] classes) {
+  private ViewImpl<?> getCachedViewOrCreate(Supplier<ViewImpl<?>> newViewSupplier, Class<? extends Component>[] classes) {
     if (classes == null) {
       return null;
     }
@@ -148,7 +148,7 @@ public class ViewCache {
     return view;
   }
 
-  private void initializeView(View<?> view) {
+  private void initializeView(ViewImpl<?> view) {
     for (Entity entity : world.getEntities()) {
       view.addEntryIfValidEntity(entity);
     }

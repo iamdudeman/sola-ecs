@@ -7,7 +7,7 @@ import technology.sola.ecs.view.View3;
 import technology.sola.ecs.view.View4;
 
 /**
- * The ViewBuilder class exposes methods for creating {@link technology.sola.ecs.cache.View}s.
+ * The ViewBuilder class exposes methods for creating {@link technology.sola.ecs.view.View}s.
  */
 public class ViewBuilder {
   private final ViewCache viewCache;

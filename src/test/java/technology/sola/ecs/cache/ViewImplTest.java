@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ViewTest {
+class ViewImplTest {
   private TestView testView;
 
   @BeforeEach
@@ -116,7 +116,7 @@ class ViewTest {
     }
   }
 
-  private static class TestView extends View<TestView.TestViewEntry> {
+  private static class TestView extends ViewImpl<TestView.TestViewEntry> {
     public TestView() {
       super(List.of(TestComponent.class, TestComponent2.class));
     }
