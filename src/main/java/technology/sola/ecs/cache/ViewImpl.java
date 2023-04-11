@@ -6,8 +6,9 @@ import technology.sola.ecs.view.View;
 import technology.sola.ecs.view.ViewEntry;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The View class is a container of {@link ViewEntry} that are updated whenever a {@link technology.sola.ecs.World}
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
   private final List<Class<? extends Component>> componentClasses;
-  private final List<E> entries = new ArrayList<>();
+  private final Map<Integer, E> entryMap = new HashMap<>();
 
   /**
    * Creates a new view watching desired components.
@@ -33,7 +34,7 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
    * @return the {@link List} of {@link ViewEntry} in this View
    */
   public List<E> getEntries() {
-    return entries;
+    return new ArrayList<>(entryMap.values());
   }
 
   /**
@@ -65,7 +66,7 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
     var entry = createEntryFromEntity(entity);
 
     if (entry != null) {
-      entries.add(entry);
+      entryMap.put(entity.getIndexInWorld(), entry);
     }
   }
 
@@ -92,25 +93,6 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
   }
 
   void updateForDeletedEntity(Entity entity) {
-    Iterator<E> entryIterator = entries.iterator();
-
-    while (entryIterator.hasNext()) {
-      var entry = entryIterator.next();
-
-      if (entry.entity() == entity) {
-        entryIterator.remove();
-        break;
-      }
-    }
-  }
-
-  private boolean isCached(Entity entity) {
-    for (var entry : entries) {
-      if (entry.entity() == entity) {
-        return true;
-      }
-    }
-
-    return false;
+    entryMap.remove(entity.getIndexInWorld());
   }
 }

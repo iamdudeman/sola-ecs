@@ -109,7 +109,8 @@ class ViewImplTest {
     @Test
     void whenEnabled_shouldAddEntryIfValid() {
       Entity mockEntity = Mockito.mock(Entity.class);
-      testView.getEntries().add(new TestView.TestViewEntry(mockEntity));
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
       Mockito.when(mockEntity.isDisabled()).thenReturn(false);
 
       testView.updateForDisabledStateChange(mockEntity);
