@@ -9,7 +9,6 @@ import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
 import technology.sola.ecs.exception.ComponentJsonMapperNotFoundException;
 import technology.sola.json.JsonObject;
-import technology.sola.json.builder.JsonObjectBuilder;
 import technology.sola.json.mapper.JsonMapper;
 
 import java.util.List;
@@ -81,9 +80,8 @@ class JsonWorldIoTest {
 
       @Override
       public JsonObject toJson(TestComponent1 testComponent1) {
-        return new JsonObjectBuilder()
-          .addString("string", testComponent1.string())
-          .build();
+        return new JsonObject()
+          .put("string", testComponent1.string());
       }
 
       @Override
@@ -107,9 +105,8 @@ class JsonWorldIoTest {
 
       @Override
       public JsonObject toJson(TestComponent2 testComponent2) {
-        return new JsonObjectBuilder()
-          .addInt("number", testComponent2.number())
-          .build();
+        return new JsonObject()
+          .put("number", testComponent2.number());
       }
 
       @Override
