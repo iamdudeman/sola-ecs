@@ -1,5 +1,6 @@
 package technology.sola.ecs.view;
 
+import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 
@@ -16,7 +17,12 @@ import technology.sola.ecs.Entity;
  * @param <C3>   the third component type
  * @param <C4>   the fourth component type
  */
+@NullMarked
 public record View4Entry<C1 extends Component, C2 extends Component, C3 extends Component, C4 extends Component>(
-  Entity entity, C1 c1, C2 c2, C3 c3, C4 c4
+  Entity entity,
+  C1 c1,
+  C2 c2,
+  C3 c3,
+  C4 c4
 ) implements ViewEntry {
 }

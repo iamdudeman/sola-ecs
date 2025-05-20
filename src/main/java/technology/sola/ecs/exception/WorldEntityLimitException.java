@@ -1,10 +1,13 @@
 package technology.sola.ecs.exception;
 
+import org.jspecify.annotations.NullMarked;
+
 import java.io.Serial;
 
 /**
  * Exception thrown when the max entity limit is reached for a {@link technology.sola.ecs.World}.
  */
+@NullMarked
 public class WorldEntityLimitException extends RuntimeException {
   @Serial
   private static final long serialVersionUID = -2660810517587662465L;

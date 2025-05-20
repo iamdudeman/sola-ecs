@@ -1,5 +1,7 @@
 package technology.sola.ecs.view;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 import technology.sola.ecs.cache.ViewImpl;
@@ -11,6 +13,7 @@ import java.util.List;
  *
  * @param <C1> the component type
  */
+@NullMarked
 public class View1<C1 extends Component> extends ViewImpl<View1Entry<C1>> {
   private final Class<C1> c1Class;
 
@@ -25,6 +28,7 @@ public class View1<C1 extends Component> extends ViewImpl<View1Entry<C1>> {
   }
 
   @Override
+  @Nullable
   protected View1Entry<C1> createEntryFromEntity(Entity entity) {
     C1 c1 = entity.getComponent(c1Class);
     if (c1 == null) return null;

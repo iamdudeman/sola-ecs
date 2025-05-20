@@ -1,5 +1,6 @@
 package technology.sola.ecs.view;
 
+import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@NullMarked
 class View4Test extends ViewNTestBase {
   private View4<TestComponent, TestComponent2, TestComponent3, TestComponent4> view;
 

@@ -3,6 +3,7 @@
  */
 module technology.sola.ecs {
   requires transitive technology.sola.json;
+  requires org.jspecify;
 
   exports technology.sola.ecs;
   exports technology.sola.ecs.exception;

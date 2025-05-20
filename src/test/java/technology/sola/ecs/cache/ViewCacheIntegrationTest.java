@@ -1,5 +1,6 @@
 package technology.sola.ecs.cache;
 
+import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import technology.sola.ecs.view.View4;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@NullMarked
 public class ViewCacheIntegrationTest {
   private World testWorld;
   private View1<TestComponent> testComponentView1;

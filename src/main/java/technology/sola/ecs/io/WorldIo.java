@@ -1,5 +1,6 @@
 package technology.sola.ecs.io;
 
+import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
@@ -7,6 +8,7 @@ import technology.sola.ecs.World;
 /**
  * Defines the API contract for serializing and deserializing a {@link World}.
  */
+@NullMarked
 public interface WorldIo {
   /**
    * Serializes a {@link World} into a string.

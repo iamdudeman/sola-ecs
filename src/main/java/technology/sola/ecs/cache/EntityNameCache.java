@@ -1,5 +1,7 @@
 package technology.sola.ecs.cache;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import technology.sola.ecs.Entity;
 
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.Map;
 /**
  * The EntityNameCache class handles caching {@link Entity} by their name for quicker searching by name.
  */
+@NullMarked
 public class EntityNameCache {
   private final Map<String, Entity> nameToEntityMap = new HashMap<>();
 
@@ -17,6 +20,7 @@ public class EntityNameCache {
    * @param name the name to check the cache for
    * @return the desired {@code Entity} or null
    */
+  @Nullable
   public Entity get(String name) {
     return nameToEntityMap.get(name);
   }
@@ -28,7 +32,7 @@ public class EntityNameCache {
    * @param entity       the {@code Entity} to update the cache for
    * @param previousName the previous name of the {@code Entity}
    */
-  public void update(Entity entity, String previousName) {
+  public void update(Entity entity, @Nullable String previousName) {
     remove(previousName);
 
     String name = entity.getName();
@@ -43,7 +47,7 @@ public class EntityNameCache {
    *
    * @param name the name of the {@code Entity} to remove
    */
-  public void remove(String name) {
+  public void remove(@Nullable String name) {
     if (name != null) {
       nameToEntityMap.remove(name);
     }

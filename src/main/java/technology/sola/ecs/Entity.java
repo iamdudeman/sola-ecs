@@ -1,16 +1,21 @@
 package technology.sola.ecs;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * An Entity is identified by its index in the {@link World} that ties a set of {@link Component}s together.
  */
+@NullMarked
 public class Entity {
   private final int entityIndex;
   private final String uniqueId;
   private final World world;
   private final List<Class<? extends Component>> currentComponents = new ArrayList<>();
+  @Nullable
   private String name = null;
   private boolean isDisabled = false;
 
@@ -37,6 +42,7 @@ public class Entity {
    *
    * @return the name of the Entity
    */
+  @Nullable
   public String getName() {
     return name;
   }
@@ -47,7 +53,7 @@ public class Entity {
    * @param name the name of the Entity
    * @return this Entity
    */
-  public Entity setName(String name) {
+  public Entity setName(@Nullable String name) {
     String previousName = this.name;
     this.name = name;
 
@@ -110,6 +116,7 @@ public class Entity {
    * @param <T>            the type of the {@code Component} class to get
    * @return the {@code Component} instance or null
    */
+  @Nullable
   public <T extends Component> T getComponent(Class<T> componentClass) {
     return world.getComponentForEntity(entityIndex, componentClass);
   }

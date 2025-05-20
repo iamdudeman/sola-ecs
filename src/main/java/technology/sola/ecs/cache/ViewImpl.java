@@ -1,5 +1,7 @@
 package technology.sola.ecs.cache;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 import technology.sola.ecs.view.View;
@@ -17,6 +19,7 @@ import java.util.Map;
  *
  * @param <E> the {@link ViewEntry} implementation
  */
+@NullMarked
 public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
   private final List<Class<? extends Component>> componentClasses;
   private final Map<Integer, E> entryMap = new HashMap<>();
@@ -60,10 +63,11 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
    * @param entity the {@code Entity }to create a {@code ViewEntry} from
    * @return the {@code ViewEntry}
    */
+  @Nullable
   protected abstract E createEntryFromEntity(Entity entity);
 
   void addEntryIfValidEntity(Entity entity) {
-    var entry = createEntryFromEntity(entity);
+    E entry = createEntryFromEntity(entity);
 
     if (entry != null) {
       entryMap.put(entity.getIndexInWorld(), entry);

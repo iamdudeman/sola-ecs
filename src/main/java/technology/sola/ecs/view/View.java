@@ -1,5 +1,6 @@
 package technology.sola.ecs.view;
 
+import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 
@@ -12,6 +13,7 @@ import java.util.List;
  *
  * @param <E> the {@link ViewEntry} implementation
  */
+@NullMarked
 public interface View<E extends ViewEntry> {
   /**
    * @return the {@link List} of {@link ViewEntry} in this View
