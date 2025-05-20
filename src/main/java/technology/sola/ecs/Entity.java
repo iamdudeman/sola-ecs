@@ -14,7 +14,6 @@ public class Entity {
   private final int entityIndex;
   private final String uniqueId;
   private final World world;
-  private final List<Class<? extends Component>> currentComponents = new ArrayList<>();
   @Nullable
   private String name = null;
   private boolean isDisabled = false;
@@ -100,12 +99,6 @@ public class Entity {
   public Entity addComponent(Component component) {
     world.addComponentForEntity(entityIndex, component);
 
-    Class<? extends Component> componentClass = component.getClass();
-
-    if (!currentComponents.contains(componentClass)) {
-      currentComponents.add(componentClass);
-    }
-
     return this;
   }
 
@@ -129,7 +122,7 @@ public class Entity {
    * @return true if {@code Entity} has the {@code Component}
    */
   public <T extends Component> boolean hasComponent(Class<T> componentClass) {
-    return currentComponents.contains(componentClass);
+    return world.hasComponent(entityIndex, componentClass);
   }
 
   /**
@@ -139,7 +132,6 @@ public class Entity {
    */
   public void removeComponent(Class<? extends Component> componentClassToRemove) {
     world.removeComponent(entityIndex, componentClassToRemove);
-    currentComponents.remove(componentClassToRemove);
   }
 
   /**
@@ -148,7 +140,7 @@ public class Entity {
    * @return the list of {@code Component} classes
    */
   public List<Class<? extends Component>> getCurrentComponents() {
-    return currentComponents;
+    return world.getCurrentComponents(entityIndex);
   }
 
   Entity(World world, int entityIndex, String uniqueId) {

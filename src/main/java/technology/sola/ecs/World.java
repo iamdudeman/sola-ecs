@@ -264,6 +264,27 @@ public class World {
     return componentClass.cast(componentsOfType[entityIndex]);
   }
 
+  List<Class<? extends Component>> getCurrentComponents(int entityIndex) {
+    List<Class<? extends Component>> currentComponents = new ArrayList<>();
+
+    for (var entry : components.entrySet()) {
+      if (entry.getValue()[entityIndex] != null) {
+        currentComponents.add(entry.getKey());
+      }
+    }
+
+    return currentComponents;
+  }
+
+  boolean hasComponent(int entityIndex, Class<? extends Component> componentClass) {
+    @Nullable Component[] componentsOfType = components.computeIfAbsent(
+      componentClass,
+      key -> new Component[maxEntityCount]
+    );
+
+    return componentsOfType[entityIndex] != null;
+  }
+
   void removeComponent(int entityIndex, Class<? extends Component> componentClass) {
     var entity = entities[entityIndex];
 
@@ -293,9 +314,14 @@ public class World {
 
   private void destroyEntity(Entity entity) {
     totalEntityCount--;
-    entity.getCurrentComponents()
-      .forEach(componentClass -> removeComponent(entity.getIndexInWorld(), componentClass));
-    entities[entity.getIndexInWorld()] = null;
+
+    var entityIndex = entity.getIndexInWorld();
+
+    for (var componentClass : getCurrentComponents(entityIndex)) {
+      removeComponent(entityIndex, componentClass);
+    }
+
+    entities[entityIndex] = null;
   }
 
   private int nextOpenEntityIndex() {
