@@ -1,11 +1,13 @@
 package technology.sola.ecs;
 
+import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@NullMarked
 class EcsSystemTest {
   @Test
   void whenCreated_shouldDefaultToActive() {

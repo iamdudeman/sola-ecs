@@ -1,5 +1,7 @@
 package technology.sola.ecs;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
@@ -10,12 +12,13 @@ import java.util.*;
  * World contains arrays of {@link Component}s and methods for creating {@link Entity} instances and searching for
  * entities.
  */
+@NullMarked
 public class World {
   private final EntityNameCache entityNameCache = new EntityNameCache();
   private final ViewCache viewCache;
   private final ViewBuilder viewBuilder;
   private final int maxEntityCount;
-  private final Entity[] entities;
+  private final @Nullable Entity[] entities;
   private final Map<Class<? extends Component>, Component[]> components = new HashMap<>();
   private final List<Entity> entitiesToDestroy = new ArrayList<>();
   private int currentEntityIndex = 0;
@@ -89,7 +92,7 @@ public class World {
    * @param components the {@link Component}s to initialize the Entity with
    * @return a new {@code Entity}
    */
-  public Entity createEntity(String name, Component... components) {
+  public Entity createEntity(@Nullable String name, Component... components) {
     return createEntity(UUID.randomUUID().toString(), name, components);
   }
 
@@ -103,7 +106,7 @@ public class World {
    * @param components the {@link Component}s to initialize the Entity with
    * @return a new {@code Entity}
    */
-  public Entity createEntity(String uniqueId, String name, Component... components) {
+  public Entity createEntity(String uniqueId, @Nullable String name, Component... components) {
     totalEntityCount++;
     Entity entity = new Entity(this, nextOpenEntityIndex(), uniqueId);
 
@@ -123,6 +126,7 @@ public class World {
    * @param index the index of the {@code Entity} to retrieve
    * @return the {@code Entity}
    */
+  @Nullable
   public Entity getEntityAtIndex(int index) {
     return entities[index];
   }
@@ -133,6 +137,7 @@ public class World {
    * @param name the name of the {@code Entity}
    * @return the {@code Entity} with desired name or null if not found
    */
+  @Nullable
   public Entity findEntityByName(String name) {
     return entityNameCache.get(name);
   }
@@ -143,6 +148,7 @@ public class World {
    * @param uniqueId the unique id of the {@code Entity}
    * @return the {@code Entity} with desired uniqueId or null if not found
    */
+  @Nullable
   public Entity findEntityByUniqueId(String uniqueId) {
     for (Entity entity : entities) {
       if (entity == null) continue;
@@ -239,6 +245,7 @@ public class World {
     viewCache.updateForAddComponent(entities[entityIndex], componentClass);
   }
 
+  @Nullable
   <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
     Component[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
 
@@ -255,16 +262,12 @@ public class World {
   }
 
   void queueEntityForDestruction(Entity entity) {
-    if (entity == null) {
-      throw new IllegalArgumentException("entity to destroy cannot be null");
-    }
-
     if (!entitiesToDestroy.contains(entity)) {
       entitiesToDestroy.add(entity);
     }
   }
 
-  void updateEntityNameCache(Entity entity, String previousName) {
+  void updateEntityNameCache(Entity entity, @Nullable String previousName) {
     entityNameCache.update(entity, previousName);
   }
 

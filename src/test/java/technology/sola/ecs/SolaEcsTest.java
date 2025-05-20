@@ -1,5 +1,6 @@
 package technology.sola.ecs;
 
+import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -136,6 +137,7 @@ class SolaEcsTest {
     }
   }
 
+  @NullMarked
   public static class TestUpdateEcsSystem extends EcsSystem {
     @Override
     public void update(World world, float deltaTime) {

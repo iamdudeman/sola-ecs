@@ -1,5 +1,6 @@
 package technology.sola.ecs;
 
+import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.view.View1;
 import technology.sola.ecs.view.View2;
@@ -9,6 +10,7 @@ import technology.sola.ecs.view.View4;
 /**
  * The ViewBuilder class exposes methods for creating {@link technology.sola.ecs.view.View}s.
  */
+@NullMarked
 public class ViewBuilder {
   private final ViewCache viewCache;
 

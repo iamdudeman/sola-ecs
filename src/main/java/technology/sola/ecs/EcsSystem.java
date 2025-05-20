@@ -1,12 +1,14 @@
 package technology.sola.ecs;
 
+import org.jspecify.annotations.NullMarked;
+
 /**
  * Acts on a group of {@link Entity} that contain a set of {@link Component}.
  */
+@NullMarked
 public abstract class EcsSystem {
   private boolean isActive = true;
 
-  // todo update javadoc
   /**
    * Called to update the state of {@link Component}s attached to an {@link Entity}.
    * <p>

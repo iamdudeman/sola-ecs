@@ -1,5 +1,7 @@
 package technology.sola.ecs.cache;
 
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -145,12 +147,14 @@ class ViewImplTest {
     }
   }
 
+  @NullMarked
   private static class TestView extends ViewImpl<TestView.TestViewEntry> {
     public TestView() {
       super(List.of(TestComponent.class, TestComponent2.class));
     }
 
     @Override
+    @Nullable
     protected TestViewEntry createEntryFromEntity(Entity entity) {
       if (entity.hasComponent(TestComponent.class) && entity.hasComponent(TestComponent2.class)) {
         return new TestViewEntry(entity);

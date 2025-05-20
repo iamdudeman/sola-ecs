@@ -1,5 +1,6 @@
 package technology.sola.ecs;
 
+import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.exception.EcsSystemNotFoundException;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * SolaEcs is a wrapper for a collection of {@link EcsSystem}.
  */
+@NullMarked
 public class SolaEcs {
   private final List<EcsSystem> ecsSystems = new ArrayList<>();
   private World world = new World(1);

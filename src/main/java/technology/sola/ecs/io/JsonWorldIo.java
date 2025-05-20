@@ -1,5 +1,6 @@
 package technology.sola.ecs.io;
 
+import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
 import technology.sola.json.SolaJson;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * A reflection free JSON implementation of {@link WorldIo}.
  */
+@NullMarked
 public class JsonWorldIo implements WorldIo {
   private final SolaJson solaJson;
   private final WorldJsonMapper worldJsonMapper;

@@ -1,5 +1,6 @@
 package technology.sola.ecs.cache;
 
+import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
@@ -15,6 +16,7 @@ import java.util.function.Supplier;
  * The ViewCache classes handles caching and updating {@link ViewImpl} instances when {@link Entity} modifications are made
  * in a {@link World}.
  */
+@NullMarked
 public class ViewCache {
   private final Map<Integer, ViewImpl<?>> builtViews = new HashMap<>();
   private final World world;
@@ -143,10 +145,6 @@ public class ViewCache {
   }
 
   private ViewImpl<?> getCachedViewOrCreate(Supplier<ViewImpl<?>> newViewSupplier, Class<? extends Component>[] classes) {
-    if (classes == null) {
-      return null;
-    }
-
     int hash = Arrays.hashCode(classes);
     var view = builtViews.get(hash);
 

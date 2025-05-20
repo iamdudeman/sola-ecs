@@ -1,5 +1,6 @@
 package technology.sola.ecs.io;
 
+import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
@@ -15,6 +16,7 @@ import java.util.Map;
 /**
  * {@link JsonMapper} implementation for {@link World}.
  */
+@NullMarked
 public class WorldJsonMapper implements JsonMapper<World> {
   private final Map<String, JsonMapper<? extends Component>> componentJsonMappers;
 

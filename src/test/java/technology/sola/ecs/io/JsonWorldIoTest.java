@@ -1,5 +1,6 @@
 package technology.sola.ecs.io;
 
+import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -66,6 +67,7 @@ class JsonWorldIoTest {
     assertThrows(ComponentJsonMapperNotFoundException.class, () -> base64WorldIo.stringify(world));
   }
 
+  @NullMarked
   private record TestComponent1(String string) implements Component {
     @Override
     public void afterDeserialize(World world) {
@@ -91,6 +93,7 @@ class JsonWorldIoTest {
     };
   }
 
+  @NullMarked
   private record TestComponent2(int number) implements Component {
     @Override
     public void afterDeserialize(World world) {
