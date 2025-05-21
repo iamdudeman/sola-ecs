@@ -1,2 +1,1 @@
-* consider performance testing?
-    * https://github.com/clarkware/junitperf
+* add ability to destroy a View if it is no longer needed
