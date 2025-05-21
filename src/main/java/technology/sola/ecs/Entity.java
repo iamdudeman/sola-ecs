@@ -131,7 +131,7 @@ public class Entity {
    * @param componentClassToRemove the Class of the {@code Component} to remove
    */
   public void removeComponent(Class<? extends Component> componentClassToRemove) {
-    world.removeComponent(entityIndex, componentClassToRemove);
+    world.removeComponent(entityIndex, componentClassToRemove, true);
   }
 
   /**

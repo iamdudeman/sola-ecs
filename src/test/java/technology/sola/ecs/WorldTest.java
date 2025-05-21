@@ -138,7 +138,7 @@ class WorldTest {
     world.createEntity();
 
     world.addComponentForEntity(0, testComponent);
-    world.removeComponent(0, TestComponent1.class);
+    world.removeComponent(0, TestComponent1.class, true);
 
     assertNull(world.getComponentForEntity(0, TestComponent1.class));
   }

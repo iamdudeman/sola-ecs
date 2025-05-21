@@ -104,7 +104,7 @@ public class EntityTest {
 
       entity.removeComponent(TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestComponent1.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestComponent1.class, true);
     }
 
     @Test
