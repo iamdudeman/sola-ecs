@@ -14,10 +14,6 @@ import java.util.concurrent.TimeUnit;
 @Fork(value = 3, warmups = 1)
 @Warmup(iterations = 1)
 @Measurement(iterations = 5)
-// todo use higher numbers once tests worked out
-//@Fork(value = 5, warmups = 2)
-//@Warmup(iterations = 5)
-//@Measurement(iterations = 10)
 public class SolaEcsBenchmark {
   private static final int COUNT = 500_000;
 
