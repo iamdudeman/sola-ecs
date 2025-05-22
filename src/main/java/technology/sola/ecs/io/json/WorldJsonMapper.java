@@ -1,10 +1,9 @@
-package technology.sola.ecs.io;
+package technology.sola.ecs.io.json;
 
 import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
-import technology.sola.ecs.exception.ComponentJsonMapperNotFoundException;
 import technology.sola.json.JsonArray;
 import technology.sola.json.JsonObject;
 import technology.sola.json.mapper.JsonMapper;
@@ -86,9 +85,10 @@ public class WorldJsonMapper implements JsonMapper<World> {
 
     jsonObject.getArray(FieldKeys.ENTITIES).forEach(entityJson -> {
       JsonObject entityObject = entityJson.asObject();
+      var nameJsonElement = entityObject.get(FieldKeys.NAME);
       Entity entity = world.createEntity(
         entityObject.getString(FieldKeys.UNIQUE_ID),
-        entityObject.getString(FieldKeys.NAME, null)
+        nameJsonElement.isNull() ? null : nameJsonElement.asString()
       );
 
       entityObject.getArray(FieldKeys.COMPONENTS).forEach(componentJson -> {
