@@ -138,7 +138,7 @@ class WorldTest {
     world.createEntity();
 
     world.addComponentForEntity(0, testComponent);
-    world.removeComponent(0, TestComponent1.class);
+    world.removeComponent(0, TestComponent1.class, true);
 
     assertNull(world.getComponentForEntity(0, TestComponent1.class));
   }
@@ -171,6 +171,22 @@ class WorldTest {
       world.cleanupDestroyedEntities();
 
       assertNull(world.findEntityByName("test"));
+    }
+
+    @Test
+    void whenDestroyingEntity_shouldNotHaveComponentsWhenIdReused() {
+      World world = new World(1);
+
+      Entity entity = world.createEntity();
+
+      world.addComponentForEntity(0, new TestComponent1());
+      assertNotNull(world.getComponentForEntity(0, TestComponent1.class));
+      world.queueEntityForDestruction(entity);
+      world.cleanupDestroyedEntities();
+
+      entity = world.createEntity();
+
+      assertNull(world.getComponentForEntity(0, TestComponent1.class));
     }
   }
 

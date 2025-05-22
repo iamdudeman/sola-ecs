@@ -6,7 +6,12 @@ import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.function.Function;
 
 /**
  * World contains arrays of {@link Component}s and methods for creating {@link Entity} instances and searching for
@@ -19,7 +24,8 @@ public class World {
   private final ViewBuilder viewBuilder;
   private final int maxEntityCount;
   private final @Nullable Entity[] entities;
-  private final Map<Class<? extends Component>, Component[]> components = new HashMap<>();
+  private final Map<Class<? extends Component>, @Nullable Component[]> components = new HashMap<>();
+  private final Function<Class<? extends Component>, @Nullable Component[]> componentsMappingFunction = (key) -> new Component[World.this.maxEntityCount];
   private final List<Entity> entitiesToDestroy = new ArrayList<>();
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
@@ -207,7 +213,9 @@ public class World {
     List<Entity> entitiesWithAllComponents = new ArrayList<>();
 
     for (Entity entity : entities) {
-      if (entity == null || entity.isDisabled()) continue;
+      if (entity == null || entity.isDisabled()) {
+        continue;
+      }
 
       boolean hasAllClasses = true;
 
@@ -238,27 +246,64 @@ public class World {
 
   void addComponentForEntity(int entityIndex, Component component) {
     Class<? extends Component> componentClass = component.getClass();
-    Component[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
+    var entity = entities[entityIndex];
 
-    componentsOfType[entityIndex] = component;
+    if (entity != null) {
+      @Nullable Component[] componentsOfType = components.computeIfAbsent(
+        componentClass,
+        componentsMappingFunction
+      );
 
-    viewCache.updateForAddComponent(entities[entityIndex], componentClass);
+      componentsOfType[entityIndex] = component;
+
+      viewCache.updateForAddComponent(entity, componentClass);
+    }
   }
 
   @Nullable
   <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
-    Component[] componentsOfType = components.computeIfAbsent(componentClass, key -> new Component[maxEntityCount]);
+    @Nullable Component[] componentsOfType = components.computeIfAbsent(
+      componentClass,
+      componentsMappingFunction
+    );
 
     return componentClass.cast(componentsOfType[entityIndex]);
   }
 
-  void removeComponent(int entityIndex, Class<? extends Component> componentClass) {
-    components.computeIfPresent(componentClass, (key, componentArray) -> {
-      viewCache.updateForRemoveComponent(entities[entityIndex], componentClass);
-      componentArray[entityIndex] = null;
+  List<Class<? extends Component>> getCurrentComponents(int entityIndex) {
+    List<Class<? extends Component>> currentComponents = new ArrayList<>();
 
-      return componentArray;
-    });
+    for (var entry : components.entrySet()) {
+      if (entry.getValue()[entityIndex] != null) {
+        currentComponents.add(entry.getKey());
+      }
+    }
+
+    return currentComponents;
+  }
+
+  boolean hasComponent(int entityIndex, Class<? extends Component> componentClass) {
+    @Nullable Component[] componentsOfType = components.computeIfAbsent(
+      componentClass,
+      componentsMappingFunction
+    );
+
+    return componentsOfType[entityIndex] != null;
+  }
+
+  void removeComponent(int entityIndex, Class<? extends Component> componentClass, boolean updateViewCache) {
+    var entity = entities[entityIndex];
+
+    if (entity != null) {
+      components.computeIfPresent(componentClass, (key, componentArray) -> {
+        if (updateViewCache) {
+          viewCache.updateForRemoveComponent(entity, componentClass);
+        }
+        componentArray[entityIndex] = null;
+
+        return componentArray;
+      });
+    }
   }
 
   void queueEntityForDestruction(Entity entity) {
@@ -277,12 +322,19 @@ public class World {
 
   private void destroyEntity(Entity entity) {
     totalEntityCount--;
-    entity.getCurrentComponents().forEach(componentClass -> removeComponent(entity.getIndexInWorld(), componentClass));
-    entities[entity.getIndexInWorld()] = null;
+
+    var entityIndex = entity.getIndexInWorld();
+
+    for (var componentClass : getCurrentComponents(entityIndex)) {
+      removeComponent(entityIndex, componentClass, false);
+    }
+
+    entities[entityIndex] = null;
   }
 
   private int nextOpenEntityIndex() {
     int totalEntityCounter = 1; // Starting at 1 for this entity being created
+
     while (entities[currentEntityIndex] != null) {
       currentEntityIndex = (currentEntityIndex + 1) % maxEntityCount;
       totalEntityCounter++;

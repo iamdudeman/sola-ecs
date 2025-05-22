@@ -50,7 +50,7 @@ public class EntityTest {
   class AddComponentTests {
     @Test
     void whenCalled_shouldAddComponentClassToCurrentComponents() {
-      Entity entity = new Entity(mockWorld, 0, "uuid");
+      Entity entity = new World(1).createEntity();
 
       entity.addComponent(new TestComponent1());
       entity.addComponent(new TestComponent1());
@@ -89,9 +89,9 @@ public class EntityTest {
   class RemoveComponentTests {
     @Test
     void whenCalled_shouldRemoveComponentClassFromCurrentComponents() {
-      Entity entity = new Entity(mockWorld, 0, "uuid");
+      Entity entity = new World(1).createEntity();
 
-      entity.getCurrentComponents().add(TestComponent1.class);
+      entity.addComponent(new TestComponent1());
       assertEquals(1, entity.getCurrentComponents().size());
 
       entity.removeComponent(TestComponent1.class);
@@ -104,7 +104,7 @@ public class EntityTest {
 
       entity.removeComponent(TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestComponent1.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).removeComponent(0, TestComponent1.class, true);
     }
 
     @Test

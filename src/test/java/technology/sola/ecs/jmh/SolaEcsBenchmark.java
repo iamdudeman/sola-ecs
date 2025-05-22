@@ -71,10 +71,6 @@ public class SolaEcsBenchmark {
       }
     }
 
-    for (var entity : world.findEntitiesWithComponents(TestComponent.class)) {
-      blackhole.consume(entity.getComponent(TestComponent.class));
-    }
-
     for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
       count++;
 
@@ -87,9 +83,7 @@ public class SolaEcsBenchmark {
       }
     }
 
-    for (var entity : world.findEntitiesWithComponents(TestComponent.class)) {
-      blackhole.consume(entity.getComponent(TestComponent.class));
-    }
+    blackhole.consume(world);
   }
 
   @Benchmark
@@ -109,13 +103,11 @@ public class SolaEcsBenchmark {
 
     world.cleanupDestroyedEntities();
 
-    for (var entity : world.findEntitiesWithComponents(TestComponent.class)) {
-      blackhole.consume(entity.getComponent(TestComponent.class));
-    }
+    blackhole.consume(world);
   }
 
   @Benchmark
-  public void view_loopingForOneComponent(OneComponentBenchmarkState benchmarkState, Blackhole blackhole) {
+  public void loopingForOneComponent_view(OneComponentBenchmarkState benchmarkState, Blackhole blackhole) {
     World world = benchmarkState.world;
 
     var view = world.createView().of(TestComponent.class);
@@ -130,7 +122,7 @@ public class SolaEcsBenchmark {
   }
 
   @Benchmark
-  public void view_loopingForMultipleComponent(MultipleComponentBenchmarkState benchmarkState, Blackhole blackhole) {
+  public void loopingForMultipleComponent_view(MultipleComponentBenchmarkState benchmarkState, Blackhole blackhole) {
     World world = benchmarkState.world;
 
     var view = world.createView().of(TestComponent.class, TestComponent2.class, TestComponent3.class);
@@ -149,7 +141,7 @@ public class SolaEcsBenchmark {
   }
 
   @Benchmark
-  public void view_create(Blackhole blackhole) {
+  public void create_view(Blackhole blackhole) {
     World world = new World(COUNT);
 
     var view = world.createView().of(TestComponent.class);
@@ -162,7 +154,7 @@ public class SolaEcsBenchmark {
   }
 
   @Benchmark
-  public void view_update(IterationOneComponentWithViewBenchmarkState benchmarkState, Blackhole blackhole) {
+  public void update_view(IterationOneComponentWithViewBenchmarkState benchmarkState, Blackhole blackhole) {
     World world = benchmarkState.world;
 
     int count = 0;
@@ -174,10 +166,6 @@ public class SolaEcsBenchmark {
         world.getEntityAtIndex(i).removeComponent(TestComponent.class);
         count = 0;
       }
-    }
-
-    for (var entry : benchmarkState.view.getEntries()) {
-      blackhole.consume(entry.c1());
     }
 
     for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
@@ -192,13 +180,11 @@ public class SolaEcsBenchmark {
       }
     }
 
-    for (var entry : benchmarkState.view.getEntries()) {
-      blackhole.consume(entry.c1());
-    }
+    blackhole.consume(world);
   }
 
   @Benchmark
-  public void view_delete(IterationOneComponentWithViewBenchmarkState benchmarkState, Blackhole blackhole) {
+  public void delete_view(IterationOneComponentWithViewBenchmarkState benchmarkState, Blackhole blackhole) {
     World world = benchmarkState.world;
 
     int count = 0;
@@ -214,9 +200,7 @@ public class SolaEcsBenchmark {
 
     world.cleanupDestroyedEntities();
 
-    for (var entry : benchmarkState.view.getEntries()) {
-      blackhole.consume(entry.c1());
-    }
+    blackhole.consume(world);
   }
 
   private static class TestComponent implements Component {
