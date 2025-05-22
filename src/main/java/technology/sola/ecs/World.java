@@ -312,6 +312,7 @@ public class World {
   }
 
   void queueEntityForDestruction(Entity entity) {
+    // todo this check is REALLY expensive!
     if (!entitiesToDestroy.contains(entity)) {
       entitiesToDestroy.add(entity);
     }
@@ -326,6 +327,8 @@ public class World {
   }
 
   private void destroyEntity(Entity entity) {
+    // todo should only fire if entities[entityIndex] is not null (can then probably remove the contains check in queueEntityForDestruction
+
     totalEntityCount--;
 
     var entityIndex = entity.getIndexInWorld();
