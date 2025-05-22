@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
+import technology.sola.ecs.World;
 import technology.sola.ecs.view.ViewEntry;
 
 import java.util.List;
@@ -26,23 +27,19 @@ class ViewImplTest {
   class addEntryIfValidEntity {
     @Test
     void whenValid_shouldAdd() {
-      Entity mockEntity = Mockito.mock(Entity.class);
-      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
-      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
+      Entity testEntity = new World(1).createEntity(new TestComponent(), new TestComponent2());
 
-      testView.addEntryIfValidEntity(mockEntity);
+      testView.addEntryIfValidEntity(testEntity);
 
       assertEquals(1, testView.getEntries().size());
-      assertEquals(mockEntity, testView.getEntries().get(0).entity);
+      assertEquals(testEntity, testView.getEntries().iterator().next().entity);
     }
 
     @Test
     void whenInvalid_shouldNotAdd() {
-      Entity mockEntity = Mockito.mock(Entity.class);
-      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
-      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(false);
+      Entity testEntity = new World(1).createEntity(new TestComponent());
 
-      testView.addEntryIfValidEntity(mockEntity);
+      testView.addEntryIfValidEntity(testEntity);
 
       assertEquals(0, testView.getEntries().size());
     }
@@ -52,14 +49,14 @@ class ViewImplTest {
   class updateForAddComponent {
     @Test
     void whenAlreadyCached_shouldRemoveAndAddAgain() {
-      TestView spiedView = Mockito.spy(testView);
-      Entity mockEntity = Mockito.mock(Entity.class);
+      Entity testEntity = new World(1).createEntity(new TestComponent2());
 
-      spiedView.getEntries().add(new TestView.TestViewEntry(mockEntity));
-      spiedView.updateForAddComponent(mockEntity, TestComponent.class);
+      testEntity.addComponent(new TestComponent());
+      testView.updateForAddComponent(testEntity, TestComponent.class);
+      testView.updateForAddComponent(testEntity, TestComponent.class);
 
-      Mockito.verify(spiedView, Mockito.times(1)).updateForDeletedEntity(mockEntity);
-      Mockito.verify(spiedView, Mockito.times(1)).addEntryIfValidEntity(mockEntity);
+      assertEquals(1, testView.getEntries().size());
+      assertEquals(testEntity, testView.getEntries().iterator().next().entity);
     }
 
     @Test
@@ -110,26 +107,26 @@ class ViewImplTest {
   class updateForDisabledStateChange {
     @Test
     void whenEnabled_shouldAddEntryIfValid() {
-      Entity mockEntity = Mockito.mock(Entity.class);
-      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
-      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
-      Mockito.when(mockEntity.isDisabled()).thenReturn(false);
+      Entity testEntity = new World(1).createEntity(new TestComponent(), new TestComponent2());
 
-      testView.updateForDisabledStateChange(mockEntity);
+      testEntity.setDisabled(true);
+      testView.updateForDisabledStateChange(testEntity);
+      assertEquals(0, testView.getEntries().size());
 
+      testEntity.setDisabled(false);
+      testView.updateForDisabledStateChange(testEntity);
       assertEquals(1, testView.getEntries().size());
     }
 
     @Test
     void whenDisabled_shouldRemoveEntryIfFound() {
-      Entity mockEntity = Mockito.mock(Entity.class);
-      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
-      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
-      testView.getEntries().add(new TestView.TestViewEntry(mockEntity));
-      Mockito.when(mockEntity.isDisabled()).thenReturn(true);
+      Entity testEntity = new World(1).createEntity(new TestComponent(), new TestComponent2());
 
-      testView.updateForDisabledStateChange(mockEntity);
+      testView.addEntryIfValidEntity(testEntity);
+      assertEquals(1, testView.getEntries().size());
 
+      testEntity.setDisabled(true);
+      testView.updateForDisabledStateChange(testEntity);
       assertEquals(0, testView.getEntries().size());
     }
   }
@@ -139,7 +136,11 @@ class ViewImplTest {
     @Test
     void shouldRemoveEntryIfFound() {
       Entity mockEntity = Mockito.mock(Entity.class);
-      testView.getEntries().add(new TestView.TestViewEntry(mockEntity));
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
+
+      testView.addEntryIfValidEntity(mockEntity);
+      assertEquals(1, testView.getEntries().size());
 
       testView.updateForDeletedEntity(mockEntity);
 
