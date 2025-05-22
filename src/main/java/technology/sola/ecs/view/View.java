@@ -4,6 +4,7 @@ import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -18,7 +19,7 @@ public interface View<E extends ViewEntry> {
   /**
    * @return the {@link List} of {@link ViewEntry} in this View
    */
-  List<E> getEntries();
+  Collection<E> getEntries();
 
   /**
    * Checks if this view responds to an {@link Entity} adding or removing the component type

@@ -2,8 +2,7 @@
 
 ## Performance
 
-* ViewImpl getEntries could be Collection instead of copied ArrayList
-* ViewImpl could be array based instead of List based
+*
 
 ## Features
 

@@ -63,14 +63,14 @@ Execute benchmark view gradle task `jmhBenchmark` in verification category.
 Results:
 ```
 Benchmark                                  Mode  Cnt   Score   Error  Units
-SolaEcsBenchmark.create                              ss   15   25.313 ±  4.572  ms/op
-SolaEcsBenchmark.create_view                         ss   15   54.532 ±  9.862  ms/op
-SolaEcsBenchmark.delete                              ss   15  823.973 ±  7.365  ms/op
-SolaEcsBenchmark.delete_view                         ss   15  829.456 ± 11.073  ms/op
-SolaEcsBenchmark.loopingForMultipleComponent         ss   15   35.879 ±  2.761  ms/op
-SolaEcsBenchmark.loopingForMultipleComponent_view    ss   15    8.260 ±  2.715  ms/op
-SolaEcsBenchmark.loopingForOneComponent              ss   15   19.425 ±  2.871  ms/op
-SolaEcsBenchmark.loopingForOneComponent_view         ss   15    7.956 ±  4.531  ms/op
-SolaEcsBenchmark.update                              ss   15    6.286 ±  1.305  ms/op
-SolaEcsBenchmark.update_view                         ss   15   18.751 ± 12.513  ms/op
+SolaEcsBenchmark.create                              ss   15   27.095 ±  6.383  ms/op
+SolaEcsBenchmark.create_view                         ss   15   52.917 ±  9.353  ms/op
+SolaEcsBenchmark.delete                              ss   15  819.514 ±  3.268  ms/op
+SolaEcsBenchmark.delete_view                         ss   15  828.536 ± 10.632  ms/op
+SolaEcsBenchmark.loopingForMultipleComponent         ss   15   36.400 ±  2.713  ms/op
+SolaEcsBenchmark.loopingForMultipleComponent_view    ss   15    6.204 ±  3.470  ms/op
+SolaEcsBenchmark.loopingForOneComponent              ss   15   18.412 ±  3.122  ms/op
+SolaEcsBenchmark.loopingForOneComponent_view         ss   15    6.046 ±  2.789  ms/op
+SolaEcsBenchmark.update                              ss   15    6.179 ±  1.043  ms/op
+SolaEcsBenchmark.update_view                         ss   15   15.604 ±  8.268  ms/op
 ```

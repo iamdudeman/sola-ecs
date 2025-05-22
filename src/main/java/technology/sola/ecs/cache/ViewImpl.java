@@ -7,7 +7,7 @@ import technology.sola.ecs.Entity;
 import technology.sola.ecs.view.View;
 import technology.sola.ecs.view.ViewEntry;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +36,8 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
   /**
    * @return the {@link List} of {@link ViewEntry} in this View
    */
-  public List<E> getEntries() {
-    return new ArrayList<>(entryMap.values());
+  public Collection<E> getEntries() {
+    return entryMap.values();
   }
 
   /**
