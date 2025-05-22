@@ -98,6 +98,10 @@ public class ViewCache {
     });
   }
 
+  public void destroyView(Class<? extends Component>[] componentClasses) {
+    // todo
+  }
+
   /**
    * Updates cached {@link ViewImpl}s for an {@link Entity}'s added {@link Component}.
    *
