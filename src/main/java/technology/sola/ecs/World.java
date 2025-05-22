@@ -27,6 +27,7 @@ public class World {
   private final Map<Class<? extends Component>, @Nullable Component[]> components = new HashMap<>();
   private final Function<Class<? extends Component>, @Nullable Component[]> componentsMappingFunction = (key) -> new Component[World.this.maxEntityCount];
   private final List<Entity> entitiesToDestroy = new ArrayList<>();
+  private final String baseUuid = UUID.randomUUID().toString().substring(0, 8);
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
 
@@ -99,22 +100,26 @@ public class World {
    * @return a new {@code Entity}
    */
   public Entity createEntity(@Nullable String name, Component... components) {
-    return createEntity(UUID.randomUUID().toString(), name, components);
+    return createEntity(null, name, components);
   }
 
   /**
-   * Creates a new {@link Entity} inside this World with a set unique id. It is initialized with name and components.
+   * Creates a new {@link Entity} inside this World with a set unique id. It is initialized with name and components. If
+   * the provided unique id is null then one will be generated.
    * <p>
    * If the total entity count goes above the max number specified in this world then an exception will be thrown.
    *
-   * @param uniqueId   the unique id to initialize this Entity with
+   * @param uniqueId   the unique id to initialize this Entity with or null to generate one automatically
    * @param name       the name to initialize this Entity with
    * @param components the {@link Component}s to initialize the Entity with
    * @return a new {@code Entity}
    */
-  public Entity createEntity(String uniqueId, @Nullable String name, Component... components) {
+  public Entity createEntity(@Nullable String uniqueId, @Nullable String name, Component... components) {
     totalEntityCount++;
-    Entity entity = new Entity(this, nextOpenEntityIndex(), uniqueId);
+
+    var entityIndex = nextOpenEntityIndex();
+    String entityUniqueId = uniqueId == null ? baseUuid + entityIndex : uniqueId;
+    Entity entity = new Entity(this, entityIndex, entityUniqueId);
 
     entities[entity.getIndexInWorld()] = entity;
     entity.setName(name);

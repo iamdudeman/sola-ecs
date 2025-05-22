@@ -109,7 +109,18 @@ class WorldTest {
     }
 
     @Test
-    void whenEntityFoundWithName_shouldReturnEntity() {
+    void whenEntityFoundWithUniqueID_shouldReturnEntity() {
+      World world = new World(2);
+      world.createEntity();
+      Entity expected = world.createEntity("unique", null, new Component[]{});
+
+      var result = world.findEntityByUniqueId("unique");
+
+      assertEquals(expected, result);
+    }
+
+    @Test
+    void whenEntityFoundWithGeneratedUniqueID_shouldReturnEntity() {
       World world = new World(2);
       world.createEntity();
       Entity expected = world.createEntity();
@@ -264,7 +275,7 @@ class WorldTest {
 
       var view = world.createView().of(TestComponent1.class, TestComponent2.class);
       assertEquals(1, view.getEntries().size());
-      assertEquals(entity, view.getEntries().get(entity.getIndexInWorld()).entity());
+      assertEquals(entity, view.getEntries().iterator().next().entity());
     }
   }
 
