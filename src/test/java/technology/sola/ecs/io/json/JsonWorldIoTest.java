@@ -1,4 +1,4 @@
-package technology.sola.ecs.io;
+package technology.sola.ecs.io.json;
 
 import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
-import technology.sola.ecs.exception.ComponentJsonMapperNotFoundException;
 import technology.sola.json.JsonObject;
 import technology.sola.json.mapper.JsonMapper;
 
@@ -35,22 +34,22 @@ class JsonWorldIoTest {
       .setName("name2")
       .getUniqueId();
 
-    JsonWorldIo base64WorldIo = new JsonWorldIo(
+    JsonWorldIo worldIo = new JsonWorldIo(
       List.of(TestComponent1.mapper, TestComponent2.mapper)
     );
-    String serializedWorld = base64WorldIo.stringify(world);
-    World deserializedWorld = base64WorldIo.parse(serializedWorld);
+    String serializedWorld = worldIo.stringify(world);
+    World deserializedWorld = worldIo.parse(serializedWorld);
 
     var view1 = deserializedWorld.createView().of(TestComponent1.class);
-    assertEquals(uuid1, view1.getEntries().get(0).entity().getUniqueId());
-    assertEquals("name1", view1.getEntries().get(0).entity().getName());
-    assertEquals("test", view1.getEntries().get(0).c1().string());
+    assertEquals(uuid1, view1.getEntries().iterator().next().entity().getUniqueId());
+    assertEquals("name1", view1.getEntries().iterator().next().entity().getName());
+    assertEquals("test", view1.getEntries().iterator().next().c1().string());
     Mockito.verify(mockConsumer, Mockito.times(1)).accept("test1");
 
     var view2 = deserializedWorld.createView().of(TestComponent2.class);
-    assertEquals(uuid2, view2.getEntries().get(0).entity().getUniqueId());
-    assertEquals("name2", view2.getEntries().get(0).entity().getName());
-    assertEquals(5, view2.getEntries().get(0).c1().number());
+    assertEquals(uuid2, view2.getEntries().iterator().next().entity().getUniqueId());
+    assertEquals("name2", view2.getEntries().iterator().next().entity().getName());
+    assertEquals(5, view2.getEntries().iterator().next().c1().number());
     Mockito.verify(mockConsumer, Mockito.times(1)).accept("test2");
   }
 
@@ -60,11 +59,11 @@ class JsonWorldIoTest {
     world.createEntity()
       .addComponent(new TestComponent1("test"));
 
-    JsonWorldIo base64WorldIo = new JsonWorldIo(
+    JsonWorldIo worldIo = new JsonWorldIo(
       List.of(TestComponent2.mapper)
     );
 
-    assertThrows(ComponentJsonMapperNotFoundException.class, () -> base64WorldIo.stringify(world));
+    assertThrows(ComponentJsonMapperNotFoundException.class, () -> worldIo.stringify(world));
   }
 
   @NullMarked

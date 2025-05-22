@@ -1,11 +1,11 @@
-package technology.sola.ecs.exception;
+package technology.sola.ecs.io.json;
 
 import org.jspecify.annotations.NullMarked;
 
 import java.io.Serial;
 
 /**
- * Exception thrown when a {@link technology.sola.ecs.io.JsonWorldIo} does not have the required
+ * Exception thrown when a {@link JsonWorldIo} does not have the required
  * {@link technology.sola.json.mapper.JsonMapper} for a {@link technology.sola.ecs.Component} registered to it.
  */
 @NullMarked

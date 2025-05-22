@@ -1,8 +1,9 @@
-package technology.sola.ecs.io;
+package technology.sola.ecs.io.json;
 
 import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.World;
+import technology.sola.ecs.io.WorldIo;
 import technology.sola.json.SolaJson;
 import technology.sola.json.mapper.JsonMapper;
 

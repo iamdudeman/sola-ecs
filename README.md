@@ -20,6 +20,8 @@ repositories {
 
 dependencies {
     implementation("com.github.iamdudeman:sola-ecs:SOLA_ECS_VERSION")
+    // if you want to utilize JsonWorldIo implementation
+    implementation("com.github.iamdudeman:sola-json:4.0.1")
 }
 ```
 
