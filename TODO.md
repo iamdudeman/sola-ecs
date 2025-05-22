@@ -2,8 +2,7 @@
 
 ## Performance
 
-* try to optimize destroying entities
-    * consider looping through component arrays and then nulling out each entity to be removed rather than looping entities
+*
 
 ## Features
 
