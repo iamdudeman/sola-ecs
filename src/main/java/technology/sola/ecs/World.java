@@ -312,9 +312,7 @@ public class World {
   }
 
   void queueEntityForDestruction(Entity entity) {
-    if (!entitiesToDestroy.contains(entity)) {
-      entitiesToDestroy.add(entity);
-    }
+    entitiesToDestroy.add(entity);
   }
 
   void updateEntityNameCache(Entity entity, @Nullable String previousName) {
@@ -326,15 +324,18 @@ public class World {
   }
 
   private void destroyEntity(Entity entity) {
-    totalEntityCount--;
-
     var entityIndex = entity.getIndexInWorld();
 
-    for (var componentClass : getCurrentComponents(entityIndex)) {
-      removeComponent(entityIndex, componentClass, false);
-    }
+    // only "destroy" the entity if it actually exists still!
+    if (entities[entityIndex] != null) {
+      totalEntityCount--;
 
-    entities[entityIndex] = null;
+      for (var componentClass : getCurrentComponents(entityIndex)) {
+        removeComponent(entityIndex, componentClass, false);
+      }
+
+      entities[entityIndex] = null;
+    }
   }
 
   private int nextOpenEntityIndex() {
