@@ -3,4 +3,5 @@ technology.sola.ecs
 technology.sola.ecs.cache
 technology.sola.ecs.exception
 technology.sola.ecs.io
+technology.sola.ecs.io.json
 technology.sola.ecs.view
