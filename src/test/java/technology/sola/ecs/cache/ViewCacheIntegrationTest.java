@@ -79,6 +79,30 @@ public class ViewCacheIntegrationTest {
     }
   }
 
+  @Nested
+  class destroyView {
+    @Test
+    void whenCalled_shouldClearView() {
+      var view = testWorld.createView().of(TestComponent.class);
+
+      view.destroy();
+      assertEquals(0, view.getEntries().size());
+
+      testWorld.createEntity(new TestComponent());
+      assertEquals(0, view.getEntries().size());
+    }
+
+    @Test
+    void whenCalled_shouldBeAbleToCreateAgain() {
+      var view = testWorld.createView().of(TestComponent.class);
+
+      view.destroy();
+      assertEquals(0, view.getEntries().size());
+
+      assertEquals(5, testWorld.createView().of(TestComponent.class).getEntries().size());
+    }
+  }
+
   @Test
   void updateForAddComponent_integrationTest() {
     var originalTestComponentAdded = new TestComponent();

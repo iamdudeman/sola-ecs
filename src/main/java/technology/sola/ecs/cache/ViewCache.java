@@ -41,7 +41,7 @@ public class ViewCache {
   public <C1 extends Component> View1<C1> createView(Class<C1> c1Class) {
     return (View1<C1>) getCachedViewOrCreate(() -> new View1<>(c1Class), new Class[]{
       c1Class
-    });
+    }).setViewCache(this);
   }
 
   /**
@@ -57,7 +57,7 @@ public class ViewCache {
   public <C1 extends Component, C2 extends Component> View2<C1, C2> createView(Class<C1> c1Class, Class<C2> c2Class) {
     return (View2<C1, C2>) getCachedViewOrCreate(() -> new View2<>(c1Class, c2Class), new Class[]{
       c1Class, c2Class
-    });
+    }).setViewCache(this);
   }
 
   /**
@@ -75,7 +75,7 @@ public class ViewCache {
   public <C1 extends Component, C2 extends Component, C3 extends Component> View3<C1, C2, C3> createView(Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class) {
     return (View3<C1, C2, C3>) getCachedViewOrCreate(() -> new View3<>(c1Class, c2Class, c3Class), new Class[]{
       c1Class, c2Class, c3Class
-    });
+    }).setViewCache(this);
   }
 
   /**
@@ -95,11 +95,18 @@ public class ViewCache {
   public <C1 extends Component, C2 extends Component, C3 extends Component, C4 extends Component> View4<C1, C2, C3, C4> createView(Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class) {
     return (View4<C1, C2, C3, C4>) getCachedViewOrCreate(() -> new View4<>(c1Class, c2Class, c3Class, c4Class), new Class[]{
       c1Class, c2Class, c3Class, c4Class
-    });
+    }).setViewCache(this);
   }
 
+  /**
+   * Destroys a view from the cache so that it no longer will receive any updates.
+   *
+   * @param componentClasses the component classes for the view
+   */
   public void destroyView(Class<? extends Component>[] componentClasses) {
-    // todo
+    int hash = Arrays.hashCode(componentClasses);
+
+    builtViews.remove(hash);
   }
 
   /**

@@ -22,6 +22,11 @@ public interface View<E extends ViewEntry> {
   Collection<E> getEntries();
 
   /**
+   * Destroys this view. This will cause it to no longer receive any updates and all entries will be removed.
+   */
+  void destroy();
+
+  /**
    * Checks if this view responds to an {@link Entity} adding or removing the component type
    * or if an entity is deleted while having the component type.
    *
