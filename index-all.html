@@ -121,6 +121,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Holds data for an <a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> that can be acted on via an <a href="technology.sola.ecs/technology/sola/ecs/EcsSystem.html" title="class in technology.sola.ecs"><code>EcsSystem</code></a>.</div>
 </dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/cache/ViewImpl.html#componentClasses" class="member-name-link">componentClasses</a> - Variable in class technology.sola.ecs.cache.<a href="technology.sola.ecs/technology/sola/ecs/cache/ViewImpl.html" title="class in technology.sola.ecs.cache">ViewImpl</a></dt>
+<dd>
+<div class="block">The component classes for the view.</div>
+</dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/io/json/ComponentJsonMapperNotFoundException.html" class="type-name-link" title="class in technology.sola.ecs.io.json">ComponentJsonMapperNotFoundException</a> - Exception in <a href="technology.sola.ecs/technology/sola/ecs/io/json/package-summary.html">technology.sola.ecs.io.json</a></dt>
 <dd>
 <div class="block">Exception thrown when a <a href="technology.sola.ecs/technology/sola/ecs/io/json/JsonWorldIo.html" title="class in technology.sola.ecs.io.json"><code>JsonWorldIo</code></a> does not have the required
@@ -129,6 +133,10 @@ loadScripts(document, 'script');</script>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/io/json/ComponentJsonMapperNotFoundException.html#%3Cinit%3E(java.lang.String)" class="member-name-link">ComponentJsonMapperNotFoundException(String)</a> - Constructor for exception technology.sola.ecs.io.json.<a href="technology.sola.ecs/technology/sola/ecs/io/json/ComponentJsonMapperNotFoundException.html" title="class in technology.sola.ecs.io.json">ComponentJsonMapperNotFoundException</a></dt>
 <dd>
 <div class="block">Creates a new instance of this exception.</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html#components()" class="member-name-link">components()</a> - Method in record class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html" title="class in technology.sola.ecs.view">ViewNEntry</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html#param-components"><code>components</code></a> record component.</div>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/World.html#createEntity(java.lang.String,java.lang.String,technology.sola.ecs.Component...)" class="member-name-link">createEntity(String, String, Component...)</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs">World</a></dt>
 <dd>
@@ -154,10 +162,16 @@ loadScripts(document, 'script');</script>
 <dd>&nbsp;</dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/view/View4.html#createEntryFromEntity(technology.sola.ecs.Entity)" class="member-name-link">createEntryFromEntity(Entity)</a> - Method in class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View4.html" title="class in technology.sola.ecs.view">View4</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewN.html#createEntryFromEntity(technology.sola.ecs.Entity)" class="member-name-link">createEntryFromEntity(Entity)</a> - Method in class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewN.html" title="class in technology.sola.ecs.view">ViewN</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/World.html#createView()" class="member-name-link">createView()</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs">World</a></dt>
 <dd>
 <div class="block">Returns a <a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html" title="class in technology.sola.ecs"><code>ViewBuilder</code></a> instance for creating a <a href="technology.sola.ecs/technology/sola/ecs/view/View.html" title="interface in technology.sola.ecs.view"><code>View</code></a> of
  <a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" title="interface in technology.sola.ecs.view"><code>ViewEntry</code></a> with desired <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/cache/ViewCache.html#createView(java.lang.Class...)" class="member-name-link">createView(Class&lt;? extends Component&gt;...)</a> - Method in class technology.sola.ecs.cache.<a href="technology.sola.ecs/technology/sola/ecs/cache/ViewCache.html" title="class in technology.sola.ecs.cache">ViewCache</a></dt>
+<dd>
+<div class="block">Gets a <a href="technology.sola.ecs/technology/sola/ecs/view/ViewN.html" title="class in technology.sola.ecs.view"><code>ViewN</code></a> for the desired component classes from the cache or creates it if it does not exist.</div>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/cache/ViewCache.html#createView(java.lang.Class)" class="member-name-link">createView(Class&lt;C1&gt;)</a> - Method in class technology.sola.ecs.cache.<a href="technology.sola.ecs/technology/sola/ecs/cache/ViewCache.html" title="class in technology.sola.ecs.cache">ViewCache</a></dt>
 <dd>
@@ -181,6 +195,14 @@ loadScripts(document, 'script');</script>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/Entity.html#destroy()" class="member-name-link">destroy()</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs">Entity</a></dt>
 <dd>
 <div class="block">Queues this Entity for destruction.</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/cache/ViewCache.html#destroyView(java.lang.Class%5B%5D)" class="member-name-link">destroyView(Class&lt;? extends Component&gt;[])</a> - Method in class technology.sola.ecs.cache.<a href="technology.sola.ecs/technology/sola/ecs/cache/ViewCache.html" title="class in technology.sola.ecs.cache">ViewCache</a></dt>
+<dd>
+<div class="block">Destroys a view from the cache so that it no longer will receive any updates.</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/World.html#dropView(java.lang.Class...)" class="member-name-link">dropView(Class&lt;? extends Component&gt;...)</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs">World</a></dt>
+<dd>
+<div class="block">Drops a view with desired <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s if it exists.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:E">E</h2>
@@ -217,6 +239,10 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html#entity()" class="member-name-link">entity()</a> - Method in interface technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" title="interface in technology.sola.ecs.view">ViewEntry</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html#entity()" class="member-name-link">entity()</a> - Method in record class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html" title="class in technology.sola.ecs.view">ViewNEntry</a></dt>
+<dd>
+<div class="block">Returns the value of the <a href="./technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html#param-entity"><code>entity</code></a> record component.</div>
+</dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/Entity.html" class="type-name-link" title="class in technology.sola.ecs">Entity</a> - Class in <a href="technology.sola.ecs/technology/sola/ecs/package-summary.html">technology.sola.ecs</a></dt>
 <dd>
 <div class="block">An Entity is identified by its index in the <a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs"><code>World</code></a> that ties a set of <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s together.</div>
@@ -240,6 +266,10 @@ loadScripts(document, 'script');</script>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/view/View4Entry.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View4Entry.html" title="class in technology.sola.ecs.view">View4Entry</a></dt>
+<dd>
+<div class="block">Indicates whether some other object is "equal to" this one.</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in record class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html" title="class in technology.sola.ecs.view">ViewNEntry</a></dt>
 <dd>
 <div class="block">Indicates whether some other object is "equal to" this one.</div>
 </dd>
@@ -349,6 +379,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a hash code value for this object.</div>
 </dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html#hashCode()" class="member-name-link">hashCode()</a> - Method in record class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html" title="class in technology.sola.ecs.view">ViewNEntry</a></dt>
+<dd>
+<div class="block">Returns a hash code value for this object.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:I">I</h2>
 <dl class="index">
@@ -384,6 +418,10 @@ loadScripts(document, 'script');</script>
 </dl>
 <h2 class="title" id="I:O">O</h2>
 <dl class="index">
+<dt><a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html#of(java.lang.Class...)" class="member-name-link">of(Class&lt;? extends Component&gt;...)</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html" title="class in technology.sola.ecs">ViewBuilder</a></dt>
+<dd>
+<div class="block">Returns a <a href="technology.sola.ecs/technology/sola/ecs/view/ViewN.html" title="class in technology.sola.ecs.view"><code>ViewN</code></a> of entries having N many <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s.</div>
+</dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html#of(java.lang.Class)" class="member-name-link">of(Class&lt;C1&gt;)</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html" title="class in technology.sola.ecs">ViewBuilder</a></dt>
 <dd>
 <div class="block">Returns a <a href="technology.sola.ecs/technology/sola/ecs/view/View1.html" title="class in technology.sola.ecs.view"><code>View1</code></a> of entries having one <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>.</div>
@@ -398,7 +436,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html#of(java.lang.Class,java.lang.Class,java.lang.Class,java.lang.Class)" class="member-name-link">of(Class&lt;C1&gt;, Class&lt;C2&gt;, Class&lt;C3&gt;, Class&lt;C4&gt;)</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/ViewBuilder.html" title="class in technology.sola.ecs">ViewBuilder</a></dt>
 <dd>
-<div class="block">Returns a <a href="technology.sola.ecs/technology/sola/ecs/view/View3.html" title="class in technology.sola.ecs.view"><code>View3</code></a> of entries having three <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s.</div>
+<div class="block">Returns a <a href="technology.sola.ecs/technology/sola/ecs/view/View4.html" title="class in technology.sola.ecs.view"><code>View4</code></a> of entries having three <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:P">P</h2>
@@ -520,6 +558,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Returns a string representation of this record class.</div>
 </dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html#toString()" class="member-name-link">toString()</a> - Method in record class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html" title="class in technology.sola.ecs.view">ViewNEntry</a></dt>
+<dd>
+<div class="block">Returns a string representation of this record class.</div>
+</dd>
 </dl>
 <h2 class="title" id="I:U">U</h2>
 <dl class="index">
@@ -614,7 +656,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/view/View4.html#%3Cinit%3E(java.lang.Class,java.lang.Class,java.lang.Class,java.lang.Class)" class="member-name-link">View4(Class&lt;C1&gt;, Class&lt;C2&gt;, Class&lt;C3&gt;, Class&lt;C4&gt;)</a> - Constructor for class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/View4.html" title="class in technology.sola.ecs.view">View4</a></dt>
 <dd>
-<div class="block">Creates an instance of View3.</div>
+<div class="block">Creates an instance of View4.</div>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/view/View4Entry.html" class="type-name-link" title="class in technology.sola.ecs.view">View4Entry</a>&lt;<a href="technology.sola.ecs/technology/sola/ecs/view/View4Entry.html" title="type parameter in View4Entry">C1</a> extends <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs">Component</a>,<wbr><a href="technology.sola.ecs/technology/sola/ecs/view/View4Entry.html" title="type parameter in View4Entry">C2</a> extends <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs">Component</a>,<wbr><a href="technology.sola.ecs/technology/sola/ecs/view/View4Entry.html" title="type parameter in View4Entry">C3</a> extends <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs">Component</a>,<wbr><a href="technology.sola.ecs/technology/sola/ecs/view/View4Entry.html" title="type parameter in View4Entry">C4</a> extends <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs">Component</a>&gt; - Record Class in <a href="technology.sola.ecs/technology/sola/ecs/view/package-summary.html">technology.sola.ecs.view</a></dt>
 <dd>
@@ -650,6 +692,22 @@ loadScripts(document, 'script');</script>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/cache/ViewImpl.html#%3Cinit%3E(java.util.List)" class="member-name-link">ViewImpl(List&lt;Class&lt;? extends Component&gt;&gt;)</a> - Constructor for class technology.sola.ecs.cache.<a href="technology.sola.ecs/technology/sola/ecs/cache/ViewImpl.html" title="class in technology.sola.ecs.cache">ViewImpl</a></dt>
 <dd>
 <div class="block">Creates a new view watching desired components.</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewN.html" class="type-name-link" title="class in technology.sola.ecs.view">ViewN</a> - Class in <a href="technology.sola.ecs/technology/sola/ecs/view/package-summary.html">technology.sola.ecs.view</a></dt>
+<dd>
+<div class="block">ViewN is a <a href="technology.sola.ecs/technology/sola/ecs/cache/ViewImpl.html" title="class in technology.sola.ecs.cache"><code>ViewImpl</code></a> implementation for <a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" title="interface in technology.sola.ecs.view"><code>ViewEntry</code></a> for N many <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s.</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewN.html#%3Cinit%3E(java.lang.Class%5B%5D)" class="member-name-link">ViewN(Class&lt;? extends Component&gt;[])</a> - Constructor for class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewN.html" title="class in technology.sola.ecs.view">ViewN</a></dt>
+<dd>
+<div class="block">Creates an instance for desired component classes.</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html" class="type-name-link" title="class in technology.sola.ecs.view">ViewNEntry</a> - Record Class in <a href="technology.sola.ecs/technology/sola/ecs/view/package-summary.html">technology.sola.ecs.view</a></dt>
+<dd>
+<div class="block"><a href="technology.sola.ecs/technology/sola/ecs/view/ViewEntry.html" title="interface in technology.sola.ecs.view"><code>ViewEntry</code></a> implementation for <a href="technology.sola.ecs/technology/sola/ecs/view/ViewN.html" title="class in technology.sola.ecs.view"><code>ViewN</code></a>.</div>
+</dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html#%3Cinit%3E(technology.sola.ecs.Entity,java.util.List)" class="member-name-link">ViewNEntry(Entity, List&lt;Component&gt;)</a> - Constructor for record class technology.sola.ecs.view.<a href="technology.sola.ecs/technology/sola/ecs/view/ViewNEntry.html" title="class in technology.sola.ecs.view">ViewNEntry</a></dt>
+<dd>
+<div class="block">Creates an instance of a <code>ViewNEntry</code> record class.</div>
 </dd>
 </dl>
 <h2 class="title" id="I:W">W</h2>
