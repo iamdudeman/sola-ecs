@@ -21,7 +21,10 @@ import java.util.Map;
  */
 @NullMarked
 public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
-  private final List<Class<? extends Component>> componentClasses;
+  /**
+   * The component classes for the view.
+   */
+  protected final List<Class<? extends Component>> componentClasses;
   private final Map<Integer, E> entryMap = new HashMap<>();
 
   /**

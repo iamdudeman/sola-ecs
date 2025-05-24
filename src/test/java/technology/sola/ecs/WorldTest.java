@@ -277,6 +277,20 @@ class WorldTest {
       assertEquals(1, view.getEntries().size());
       assertEquals(entity, view.getEntries().iterator().next().entity());
     }
+
+    @Test
+    void whenViewDropped_shouldNoLongerUpdate() {
+      World world = new World(2);
+      Entity entity = world.createEntity(new TestComponent1(), new TestComponent2());
+
+      var view = world.createView().of(TestComponent1.class, TestComponent2.class);
+      assertEquals(1, view.getEntries().size());
+
+      world.dropView(TestComponent1.class, TestComponent2.class);
+      world.removeComponent(entity.getIndexInWorld(), TestComponent1.class, true);
+      assertEquals(1, view.getEntries().size());
+      assertEquals(0, world.createView().of(TestComponent1.class, TestComponent2.class).getEntries().size());
+    }
   }
 
   private record TestComponent1() implements Component {

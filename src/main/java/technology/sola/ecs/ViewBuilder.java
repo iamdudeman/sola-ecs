@@ -2,10 +2,7 @@ package technology.sola.ecs;
 
 import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.cache.ViewCache;
-import technology.sola.ecs.view.View1;
-import technology.sola.ecs.view.View2;
-import technology.sola.ecs.view.View3;
-import technology.sola.ecs.view.View4;
+import technology.sola.ecs.view.*;
 
 /**
  * The ViewBuilder class exposes methods for creating {@link technology.sola.ecs.view.View}s.
@@ -64,7 +61,7 @@ public class ViewBuilder {
   }
 
   /**
-   * Returns a {@link View3} of entries having three {@link Component}s.
+   * Returns a {@link View4} of entries having three {@link Component}s.
    *
    * @param <C1>    the type for the first component
    * @param <C2>    the type for the second component
@@ -80,5 +77,16 @@ public class ViewBuilder {
     Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class
   ) {
     return viewCache.createView(c1Class, c2Class, c3Class, c4Class);
+  }
+
+  /**
+   * Returns a {@link ViewN} of entries having N many {@link Component}s.
+   *
+   * @param componentClasses the {@link Component} classes
+   * @return the view
+   */
+  @SafeVarargs
+  public final ViewN of(Class<? extends Component>... componentClasses) {
+    return viewCache.createView(componentClasses);
   }
 }
