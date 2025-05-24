@@ -23,7 +23,6 @@ import java.util.Map;
 public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
   private final List<Class<? extends Component>> componentClasses;
   private final Map<Integer, E> entryMap = new HashMap<>();
-  private ViewCache viewCache;
 
   /**
    * Creates a new view watching desired components.
@@ -39,18 +38,6 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
    */
   public Collection<E> getEntries() {
     return entryMap.values();
-  }
-
-  @Override
-  public void destroy() {
-    var componentClassesArray = new Class[componentClasses.size()];
-    
-    for (int i = 0; i < componentClassesArray.length; i++) {
-      componentClassesArray[i] = componentClasses.get(i);
-    }
-
-    viewCache.destroyView(componentClassesArray);
-    entryMap.clear();
   }
 
   /**
@@ -111,11 +98,5 @@ public abstract class ViewImpl<E extends ViewEntry> implements View<E> {
 
   void updateForDeletedEntity(Entity entity) {
     entryMap.remove(entity.getIndexInWorld());
-  }
-
-  ViewImpl<E> setViewCache(ViewCache viewCache) {
-    this.viewCache = viewCache;
-
-    return this;
   }
 }

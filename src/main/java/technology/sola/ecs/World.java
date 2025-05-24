@@ -249,6 +249,17 @@ public class World {
     return viewBuilder;
   }
 
+  /**
+   * Drops a view with desired {@link Component}s if it exists. Any previous instance of this view will no longer
+   * receive updates.
+   *
+   * @param componentClasses the component classes for the view to drop
+   */
+  @SafeVarargs
+  public final void dropView(Class<? extends Component>... componentClasses) {
+    viewCache.destroyView(componentClasses);
+  }
+
   void addComponentForEntity(int entityIndex, Component component) {
     Class<? extends Component> componentClass = component.getClass();
     var entity = entities[entityIndex];
