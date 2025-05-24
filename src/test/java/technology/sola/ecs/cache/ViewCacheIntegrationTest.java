@@ -80,26 +80,29 @@ public class ViewCacheIntegrationTest {
   }
 
   @Nested
-  class destroyView {
+  class dropView {
     @Test
     void whenCalled_shouldClearView() {
       var view = testWorld.createView().of(TestComponent.class);
 
-      view.destroy();
-      assertEquals(0, view.getEntries().size());
+      testWorld.dropView(TestComponent.class);
+      assertEquals(5, view.getEntries().size());
 
       testWorld.createEntity(new TestComponent());
-      assertEquals(0, view.getEntries().size());
+      assertEquals(5, view.getEntries().size());
     }
 
     @Test
     void whenCalled_shouldBeAbleToCreateAgain() {
       var view = testWorld.createView().of(TestComponent.class);
 
-      view.destroy();
-      assertEquals(0, view.getEntries().size());
+      testWorld.dropView(TestComponent.class);
+      assertEquals(5, view.getEntries().size());
 
       assertEquals(5, testWorld.createView().of(TestComponent.class).getEntries().size());
+      testWorld.createEntity(new TestComponent());
+      assertEquals(5, view.getEntries().size());
+      assertEquals(6, testWorld.createView().of(TestComponent.class).getEntries().size());
     }
   }
 
