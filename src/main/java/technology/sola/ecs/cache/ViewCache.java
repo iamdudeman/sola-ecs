@@ -4,10 +4,7 @@ import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
 import technology.sola.ecs.World;
-import technology.sola.ecs.view.View1;
-import technology.sola.ecs.view.View2;
-import technology.sola.ecs.view.View3;
-import technology.sola.ecs.view.View4;
+import technology.sola.ecs.view.*;
 
 import java.util.*;
 import java.util.function.Supplier;
@@ -89,13 +86,24 @@ public class ViewCache {
    * @param <C2>    the second component type
    * @param <C3>    the third component type
    * @param <C4>    the fourth component type
-   * @return the {@code View3}
+   * @return the {@code View4}
    */
   @SuppressWarnings("unchecked")
   public <C1 extends Component, C2 extends Component, C3 extends Component, C4 extends Component> View4<C1, C2, C3, C4> createView(Class<C1> c1Class, Class<C2> c2Class, Class<C3> c3Class, Class<C4> c4Class) {
     return (View4<C1, C2, C3, C4>) getCachedViewOrCreate(() -> new View4<>(c1Class, c2Class, c3Class, c4Class), new Class[]{
       c1Class, c2Class, c3Class, c4Class
     });
+  }
+
+  /**
+   * Gets a {@link ViewN} for the desired component classes from the cache or creates it if it does not exist.
+   *
+   * @param componentClasses the component classes for the view
+   * @return the {@code ViewN}
+   */
+  @SafeVarargs
+  public final ViewN createView(Class<? extends Component>... componentClasses) {
+    return (ViewN) getCachedViewOrCreate(() -> new ViewN(componentClasses), componentClasses);
   }
 
   /**

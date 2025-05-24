@@ -24,7 +24,7 @@ public class View4<C1 extends Component, C2 extends Component, C3 extends Compon
   private final Class<C4> c4Class;
 
   /**
-   * Creates an instance of View3.
+   * Creates an instance of View4.
    *
    * @param c1Class the first {@link Component} class this view watches
    * @param c2Class the second component class this view watches
