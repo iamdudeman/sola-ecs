@@ -224,7 +224,4 @@ public class ViewCacheIntegrationTest {
 
   private record TestComponent4() implements Component {
   }
-
-  private record TestComponent5() implements Component {
-  }
 }

@@ -15,6 +15,7 @@ class ViewNTest extends ViewNTestBase {
   private ViewN view;
 
   @BeforeEach
+  @SuppressWarnings("unchecked")
   void setup() {
     view = new ViewN(new Class[] { TestComponent.class, TestComponent2.class, TestComponent3.class, TestComponent4.class});
   }
