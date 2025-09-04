@@ -1,5 +1,6 @@
 package technology.sola.ecs.io.json;
 
+import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.NullMarked;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
@@ -47,8 +48,13 @@ public class WorldJsonMapper implements JsonMapper<World> {
       entity.getCurrentComponents().forEach(componentClass -> {
         String componentClassName = componentClass.getName();
         Component component = entity.getComponent(componentClass);
+
+        if (component == null) {
+          throw new IllegalStateException("It should not be possible that an Entity sees it has a component class, but does not actually have that component.");
+        }
+
         @SuppressWarnings("unchecked")
-        JsonMapper<Component> componentMapper = (JsonMapper<Component>) componentJsonMappers.get(componentClassName);
+        JsonMapper<Component> componentMapper = (JsonMapper<@NonNull Component>) componentJsonMappers.get(componentClassName);
 
         if (componentMapper == null) {
           throw new ComponentJsonMapperNotFoundException(componentClassName);

@@ -36,7 +36,11 @@ public interface WorldIo {
   static void processWorldAfterDeserialize(World world) {
     for (Entity entity : world.getEntities()) {
       for (Class<? extends Component> componentClass : entity.getCurrentComponents()) {
-        entity.getComponent(componentClass).afterDeserialize(world);
+        var component = entity.getComponent(componentClass);
+
+        if (component != null) {
+          component.afterDeserialize(world);
+        }
       }
     }
   }
