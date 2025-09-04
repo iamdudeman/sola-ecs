@@ -195,7 +195,7 @@ class WorldTest {
       world.queueEntityForDestruction(entity);
       world.cleanupDestroyedEntities();
 
-      entity = world.createEntity();
+      world.createEntity();
 
       assertNull(world.getComponentForEntity(0, TestComponent1.class));
     }
