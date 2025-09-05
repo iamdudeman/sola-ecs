@@ -127,7 +127,7 @@ class SolaEcsTest {
     }
 
     @Test
-    void shouldCleanupDestroyedEntities() {
+    void shouldUpdateAfterSystemsRun() {
       World mockWorld = Mockito.mock(World.class);
       solaEcs.setWorld(mockWorld);
 

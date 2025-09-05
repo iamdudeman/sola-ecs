@@ -157,7 +157,8 @@ class WorldTest {
   }
 
   @Nested
-  class cleanupDestroyedEntities {
+  class update {
+    // todo update test names to "update" or something like that
     @Test
     void whenDestroyingEntity_shouldNotBeAbleToGetComponents() {
       World world = new World(1);
