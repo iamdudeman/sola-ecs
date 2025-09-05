@@ -107,25 +107,32 @@ class ViewImplTest {
   class updateForDisabledStateChange {
     @Test
     void whenEnabled_shouldAddEntryIfValid() {
-      Entity testEntity = new World(1).createEntity(new TestComponent(), new TestComponent2());
+      var world = new World(1);
+      Entity testEntity = world.createEntity(new TestComponent(), new TestComponent2());
+      world.update();
 
       testEntity.setDisabled(true);
+      world.update();
       testView.updateForDisabledStateChange(testEntity);
       assertEquals(0, testView.getEntries().size());
 
       testEntity.setDisabled(false);
+      world.update();
       testView.updateForDisabledStateChange(testEntity);
       assertEquals(1, testView.getEntries().size());
     }
 
     @Test
     void whenDisabled_shouldRemoveEntryIfFound() {
-      Entity testEntity = new World(1).createEntity(new TestComponent(), new TestComponent2());
+      var world = new World(1);
+      Entity testEntity = world.createEntity(new TestComponent(), new TestComponent2());
+      world.update();
 
       testView.addEntryIfValidEntity(testEntity);
       assertEquals(1, testView.getEntries().size());
 
       testEntity.setDisabled(true);
+      world.update();
       testView.updateForDisabledStateChange(testEntity);
       assertEquals(0, testView.getEntries().size());
     }

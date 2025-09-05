@@ -34,6 +34,8 @@ class JsonWorldIoTest {
       .setName("name2")
       .getUniqueId();
 
+    world.update();
+
     JsonWorldIo worldIo = new JsonWorldIo(
       List.of(TestComponent1.mapper, TestComponent2.mapper)
     );

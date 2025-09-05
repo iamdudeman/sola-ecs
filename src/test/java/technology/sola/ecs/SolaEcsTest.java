@@ -133,7 +133,7 @@ class SolaEcsTest {
 
       solaEcs.updateWorld(1f);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).cleanupDestroyedEntities();
+      Mockito.verify(mockWorld, Mockito.times(1)).update();
     }
   }
 

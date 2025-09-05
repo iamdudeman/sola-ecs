@@ -5,71 +5,91 @@ import org.jspecify.annotations.Nullable;
 import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @NullMarked
-class EntityMutation {
-  // null if new
-  @Nullable
-  private Integer entityIndex;
+interface EntityMutation {
+  void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache);
 
-  // disabled mutation
-  private boolean isDisabled = false;
-  private boolean isEnabled = false;
+  record Created(
+    @Nullable String name,
+    @Nullable String uniqueId,
+    Component[] initialComponents
+  ) implements EntityMutation {
+    @Override
+    public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
+      // todo
 
-  // destroyed
-  private boolean isDestroyed = false;
+      // todo call new methods named "setDisabledImmediately" and "setNameImmediately" etc.
 
-  // name mutation
-  private boolean isNameChanged = false;
-  @Nullable
-  private String newName;
 
-  // component mutations
-  private List<Component> newComponents = new ArrayList<>();
-  private List<Class<? extends Component>> removedComponents = new ArrayList<>();
-
-  EntityMutation(@Nullable Integer entityIndex) {
-    this.entityIndex = entityIndex;
-  }
-
-  void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
-     /*
-    todo update order
-
-    1. isDestroyed
-    2. isNew : entityIndex == null
-    3. newComponents
-    4. removedComponents
-    5. isNameChanged -> newName
-     */
-  }
-
-  void mutateName(@Nullable String newName) {
-    isNameChanged = true;
-    this.newName = newName;
-  }
-
-  void mutateDisabled(boolean isDisabled) {
-    if (isDisabled) {
-      this.isDisabled = true;
-      this.isEnabled = false;
-    } else {
-      this.isEnabled = true;
-      this.isDisabled = false;
+      // when creating maybe start it as disabled so it reserves its spot but not processed
+      //   set disabled false?
     }
   }
 
-  void mutateDestroyed() {
-    this.isDestroyed = true;
+  record Name(
+    int entityId,
+    @Nullable String name
+  ) implements EntityMutation {
+    @Override
+    public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
+      var entity = world.getEntityAtIndex(entityId);
+
+      if (entity != null) {
+        var previousName = entity.getName();
+
+        entity.setNameImmediately(name);
+        entityNameCache.update(entity, previousName);
+      }
+    }
   }
 
-  void mutateAddComponent(Component component) {
-    newComponents.add(component);
+  record Disable(
+    int entityId,
+    boolean isDisabled
+  ) implements EntityMutation {
+    @Override
+    public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
+      var entity = world.getEntityAtIndex(entityId);
+
+      if (entity != null) {
+        entity.setDisabledImmediately(isDisabled);
+        viewCache.updateForDisabledStateChange(entity);
+      }
+    }
   }
 
-  void mutateRemoveComponent(Class<? extends Component> componentClass) {
-    removedComponents.add(componentClass);
+  record Destroy(
+    int entityId
+  ) implements EntityMutation {
+    @Override
+    public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
+      var entity = world.getEntityAtIndex(entityId);
+
+      if (entity != null) {
+        world.destroyEntity(entity);
+        entityNameCache.remove(entity.getName());
+        viewCache.updateForDeletedEntity(entity);
+      }
+    }
+  }
+
+  record AddComponent(
+    int entityId,
+    Component component
+  ) implements EntityMutation {
+    @Override
+    public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
+      world.addComponentForEntity(entityId, component);
+    }
+  }
+
+  record RemoveComponent(
+    int entityId,
+    Class<? extends Component> componentClass
+  ) implements EntityMutation {
+    @Override
+    public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
+      world.removeComponent(entityId, componentClass, true);
+    }
   }
 }

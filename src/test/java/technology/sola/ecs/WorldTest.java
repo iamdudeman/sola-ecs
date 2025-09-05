@@ -35,8 +35,9 @@ class WorldTest {
       world.createEntity();
     }
 
-    world.queueEntityForDestruction(world.getEntityAtIndex(0));
-    world.cleanupDestroyedEntities();
+    world.getEntityAtIndex(0).destroy();
+//    world.queueEntityForDestruction(world.getEntityAtIndex(0));
+    world.update();
 
     assertEquals(3, world.getEntityCount());
   }
@@ -88,6 +89,7 @@ class WorldTest {
       World world = new World(2);
       world.createEntity();
       Entity expected = world.createEntity().setName("test");
+      world.update();
 
       var result = world.findEntityByName("test");
 
@@ -164,8 +166,8 @@ class WorldTest {
 
       entity.getCurrentComponents().add(TestComponent1.class);
       world.addComponentForEntity(0, testComponent);
-      world.queueEntityForDestruction(entity);
-      world.cleanupDestroyedEntities();
+      entity.destroy();
+      world.update();
 
       assertNull(world.getComponentForEntity(0, TestComponent1.class));
     }
@@ -178,8 +180,8 @@ class WorldTest {
 
       assertEquals(entity, world.findEntityByName("test"));
 
-      world.queueEntityForDestruction(entity);
-      world.cleanupDestroyedEntities();
+      world.destroyEntity(entity);
+      world.update();
 
       assertNull(world.findEntityByName("test"));
     }
@@ -192,8 +194,8 @@ class WorldTest {
 
       world.addComponentForEntity(0, new TestComponent1());
       assertNotNull(world.getComponentForEntity(0, TestComponent1.class));
-      world.queueEntityForDestruction(entity);
-      world.cleanupDestroyedEntities();
+      entity.destroy();
+      world.update();
 
       world.createEntity();
 
@@ -224,7 +226,7 @@ class WorldTest {
       World world = new World(2);
       Entity entity = world.createEntity();
       Entity entity2 = world.createEntity();
-      entity2.setDisabled(true);
+      entity2.setDisabledImmediately(true);
 
       assertEquals(1, world.getEnabledEntities().size());
       assertEquals(entity, world.getEnabledEntities().get(0));

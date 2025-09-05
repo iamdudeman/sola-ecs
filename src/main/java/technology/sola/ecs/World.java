@@ -6,11 +6,7 @@ import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -26,7 +22,7 @@ public class World {
   private final @Nullable Entity[] entities;
   private final Map<Class<? extends Component>, @Nullable Component[]> components = new HashMap<>();
   private final Function<Class<? extends Component>, @Nullable Component[]> componentsMappingFunction = (key) -> new Component[World.this.maxEntityCount];
-  private final List<Entity> entitiesToDestroy = new ArrayList<>();
+  private final Queue<EntityMutation> entityMutations = new ArrayDeque<>();
   private final String baseUuid = UUID.randomUUID().toString().substring(0, 8);
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
@@ -45,19 +41,6 @@ public class World {
     entities = new Entity[maxEntityCount];
     viewCache = new ViewCache(this);
     viewBuilder = new ViewBuilder(viewCache);
-  }
-
-  /**
-   * Removes entities queued for destruction. Should be called at the end of a frame.
-   */
-  public void cleanupDestroyedEntities() {
-    for (Entity entity : entitiesToDestroy) {
-      destroyEntity(entity);
-      entityNameCache.remove(entity.getName());
-      viewCache.updateForDeletedEntity(entity);
-    }
-
-    entitiesToDestroy.clear();
   }
 
   /**
@@ -122,6 +105,7 @@ public class World {
     Entity entity = new Entity(this, entityIndex, entityUniqueId);
 
     entities[entity.getIndexInWorld()] = entity;
+    entity.setDisabled(false);
     entity.setName(name);
 
     for (Component component : components) {
@@ -260,6 +244,19 @@ public class World {
     viewCache.destroyView(componentClasses);
   }
 
+  /**
+   * Applies all entity mutations that happened during the previous frame. Should be called at the end of a frame.
+   */
+  public void update() {
+    while (!entityMutations.isEmpty()) {
+      entityMutations.poll().apply(this, viewCache, entityNameCache);
+    }
+  }
+
+  void addEntityMutation(EntityMutation entityMutation) {
+    entityMutations.add(entityMutation);
+  }
+
   void addComponentForEntity(int entityIndex, Component component) {
     Class<? extends Component> componentClass = component.getClass();
     var entity = entities[entityIndex];
@@ -322,19 +319,7 @@ public class World {
     }
   }
 
-  void queueEntityForDestruction(Entity entity) {
-    entitiesToDestroy.add(entity);
-  }
-
-  void updateEntityNameCache(Entity entity, @Nullable String previousName) {
-    entityNameCache.update(entity, previousName);
-  }
-
-  void updateDisabledStateCache(Entity entity) {
-    viewCache.updateForDisabledStateChange(entity);
-  }
-
-  private void destroyEntity(Entity entity) {
+  void destroyEntity(Entity entity) {
     var entityIndex = entity.getIndexInWorld();
 
     // only "destroy" the entity if it actually exists still!

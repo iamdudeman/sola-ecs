@@ -63,7 +63,7 @@ public class SolaEcs {
       }
     }
 
-    world.cleanupDestroyedEntities();
+    world.update();
   }
 
   /**
