@@ -91,6 +91,7 @@ public class ViewCacheIntegrationTest {
       assertEquals(5, view.getEntries().size());
 
       testWorld.createEntity(new TestComponent());
+      testWorld.update();
       assertEquals(5, view.getEntries().size());
     }
 

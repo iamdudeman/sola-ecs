@@ -8,12 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import technology.sola.ecs.Component;
 import technology.sola.ecs.Entity;
-import technology.sola.ecs.World;
 import technology.sola.ecs.view.ViewEntry;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class ViewImplTest {
   private TestView testView;
@@ -24,22 +23,42 @@ class ViewImplTest {
   }
 
   @Nested
+  class isWatchingComponent {
+    @Test
+    void whenWatching_shouldReturnTrue() {
+      assertTrue(testView.isWatchingComponent(TestComponent.class));
+      assertTrue(testView.isWatchingComponent(TestComponent2.class));
+    }
+
+    @Test
+    void whenNotWatching_shouldReturnFalse() {
+      assertFalse(testView.isWatchingComponent(TestComponent3.class));
+    }
+  }
+
+  @Nested
   class addEntryIfValidEntity {
     @Test
     void whenValid_shouldAdd() {
-      Entity testEntity = new World(1).createEntity(new TestComponent(), new TestComponent2());
+      var mockEntity = Mockito.mock(Entity.class);
 
-      testView.addEntryIfValidEntity(testEntity);
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent3.class)).thenReturn(true);
+
+      testView.addEntryIfValidEntity(mockEntity);
 
       assertEquals(1, testView.getEntries().size());
-      assertEquals(testEntity, testView.getEntries().iterator().next().entity);
+      assertEquals(mockEntity, testView.getEntries().iterator().next().entity);
     }
 
     @Test
     void whenInvalid_shouldNotAdd() {
-      Entity testEntity = new World(1).createEntity(new TestComponent());
+      var mockEntity = Mockito.mock(Entity.class);
 
-      testView.addEntryIfValidEntity(testEntity);
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+
+      testView.addEntryIfValidEntity(mockEntity);
 
       assertEquals(0, testView.getEntries().size());
     }
@@ -49,24 +68,29 @@ class ViewImplTest {
   class updateForAddComponent {
     @Test
     void whenAlreadyCached_shouldRemoveAndAddAgain() {
-      Entity testEntity = new World(1).createEntity(new TestComponent2());
+      var mockEntity = Mockito.mock(Entity.class);
 
-      testEntity.addComponent(new TestComponent());
-      testView.updateForAddComponent(testEntity, TestComponent.class);
-      testView.updateForAddComponent(testEntity, TestComponent.class);
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
+
+      testView.updateForAddComponent(mockEntity, TestComponent.class);
+      testView.updateForAddComponent(mockEntity, TestComponent.class);
 
       assertEquals(1, testView.getEntries().size());
-      assertEquals(testEntity, testView.getEntries().iterator().next().entity);
+      assertEquals(mockEntity, testView.getEntries().iterator().next().entity);
     }
 
     @Test
     void whenWatchingComponent_shouldAddEntryIfValid() {
-      TestView spiedView = Mockito.spy(testView);
       Entity mockEntity = Mockito.mock(Entity.class);
 
-      spiedView.updateForAddComponent(mockEntity, TestComponent.class);
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
 
-      Mockito.verify(spiedView, Mockito.times(1)).addEntryIfValidEntity(mockEntity);
+      testView.updateForAddComponent(mockEntity, TestComponent.class);
+
+      assertEquals(1, testView.getEntries().size());
+      assertEquals(mockEntity, testView.getEntries().iterator().next().entity);
     }
 
     @Test
@@ -77,6 +101,7 @@ class ViewImplTest {
       spiedView.updateForAddComponent(mockEntity, TestComponent3.class);
 
       Mockito.verify(spiedView, Mockito.times(0)).addEntryIfValidEntity(mockEntity);
+      assertEquals(0, testView.getEntries().size());
     }
   }
 
@@ -107,33 +132,32 @@ class ViewImplTest {
   class updateForDisabledStateChange {
     @Test
     void whenEnabled_shouldAddEntryIfValid() {
-      var world = new World(1);
-      Entity testEntity = world.createEntity(new TestComponent(), new TestComponent2());
-      world.update();
+      var mockEntity = Mockito.mock(Entity.class);
 
-      testEntity.setDisabled(true);
-      world.update();
-      testView.updateForDisabledStateChange(testEntity);
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
+
+      Mockito.when(mockEntity.isDisabled()).thenReturn(true);
+      testView.updateForDisabledStateChange(mockEntity);
       assertEquals(0, testView.getEntries().size());
 
-      testEntity.setDisabled(false);
-      world.update();
-      testView.updateForDisabledStateChange(testEntity);
+      Mockito.when(mockEntity.isDisabled()).thenReturn(false);
+      testView.updateForDisabledStateChange(mockEntity);
       assertEquals(1, testView.getEntries().size());
     }
 
     @Test
     void whenDisabled_shouldRemoveEntryIfFound() {
-      var world = new World(1);
-      Entity testEntity = world.createEntity(new TestComponent(), new TestComponent2());
-      world.update();
+      var mockEntity = Mockito.mock(Entity.class);
 
-      testView.addEntryIfValidEntity(testEntity);
+      Mockito.when(mockEntity.hasComponent(TestComponent.class)).thenReturn(true);
+      Mockito.when(mockEntity.hasComponent(TestComponent2.class)).thenReturn(true);
+
+      testView.addEntryIfValidEntity(mockEntity);
       assertEquals(1, testView.getEntries().size());
 
-      testEntity.setDisabled(true);
-      world.update();
-      testView.updateForDisabledStateChange(testEntity);
+      Mockito.when(mockEntity.isDisabled()).thenReturn(true);
+      testView.updateForDisabledStateChange(mockEntity);
       assertEquals(0, testView.getEntries().size());
     }
   }
