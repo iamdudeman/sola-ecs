@@ -48,7 +48,7 @@ public class World {
   }
 
   /**
-   * Removes entities that were queued for destruction. Should be called at the end of a frame.
+   * Removes entities queued for destruction. Should be called at the end of a frame.
    */
   public void cleanupDestroyedEntities() {
     for (Entity entity : entitiesToDestroy) {
@@ -81,7 +81,7 @@ public class World {
   /**
    * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with a set of components.
    * <p>
-   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param components the {@link Component}s to initialize the Entity with
    * @return a new {@code Entity}
@@ -93,7 +93,7 @@ public class World {
   /**
    * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with name and components.
    * <p>
-   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param name       the name to initialize this Entity with
    * @param components the {@link Component}s to initialize the Entity with
@@ -105,9 +105,9 @@ public class World {
 
   /**
    * Creates a new {@link Entity} inside this World with a set unique id. It is initialized with name and components. If
-   * the provided unique id is null then one will be generated.
+   * the provided unique id is null, then one will be generated.
    * <p>
-   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param uniqueId   the unique id to initialize this Entity with or null to generate one automatically
    * @param name       the name to initialize this Entity with
@@ -143,7 +143,7 @@ public class World {
   }
 
   /**
-   * Searches for an {@link Entity} by its name. Returns null if not ofund
+   * Searches for an {@link Entity} by its name. Returns null if not found.
    *
    * @param name the name of the {@code Entity}
    * @return the {@code Entity} with desired name or null if not found
