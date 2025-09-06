@@ -48,6 +48,8 @@ public class SolaEcs {
    */
   public void setWorld(World world) {
     this.world = world;
+
+    world.update();
   }
 
   /**
