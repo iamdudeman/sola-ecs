@@ -27,12 +27,12 @@ interface EntityMutation {
   }
 
   record Name(
-    int entityId,
+    int entityIndex,
     @Nullable String name
   ) implements EntityMutation {
     @Override
     public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
-      var entity = world.getEntityAtIndex(entityId);
+      var entity = world.getEntityAtIndex(entityIndex);
 
       if (entity != null) {
         var previousName = entity.getName();
@@ -44,12 +44,12 @@ interface EntityMutation {
   }
 
   record Disable(
-    int entityId,
+    int entityIndex,
     boolean isDisabled
   ) implements EntityMutation {
     @Override
     public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
-      var entity = world.getEntityAtIndex(entityId);
+      var entity = world.getEntityAtIndex(entityIndex);
 
       if (entity != null) {
         entity.setDisabledImmediately(isDisabled);
@@ -59,14 +59,14 @@ interface EntityMutation {
   }
 
   record Destroy(
-    int entityId
+    int entityIndex
   ) implements EntityMutation {
     @Override
     public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
-      var entity = world.getEntityAtIndex(entityId);
+      var entity = world.getEntityAtIndex(entityIndex);
 
       if (entity != null) {
-        world.destroyEntity(entity);
+        world.destroy(entityIndex);
         entityNameCache.remove(entity.getName());
         viewCache.updateForDeletedEntity(entity);
       }
@@ -74,22 +74,22 @@ interface EntityMutation {
   }
 
   record AddComponent(
-    int entityId,
+    int entityIndex,
     Component component
   ) implements EntityMutation {
     @Override
     public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
-      world.addComponentForEntity(entityId, component);
+      world.addComponent(entityIndex, component);
     }
   }
 
   record RemoveComponent(
-    int entityId,
+    int entityIndex,
     Class<? extends Component> componentClass
   ) implements EntityMutation {
     @Override
     public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
-      world.removeComponent(entityId, componentClass, true);
+      world.removeComponent(entityIndex, componentClass, true);
     }
   }
 }

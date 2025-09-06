@@ -108,7 +108,7 @@ public class Entity {
    */
   @Nullable
   public <T extends Component> T getComponent(Class<T> componentClass) {
-    return world.getComponentForEntity(entityIndex, componentClass);
+    return world.getComponent(entityIndex, componentClass);
   }
 
   /**

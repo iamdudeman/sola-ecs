@@ -106,7 +106,10 @@ public class World {
 
     entities[entity.getIndexInWorld()] = entity;
     entity.setDisabled(false);
-    entity.setName(name);
+
+    if (name != null) {
+      entity.setName(name);
+    }
 
     for (Component component : components) {
       entity.addComponent(component);
@@ -209,7 +212,7 @@ public class World {
       boolean hasAllClasses = true;
 
       for (Class<? extends Component> componentClass : componentClasses) {
-        if (getComponentForEntity(entity.getIndexInWorld(), componentClass) == null) {
+        if (getComponent(entity.getIndexInWorld(), componentClass) == null) {
           hasAllClasses = false;
           break;
         }
@@ -257,7 +260,7 @@ public class World {
     entityMutations.add(entityMutation);
   }
 
-  void addComponentForEntity(int entityIndex, Component component) {
+  void addComponent(int entityIndex, Component component) {
     Class<? extends Component> componentClass = component.getClass();
     var entity = entities[entityIndex];
 
@@ -274,7 +277,7 @@ public class World {
   }
 
   @Nullable
-  <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
+  <T extends Component> T getComponent(int entityIndex, Class<T> componentClass) {
     @Nullable Component[] componentsOfType = components.computeIfAbsent(
       componentClass,
       componentsMappingFunction
@@ -319,9 +322,7 @@ public class World {
     }
   }
 
-  void destroyEntity(Entity entity) {
-    var entityIndex = entity.getIndexInWorld();
-
+  void destroy(int entityIndex) {
     // only "destroy" the entity if it actually exists still!
     if (entities[entityIndex] != null) {
       totalEntityCount--;

@@ -112,7 +112,7 @@ public class EntityTest {
 
       entity.getComponent(TestComponent1.class);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).getComponentForEntity(0, TestComponent1.class);
+      Mockito.verify(mockWorld, Mockito.times(1)).getComponent(0, TestComponent1.class);
     }
   }
 
