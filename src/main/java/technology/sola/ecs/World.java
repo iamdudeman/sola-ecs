@@ -6,11 +6,7 @@ import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
 import technology.sola.ecs.exception.WorldEntityLimitException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 
 /**
@@ -26,7 +22,7 @@ public class World {
   private final @Nullable Entity[] entities;
   private final Map<Class<? extends Component>, @Nullable Component[]> components = new HashMap<>();
   private final Function<Class<? extends Component>, @Nullable Component[]> componentsMappingFunction = (key) -> new Component[World.this.maxEntityCount];
-  private final List<Entity> entitiesToDestroy = new ArrayList<>();
+  private final Queue<EntityMutation> entityMutations = new ArrayDeque<>();
   private final String baseUuid = UUID.randomUUID().toString().substring(0, 8);
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
@@ -45,19 +41,6 @@ public class World {
     entities = new Entity[maxEntityCount];
     viewCache = new ViewCache(this);
     viewBuilder = new ViewBuilder(viewCache);
-  }
-
-  /**
-   * Removes entities that were queued for destruction. Should be called at the end of a frame.
-   */
-  public void cleanupDestroyedEntities() {
-    for (Entity entity : entitiesToDestroy) {
-      destroyEntity(entity);
-      entityNameCache.remove(entity.getName());
-      viewCache.updateForDeletedEntity(entity);
-    }
-
-    entitiesToDestroy.clear();
   }
 
   /**
@@ -81,7 +64,7 @@ public class World {
   /**
    * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with a set of components.
    * <p>
-   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param components the {@link Component}s to initialize the Entity with
    * @return a new {@code Entity}
@@ -93,7 +76,7 @@ public class World {
   /**
    * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with name and components.
    * <p>
-   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param name       the name to initialize this Entity with
    * @param components the {@link Component}s to initialize the Entity with
@@ -105,9 +88,9 @@ public class World {
 
   /**
    * Creates a new {@link Entity} inside this World with a set unique id. It is initialized with name and components. If
-   * the provided unique id is null then one will be generated.
+   * the provided unique id is null, then one will be generated.
    * <p>
-   * If the total entity count goes above the max number specified in this world then an exception will be thrown.
+   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param uniqueId   the unique id to initialize this Entity with or null to generate one automatically
    * @param name       the name to initialize this Entity with
@@ -122,11 +105,10 @@ public class World {
     Entity entity = new Entity(this, entityIndex, entityUniqueId);
 
     entities[entity.getIndexInWorld()] = entity;
-    entity.setName(name);
 
-    for (Component component : components) {
-      entity.addComponent(component);
-    }
+    addEntityMutation(new EntityMutation.Created(
+      entityIndex, name, components
+    ));
 
     return entity;
   }
@@ -143,7 +125,7 @@ public class World {
   }
 
   /**
-   * Searches for an {@link Entity} by its name. Returns null if not ofund
+   * Searches for an {@link Entity} by its name. Returns null if not found.
    *
    * @param name the name of the {@code Entity}
    * @return the {@code Entity} with desired name or null if not found
@@ -225,7 +207,7 @@ public class World {
       boolean hasAllClasses = true;
 
       for (Class<? extends Component> componentClass : componentClasses) {
-        if (getComponentForEntity(entity.getIndexInWorld(), componentClass) == null) {
+        if (getComponent(entity.getIndexInWorld(), componentClass) == null) {
           hasAllClasses = false;
           break;
         }
@@ -260,7 +242,20 @@ public class World {
     viewCache.destroyView(componentClasses);
   }
 
-  void addComponentForEntity(int entityIndex, Component component) {
+  /**
+   * Applies all entity mutations that happened during the previous frame. Should be called at the end of a frame.
+   */
+  public void update() {
+    while (!entityMutations.isEmpty()) {
+      entityMutations.poll().apply(this, viewCache, entityNameCache);
+    }
+  }
+
+  void addEntityMutation(EntityMutation entityMutation) {
+    entityMutations.add(entityMutation);
+  }
+
+  void addComponent(int entityIndex, Component component) {
     Class<? extends Component> componentClass = component.getClass();
     var entity = entities[entityIndex];
 
@@ -277,7 +272,7 @@ public class World {
   }
 
   @Nullable
-  <T extends Component> T getComponentForEntity(int entityIndex, Class<T> componentClass) {
+  <T extends Component> T getComponent(int entityIndex, Class<T> componentClass) {
     @Nullable Component[] componentsOfType = components.computeIfAbsent(
       componentClass,
       componentsMappingFunction
@@ -322,21 +317,7 @@ public class World {
     }
   }
 
-  void queueEntityForDestruction(Entity entity) {
-    entitiesToDestroy.add(entity);
-  }
-
-  void updateEntityNameCache(Entity entity, @Nullable String previousName) {
-    entityNameCache.update(entity, previousName);
-  }
-
-  void updateDisabledStateCache(Entity entity) {
-    viewCache.updateForDisabledStateChange(entity);
-  }
-
-  private void destroyEntity(Entity entity) {
-    var entityIndex = entity.getIndexInWorld();
-
+  void destroy(int entityIndex) {
     // only "destroy" the entity if it actually exists still!
     if (entities[entityIndex] != null) {
       totalEntityCount--;

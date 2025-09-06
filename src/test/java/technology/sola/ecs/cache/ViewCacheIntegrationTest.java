@@ -51,6 +51,7 @@ public class ViewCacheIntegrationTest {
     entityDisabled = testWorld.createEntity(
       new TestComponent(), new TestComponent2(), new TestComponent3(), new TestComponent4()
     ).setDisabled(true);
+    testWorld.update();
 
     testComponentView1 = testWorld.createView().of(TestComponent.class);
     testComponentView12 = testWorld.createView().of(TestComponent.class, TestComponent2.class);
@@ -90,6 +91,7 @@ public class ViewCacheIntegrationTest {
       assertEquals(5, view.getEntries().size());
 
       testWorld.createEntity(new TestComponent());
+      testWorld.update();
       assertEquals(5, view.getEntries().size());
     }
 
@@ -102,6 +104,7 @@ public class ViewCacheIntegrationTest {
 
       assertEquals(5, testWorld.createView().of(TestComponent.class).getEntries().size());
       testWorld.createEntity(new TestComponent());
+      testWorld.update();
       assertEquals(5, view.getEntries().size());
       assertEquals(6, testWorld.createView().of(TestComponent.class).getEntries().size());
     }
@@ -111,6 +114,7 @@ public class ViewCacheIntegrationTest {
   void updateForAddComponent_integrationTest() {
     var originalTestComponentAdded = new TestComponent();
     entityWithNoComponents.addComponent(originalTestComponentAdded);
+    testWorld.update();
     assertEquals(6, testComponentView1.getEntries().size());
     assertEquals(3, testComponentView12.getEntries().size());
     assertEquals(2, testComponentView123.getEntries().size());
@@ -118,6 +122,7 @@ public class ViewCacheIntegrationTest {
     assertEquals(1, testComponentViewN.getEntries().size());
 
     entityWithNoComponents.addComponent(new TestComponent("test2"));
+    testWorld.update();
     testComponentView1.getEntries().stream()
       .filter(entry -> entry.entity() == entityWithNoComponents)
       .findFirst()
@@ -127,6 +132,7 @@ public class ViewCacheIntegrationTest {
       );
 
     entityWithNoComponents.addComponent(new TestComponent2());
+    testWorld.update();
     assertEquals(6, testComponentView1.getEntries().size());
     assertEquals(4, testComponentView12.getEntries().size());
     assertEquals(2, testComponentView123.getEntries().size());
@@ -135,6 +141,7 @@ public class ViewCacheIntegrationTest {
 
     entityWithTestComponent12.addComponent(new TestComponent3());
     entityWithTestComponent12.addComponent(new TestComponent4());
+    testWorld.update();
     assertEquals(6, testComponentView1.getEntries().size());
     assertEquals(4, testComponentView12.getEntries().size());
     assertEquals(3, testComponentView123.getEntries().size());
@@ -145,6 +152,7 @@ public class ViewCacheIntegrationTest {
   @Test
   void updateForRemoveComponent_integrationTest() {
     entityWithNoComponents.removeComponent(TestComponent.class);
+    testWorld.update();
     assertEquals(5, testComponentView1.getEntries().size());
     assertEquals(3, testComponentView12.getEntries().size());
     assertEquals(2, testComponentView123.getEntries().size());
@@ -152,6 +160,7 @@ public class ViewCacheIntegrationTest {
     assertEquals(1, testComponentViewN.getEntries().size());
 
     entityWithTestComponent1234.removeComponent(TestComponent3.class);
+    testWorld.update();
     assertEquals(5, testComponentView1.getEntries().size());
     assertEquals(3, testComponentView12.getEntries().size());
     assertEquals(1, testComponentView123.getEntries().size());
@@ -159,6 +168,7 @@ public class ViewCacheIntegrationTest {
     assertEquals(0, testComponentViewN.getEntries().size());
 
     entityWithTestComponent1234.removeComponent(TestComponent.class);
+    testWorld.update();
     assertEquals(4, testComponentView1.getEntries().size());
     assertEquals(2, testComponentView12.getEntries().size());
     assertEquals(1, testComponentView123.getEntries().size());
@@ -169,6 +179,7 @@ public class ViewCacheIntegrationTest {
   @Test
   void updateForDisabledStateChange_integrationTest() {
     entityDisabled.setDisabled(false);
+    testWorld.update();
     assertEquals(6, testComponentView1.getEntries().size());
     assertEquals(4, testComponentView12.getEntries().size());
     assertEquals(3, testComponentView123.getEntries().size());
@@ -176,6 +187,7 @@ public class ViewCacheIntegrationTest {
     assertEquals(2, testComponentViewN.getEntries().size());
 
     entityDisabled.setDisabled(true);
+    testWorld.update();
     assertEquals(5, testComponentView1.getEntries().size());
     assertEquals(3, testComponentView12.getEntries().size());
     assertEquals(2, testComponentView123.getEntries().size());
@@ -186,7 +198,7 @@ public class ViewCacheIntegrationTest {
   @Test
   void updateForDeletedEntity_integrationTest() {
     entityWithNoComponents.destroy();
-    testWorld.cleanupDestroyedEntities();
+    testWorld.update();
     assertEquals(5, testComponentView1.getEntries().size());
     assertEquals(3, testComponentView12.getEntries().size());
     assertEquals(2, testComponentView123.getEntries().size());
@@ -194,7 +206,7 @@ public class ViewCacheIntegrationTest {
     assertEquals(1, testComponentViewN.getEntries().size());
 
     entityWithTestComponent1234.destroy();
-    testWorld.cleanupDestroyedEntities();
+    testWorld.update();
     assertEquals(4, testComponentView1.getEntries().size());
     assertEquals(2, testComponentView12.getEntries().size());
     assertEquals(1, testComponentView123.getEntries().size());
@@ -202,7 +214,7 @@ public class ViewCacheIntegrationTest {
     assertEquals(0, testComponentViewN.getEntries().size());
 
     entityWithTestComponent12.destroy();
-    testWorld.cleanupDestroyedEntities();
+    testWorld.update();
     assertEquals(3, testComponentView1.getEntries().size());
     assertEquals(1, testComponentView12.getEntries().size());
     assertEquals(1, testComponentView123.getEntries().size());

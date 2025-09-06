@@ -27,7 +27,7 @@ public class EntityNameCache {
 
   /**
    * Updates the cache for an {@link Entity} using its previous name as reference. This will remove the entity from its
-   * previous name and add it for its new one.
+   * previous name and add it to its new one.
    *
    * @param entity       the {@code Entity} to update the cache for
    * @param previousName the previous name of the {@code Entity}

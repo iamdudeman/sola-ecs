@@ -15,7 +15,7 @@ public class Entity {
   private final World world;
   @Nullable
   private String name = null;
-  private boolean isDisabled = false;
+  private boolean isDisabled = true;
 
   /**
    * Gets the integer id of this Entity.
@@ -52,10 +52,7 @@ public class Entity {
    * @return this Entity
    */
   public Entity setName(@Nullable String name) {
-    String previousName = this.name;
-    this.name = name;
-
-    world.updateEntityNameCache(this, previousName);
+    world.addEntityMutation(new EntityMutation.Name(entityIndex, name));
 
     return this;
   }
@@ -76,17 +73,9 @@ public class Entity {
    * @return this
    */
   public Entity setDisabled(boolean disabled) {
-    isDisabled = disabled;
-    world.updateDisabledStateCache(this);
+    world.addEntityMutation(new EntityMutation.Disable(entityIndex, disabled));
 
     return this;
-  }
-
-  /**
-   * Queues this Entity for destruction. This typically should happen at the end of the current frame.
-   */
-  public void destroy() {
-    world.queueEntityForDestruction(this);
   }
 
   /**
@@ -96,9 +85,18 @@ public class Entity {
    * @return this Entity
    */
   public Entity addComponent(Component component) {
-    world.addComponentForEntity(entityIndex, component);
+    world.addEntityMutation(new EntityMutation.AddComponent(entityIndex, component));
 
     return this;
+  }
+
+  /**
+   * Removes a {@link Component} from this Entity.
+   *
+   * @param componentClassToRemove the Class of the {@code Component} to remove
+   */
+  public void removeComponent(Class<? extends Component> componentClassToRemove) {
+    world.addEntityMutation(new EntityMutation.RemoveComponent(entityIndex, componentClassToRemove));
   }
 
   /**
@@ -110,7 +108,7 @@ public class Entity {
    */
   @Nullable
   public <T extends Component> T getComponent(Class<T> componentClass) {
-    return world.getComponentForEntity(entityIndex, componentClass);
+    return world.getComponent(entityIndex, componentClass);
   }
 
   /**
@@ -125,21 +123,27 @@ public class Entity {
   }
 
   /**
-   * Removes a {@link Component} from this Entity.
-   *
-   * @param componentClassToRemove the Class of the {@code Component} to remove
-   */
-  public void removeComponent(Class<? extends Component> componentClassToRemove) {
-    world.removeComponent(entityIndex, componentClassToRemove, true);
-  }
-
-  /**
    * Returns a list of the current {@link Component} classes that this entity has.
    *
    * @return the list of {@code Component} classes
    */
   public List<Class<? extends Component>> getCurrentComponents() {
     return world.getCurrentComponents(entityIndex);
+  }
+
+  /**
+   * Queues this Entity for destruction. This typically should happen at the end of the current frame.
+   */
+  public void destroy() {
+    world.addEntityMutation(new EntityMutation.Destroy(entityIndex));
+  }
+
+  void setNameImmediately(@Nullable String name) {
+    this.name = name;
+  }
+
+  void setDisabledImmediately(boolean disabled) {
+    isDisabled = disabled;
   }
 
   Entity(World world, int entityIndex, String uniqueId) {

@@ -2,7 +2,6 @@
 
 ## Performance
 
-*
 
 ## Features
 
@@ -11,4 +10,3 @@
 
 ## Bugs
 
-* updating disable state should happen next frame rather than immediately just like destroy

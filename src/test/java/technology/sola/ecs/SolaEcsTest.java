@@ -25,9 +25,13 @@ class SolaEcsTest {
   void setWorld_shouldUpdateWorld() {
     World world = new World(2);
 
+    Entity entity = world.createEntity();
+
+    assertTrue(entity.isDisabled());
     solaEcs.setWorld(world);
 
     assertEquals(world, solaEcs.getWorld());
+    assertFalse(entity.isDisabled());
   }
 
   @Nested
@@ -127,13 +131,13 @@ class SolaEcsTest {
     }
 
     @Test
-    void shouldCleanupDestroyedEntities() {
+    void shouldUpdateAfterSystemsRun() {
       World mockWorld = Mockito.mock(World.class);
       solaEcs.setWorld(mockWorld);
 
       solaEcs.updateWorld(1f);
 
-      Mockito.verify(mockWorld, Mockito.times(1)).cleanupDestroyedEntities();
+      Mockito.verify(mockWorld, Mockito.times(2)).update();
     }
   }
 

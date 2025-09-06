@@ -110,6 +110,8 @@ public class WorldJsonMapper implements JsonMapper<World> {
       });
     });
 
+    world.update();
+
     return world;
   }
 

@@ -54,6 +54,8 @@ public class SolaEcsBenchmark {
     for (int i = 0; i < world.getMaxEntityCount(); i++) {
       blackhole.consume(world.createEntity(new TestComponent()));
     }
+
+    world.update();
   }
 
   @Benchmark
@@ -71,6 +73,8 @@ public class SolaEcsBenchmark {
       }
     }
 
+    world.update();
+
     for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
       count++;
 
@@ -82,6 +86,8 @@ public class SolaEcsBenchmark {
         }
       }
     }
+
+    world.update();
 
     blackhole.consume(world);
   }
@@ -101,7 +107,7 @@ public class SolaEcsBenchmark {
       }
     }
 
-    world.cleanupDestroyedEntities();
+    world.update();
 
     blackhole.consume(world);
   }
@@ -150,6 +156,8 @@ public class SolaEcsBenchmark {
       blackhole.consume(world.createEntity(new TestComponent()));
     }
 
+    world.update();
+
     blackhole.consume(view);
   }
 
@@ -168,6 +176,8 @@ public class SolaEcsBenchmark {
       }
     }
 
+    world.update();
+
     for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
       count++;
 
@@ -179,6 +189,8 @@ public class SolaEcsBenchmark {
         }
       }
     }
+
+    world.update();
 
     blackhole.consume(world);
   }
@@ -198,7 +210,7 @@ public class SolaEcsBenchmark {
       }
     }
 
-    world.cleanupDestroyedEntities();
+    world.update();
 
     blackhole.consume(world);
   }
@@ -226,6 +238,8 @@ public class SolaEcsBenchmark {
       for (int i = 0; i < world.getMaxEntityCount(); i++) {
         world.createEntity(new TestComponent());
       }
+
+      world.update();
     }
   }
 
@@ -240,6 +254,8 @@ public class SolaEcsBenchmark {
       for (int i = 0; i < world.getMaxEntityCount(); i++) {
         world.createEntity(new TestComponent());
       }
+
+      world.update();
     }
   }
 
@@ -256,6 +272,8 @@ public class SolaEcsBenchmark {
         world.createEntity(new TestComponent());
       }
 
+      world.update();
+
       view = world.createView().of(TestComponent.class);
     }
   }
@@ -271,6 +289,8 @@ public class SolaEcsBenchmark {
       for (int i = 0; i < world.getMaxEntityCount(); i++) {
         world.createEntity(new TestComponent(), new TestComponent2(), new TestComponent3());
       }
+
+      world.update();
     }
   }
 }

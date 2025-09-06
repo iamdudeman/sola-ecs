@@ -38,6 +38,8 @@ public class JsonWorldIo implements WorldIo {
 
     WorldIo.processWorldAfterDeserialize(world);
 
+    world.update();
+
     return world;
   }
 }
