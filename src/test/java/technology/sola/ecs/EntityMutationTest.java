@@ -119,7 +119,14 @@ class EntityMutationTest {
   class Disable {
     @Test
     void test() {
-      // todo
+      World world = new World(2);
+      Entity entity = world.createEntity();
+
+      new EntityMutation.Disable(0, false)
+        .apply(world, mockViewCache, mockEntityNameCache);
+
+      assertFalse(entity.isDisabled());
+      Mockito.verify(mockViewCache).updateForDisabledStateChange(entity);
     }
 
     @Test
@@ -136,7 +143,16 @@ class EntityMutationTest {
   class Destroy {
     @Test
     void test() {
-      // todo
+      World world = new World(2);
+      Entity entity = world.createEntity();
+      entity.setNameImmediately("test");
+
+      new EntityMutation.Destroy(0)
+        .apply(world, mockViewCache, mockEntityNameCache);
+
+      assertEquals(0, world.getEntityCount());
+      Mockito.verify(mockEntityNameCache).remove("test");
+      Mockito.verify(mockViewCache).updateForDeletedEntity(entity);
     }
 
     @Test
@@ -153,7 +169,14 @@ class EntityMutationTest {
   class AddComponent {
     @Test
     void test() {
-      // todo
+      World mockWorld = Mockito.mock(World.class);
+      var newComponent = new TestComponent();
+
+      new EntityMutation.AddComponent(0, newComponent)
+        .apply(mockWorld, mockViewCache, mockEntityNameCache);
+
+      Mockito.verify(mockWorld)
+        .addComponent(0, newComponent);
     }
   }
 
@@ -161,7 +184,13 @@ class EntityMutationTest {
   class RemoveComponent {
     @Test
     void test() {
-      // todo
+      World mockWorld = Mockito.mock(World.class);
+
+      new EntityMutation.RemoveComponent(0, TestComponent.class)
+        .apply(mockWorld, mockViewCache, mockEntityNameCache);
+
+      Mockito.verify(mockWorld)
+        .removeComponent(0, TestComponent.class, true);
     }
   }
 
