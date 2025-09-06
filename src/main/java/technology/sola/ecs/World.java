@@ -105,15 +105,10 @@ public class World {
     Entity entity = new Entity(this, entityIndex, entityUniqueId);
 
     entities[entity.getIndexInWorld()] = entity;
-    entity.setDisabled(false);
 
-    if (name != null) {
-      entity.setName(name);
-    }
-
-    for (Component component : components) {
-      entity.addComponent(component);
-    }
+    addEntityMutation(new EntityMutation.Created(
+      entityIndex, name, components
+    ));
 
     return entity;
   }

@@ -10,19 +10,28 @@ interface EntityMutation {
   void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache);
 
   record Created(
+    int entityIndex,
     @Nullable String name,
-    @Nullable String uniqueId,
     Component[] initialComponents
   ) implements EntityMutation {
     @Override
     public void apply(World world, ViewCache viewCache, EntityNameCache entityNameCache) {
-      // todo
+      var entity = world.getEntityAtIndex(entityIndex);
 
-      // todo call new methods named "setDisabledImmediately" and "setNameImmediately" etc.
+      if (entity != null) {
+        entity.setDisabledImmediately(false);
 
+        // update name cache if a name was set
+        if (name != null) {
+          entity.setNameImmediately(name);
+          entityNameCache.update(entity, null);
+        }
 
-      // when creating maybe start it as disabled so it reserves its spot but not processed
-      //   set disabled false?
+        // update components
+        for (Component component : initialComponents) {
+          world.addComponent(entityIndex, component);
+        }
+      }
     }
   }
 
