@@ -21,7 +21,7 @@ interface EntityMutation {
       if (entity != null) {
         entity.setDisabledImmediately(false);
 
-        // update name cache if a name was set
+        // update the name cache if a name was set
         if (name != null) {
           entity.setNameImmediately(name);
           entityNameCache.update(entity, null);
