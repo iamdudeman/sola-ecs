@@ -79,13 +79,6 @@ public class Entity {
   }
 
   /**
-   * Queues this Entity for destruction. This typically should happen at the end of the current frame.
-   */
-  public void destroy() {
-    world.addEntityMutation(new EntityMutation.Destroy(entityIndex));
-  }
-
-  /**
    * Adds a {@link Component} to this Entity.
    *
    * @param component the {@code Component} to add
@@ -95,6 +88,15 @@ public class Entity {
     world.addEntityMutation(new EntityMutation.AddComponent(entityIndex, component));
 
     return this;
+  }
+
+  /**
+   * Removes a {@link Component} from this Entity.
+   *
+   * @param componentClassToRemove the Class of the {@code Component} to remove
+   */
+  public void removeComponent(Class<? extends Component> componentClassToRemove) {
+    world.addEntityMutation(new EntityMutation.RemoveComponent(entityIndex, componentClassToRemove));
   }
 
   /**
@@ -121,21 +123,19 @@ public class Entity {
   }
 
   /**
-   * Removes a {@link Component} from this Entity.
-   *
-   * @param componentClassToRemove the Class of the {@code Component} to remove
-   */
-  public void removeComponent(Class<? extends Component> componentClassToRemove) {
-    world.addEntityMutation(new EntityMutation.RemoveComponent(entityIndex, componentClassToRemove));
-  }
-
-  /**
    * Returns a list of the current {@link Component} classes that this entity has.
    *
    * @return the list of {@code Component} classes
    */
   public List<Class<? extends Component>> getCurrentComponents() {
     return world.getCurrentComponents(entityIndex);
+  }
+
+  /**
+   * Queues this Entity for destruction. This typically should happen at the end of the current frame.
+   */
+  public void destroy() {
+    world.addEntityMutation(new EntityMutation.Destroy(entityIndex));
   }
 
   void setNameImmediately(@Nullable String name) {
