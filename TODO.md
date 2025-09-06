@@ -1,9 +1,5 @@
 # TODO List
 
-WIP:
-* updating disable state should happen next frame rather than immediately just like destroy
-* adding/removing components should also buffer!
-
 ## Performance
 
 
