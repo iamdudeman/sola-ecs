@@ -230,7 +230,7 @@ loadScripts(document, 'script');</script>
 <h3>updateWorld</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">updateWorld</span><wbr><span class="parameters">(float&nbsp;deltaTime)</span></div>
 <div class="block">Called when the <a href="World.html" title="class in technology.sola.ecs"><code>World</code></a> should be updated. All active <a href="EcsSystem.html#update(technology.sola.ecs.World,float)"><code>EcsSystem.update(technology.sola.ecs.World, float)</code></a> methods will be called.
- After these updates any <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> that were queued to be destroyed will be cleaned up.</div>
+ After these updates any <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> that were mutated will be updated.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>deltaTime</code> - the delta time between updates</dd>

@@ -242,13 +242,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="destroy()">
-<h3>destroy</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">destroy</span>()</div>
-<div class="block">Queues this Entity for destruction. This typically should happen at the end of the current frame.</div>
-</section>
-</li>
-<li>
 <section class="detail" id="addComponent(technology.sola.ecs.Component)">
 <h3>addComponent</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in technology.sola.ecs">Entity</a></span>&nbsp;<span class="element-name">addComponent</span><wbr><span class="parameters">(<a href="Component.html" title="interface in technology.sola.ecs">Component</a>&nbsp;component)</span></div>
@@ -258,6 +251,17 @@ loadScripts(document, 'script');</script>
 <dd><code>component</code> - the <code>Component</code> to add</dd>
 <dt>Returns:</dt>
 <dd>this Entity</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="removeComponent(java.lang.Class)">
+<h3>removeComponent</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeComponent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Component.html" title="interface in technology.sola.ecs">Component</a>&gt;&nbsp;componentClassToRemove)</span></div>
+<div class="block">Removes a <a href="Component.html" title="interface in technology.sola.ecs"><code>Component</code></a> from this Entity.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>componentClassToRemove</code> - the Class of the <code>Component</code> to remove</dd>
 </dl>
 </section>
 </li>
@@ -292,17 +296,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="removeComponent(java.lang.Class)">
-<h3>removeComponent</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">removeComponent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Component.html" title="interface in technology.sola.ecs">Component</a>&gt;&nbsp;componentClassToRemove)</span></div>
-<div class="block">Removes a <a href="Component.html" title="interface in technology.sola.ecs"><code>Component</code></a> from this Entity.</div>
-<dl class="notes">
-<dt>Parameters:</dt>
-<dd><code>componentClassToRemove</code> - the Class of the <code>Component</code> to remove</dd>
-</dl>
-</section>
-</li>
-<li>
 <section class="detail" id="getCurrentComponents()">
 <h3>getCurrentComponents</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="Component.html" title="interface in technology.sola.ecs">Component</a>&gt;&gt;</span>&nbsp;<span class="element-name">getCurrentComponents</span>()</div>
@@ -311,6 +304,13 @@ loadScripts(document, 'script');</script>
 <dt>Returns:</dt>
 <dd>the list of <code>Component</code> classes</dd>
 </dl>
+</section>
+</li>
+<li>
+<section class="detail" id="destroy()">
+<h3>destroy</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">destroy</span>()</div>
+<div class="block">Queues this Entity for destruction. This typically should happen at the end of the current frame.</div>
 </section>
 </li>
 </ul>
