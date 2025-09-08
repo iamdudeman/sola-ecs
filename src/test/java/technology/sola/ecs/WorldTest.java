@@ -11,15 +11,15 @@ class WorldTest {
   @Nested
   class constructor {
     @Test
-    void withZeroMaxEntities_shouldThrowException() {
+    void withZeroCapacity_shouldThrowException() {
       assertThrows(IllegalArgumentException.class, () -> new World(0));
     }
 
     @Test
-    void withMaxEntities_shouldHaveMaxEntitiesSet() {
+    void withValidCapacity_shouldHaveCapacitySet() {
       var world = new World(5);
 
-      assertEquals(5, world.getCurrentMaxEntityCount());
+      assertEquals(5, world.getCurrentCapacity());
       assertEquals(0, world.getEntityCount());
     }
   }
@@ -28,15 +28,15 @@ class WorldTest {
   class createEntity {
     @Test
     void whenCreatingTooManyEntities_shouldResize() {
-      int initialMax = 10;
-      World world = new World(initialMax);
+      int initialCapacity = 10;
+      World world = new World(initialCapacity);
 
-      for (int i = 0; i < initialMax + 1; i++) {
+      for (int i = 0; i < initialCapacity + 1; i++) {
         world.createEntity();
       }
 
-      assertEquals(initialMax + 1, world.getEntities().size());
-      assertEquals(16, world.getCurrentMaxEntityCount());
+      assertEquals(initialCapacity + 1, world.getEntities().size());
+      assertEquals(16, world.getCurrentCapacity());
     }
 
     @Test
