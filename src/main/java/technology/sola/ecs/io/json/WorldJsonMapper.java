@@ -77,7 +77,7 @@ public class WorldJsonMapper implements JsonMapper<World> {
     });
 
     JsonObject worldObject = new JsonObject();
-    worldObject.put(FieldKeys.MAX_ENTITY_COUNT, world.getMaxEntityCount());
+    worldObject.put(FieldKeys.MAX_ENTITY_COUNT, world.getCurrentMaxEntityCount());
     worldObject.put(FieldKeys.ENTITIES, entityArray);
 
     return worldObject;

@@ -4,7 +4,6 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
-import technology.sola.ecs.exception.WorldEntityLimitException;
 
 import java.util.*;
 import java.util.function.Function;
@@ -18,38 +17,39 @@ public class World {
   private final EntityNameCache entityNameCache = new EntityNameCache();
   private final ViewCache viewCache;
   private final ViewBuilder viewBuilder;
-  private final int maxEntityCount;
-  private final @Nullable Entity[] entities;
   private final Map<Class<? extends Component>, @Nullable Component[]> components = new HashMap<>();
-  private final Function<Class<? extends Component>, @Nullable Component[]> componentsMappingFunction = (key) -> new Component[World.this.maxEntityCount];
+  private final Function<Class<? extends Component>, @Nullable Component[]> componentsMappingFunction = (key) -> new Component[World.this.currentMaxEntityCount];
   private final Queue<EntityMutation> entityMutations = new ArrayDeque<>();
   private final String baseUuid = UUID.randomUUID().toString().substring(0, 8);
+  private int currentMaxEntityCount;
+  private @Nullable Entity[] entities;
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
 
   /**
-   * Creates a new World instance with specified max {@link Entity} count.
+   * Creates a new World instance with specified initial max {@link Entity} count.
    *
-   * @param maxEntityCount the maximum number of {@code Entity} in this World, must be greater than 0
+   * @param initialMaxEntityCount the initial maximum number of {@code Entity} in this World, must be greater than 0
    */
-  public World(int maxEntityCount) {
-    if (maxEntityCount < 1) {
+  public World(int initialMaxEntityCount) {
+    if (initialMaxEntityCount < 1) {
       throw new IllegalArgumentException("maxEntityCannot must be a positive integer greater than 0");
     }
 
-    this.maxEntityCount = maxEntityCount;
-    entities = new Entity[maxEntityCount];
+    this.currentMaxEntityCount = initialMaxEntityCount;
+    entities = new Entity[initialMaxEntityCount];
     viewCache = new ViewCache(this);
     viewBuilder = new ViewBuilder(viewCache);
   }
 
   /**
-   * Gets the maximum {@link Entity} count for this world.
+   * Gets the current maximum {@link Entity} count for this world. When an entity is created and max entity count has
+   * been reached, then all internal arrays will be resized to accommodate the new entity.
    *
    * @return the max {@code Entity} count
    */
-  public int getMaxEntityCount() {
-    return maxEntityCount;
+  public int getCurrentMaxEntityCount() {
+    return currentMaxEntityCount;
   }
 
   /**
@@ -334,14 +334,24 @@ public class World {
     int totalEntityCounter = 1; // Starting at 1 for this entity being created
 
     while (entities[currentEntityIndex] != null) {
-      currentEntityIndex = (currentEntityIndex + 1) % maxEntityCount;
+      currentEntityIndex = (currentEntityIndex + 1) % currentMaxEntityCount;
       totalEntityCounter++;
 
-      if (totalEntityCounter > maxEntityCount) {
-        throw new WorldEntityLimitException(totalEntityCounter, maxEntityCount);
+      if (totalEntityCounter > currentMaxEntityCount) {
+        resize();
       }
     }
 
     return currentEntityIndex;
+  }
+
+  private void resize() {
+    this.currentMaxEntityCount = (int) (currentMaxEntityCount * 1.5f) + 1;
+
+    entities = Arrays.copyOf(entities, this.currentMaxEntityCount);
+
+    for (var entry : components.entrySet()) {
+      entry.setValue(Arrays.copyOf(entry.getValue(), this.currentMaxEntityCount));
+    }
   }
 }

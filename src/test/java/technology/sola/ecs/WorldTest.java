@@ -2,7 +2,6 @@ package technology.sola.ecs;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import technology.sola.ecs.exception.WorldEntityLimitException;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ class WorldTest {
     void withMaxEntities_shouldHaveMaxEntitiesSet() {
       var world = new World(5);
 
-      assertEquals(5, world.getMaxEntityCount());
+      assertEquals(5, world.getCurrentMaxEntityCount());
       assertEquals(0, world.getEntityCount());
     }
   }
@@ -28,15 +27,16 @@ class WorldTest {
   @Nested
   class createEntity {
     @Test
-    void whenCreatingTooManyEntities_shouldThrowException() {
-      World world = new World(2);
+    void whenCreatingTooManyEntities_shouldResize() {
+      int initialMax = 10;
+      World world = new World(initialMax);
 
-      assertThrows(WorldEntityLimitException.class, () -> {
-        for (int i = 0; i < world.getMaxEntityCount() + 1; i++) {
-          world.createEntity();
-        }
-      });
-      assertEquals(2, world.getEntities().size());
+      for (int i = 0; i < initialMax + 1; i++) {
+        world.createEntity();
+      }
+
+      assertEquals(initialMax + 1, world.getEntities().size());
+      assertEquals(16, world.getCurrentMaxEntityCount());
     }
 
     @Test
