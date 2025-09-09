@@ -62,15 +62,17 @@ Execute benchmark view gradle task `jmhBenchmark` in verification category.
 
 Results:
 ```
-Benchmark                                          Mode  Cnt   Score    Error  Units
-SolaEcsBenchmark.create                              ss   15  30.564 ±  6.019  ms/op
-SolaEcsBenchmark.create_view                         ss   15  56.588 ±  5.390  ms/op
-SolaEcsBenchmark.delete                              ss   15   8.092 ±  3.880  ms/op
-SolaEcsBenchmark.delete_view                         ss   15  10.451 ±  7.090  ms/op
-SolaEcsBenchmark.loopingForMultipleComponent         ss   15  41.928 ±  1.894  ms/op
-SolaEcsBenchmark.loopingForMultipleComponent_view    ss   15   6.609 ±  3.797  ms/op
-SolaEcsBenchmark.loopingForOneComponent              ss   15  21.920 ±  2.208  ms/op
-SolaEcsBenchmark.loopingForOneComponent_view         ss   15   5.137 ±  2.583  ms/op
-SolaEcsBenchmark.update                              ss   15  11.203 ±  5.116  ms/op
-SolaEcsBenchmark.update_view                         ss   15  24.382 ± 12.246  ms/op
+Benchmark                                          Mode  Cnt   Score   Error  Units
+SolaEcsBenchmark.create                              ss   15  28.568 ± 6.150  ms/op
+SolaEcsBenchmark.create_view                         ss   15  53.271 ± 4.298  ms/op
+SolaEcsBenchmark.delete                              ss   15   7.005 ± 2.910  ms/op
+SolaEcsBenchmark.delete_view                         ss   15   7.406 ± 1.877  ms/op
+SolaEcsBenchmark.loopingForMultipleComponent         ss   15  41.334 ± 2.511  ms/op
+SolaEcsBenchmark.loopingForMultipleComponent_view    ss   15   6.689 ± 3.671  ms/op
+SolaEcsBenchmark.loopingForOneComponent              ss   15  22.657 ± 2.338  ms/op
+SolaEcsBenchmark.loopingForOneComponent_view         ss   15   5.587 ± 2.475  ms/op
+SolaEcsBenchmark.resizeWorld                         ss   15  23.046 ± 3.098  ms/op
+SolaEcsBenchmark.resizeWorldWithComponents           ss   15  44.782 ± 6.152  ms/op
+SolaEcsBenchmark.update                              ss   15   9.962 ± 3.621  ms/op
+SolaEcsBenchmark.update_view                         ss   15  22.687 ± 7.633  ms/op
 ```

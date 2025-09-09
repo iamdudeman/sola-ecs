@@ -4,7 +4,6 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import technology.sola.ecs.cache.EntityNameCache;
 import technology.sola.ecs.cache.ViewCache;
-import technology.sola.ecs.exception.WorldEntityLimitException;
 
 import java.util.*;
 import java.util.function.Function;
@@ -18,38 +17,40 @@ public class World {
   private final EntityNameCache entityNameCache = new EntityNameCache();
   private final ViewCache viewCache;
   private final ViewBuilder viewBuilder;
-  private final int maxEntityCount;
-  private final @Nullable Entity[] entities;
   private final Map<Class<? extends Component>, @Nullable Component[]> components = new HashMap<>();
-  private final Function<Class<? extends Component>, @Nullable Component[]> componentsMappingFunction = (key) -> new Component[World.this.maxEntityCount];
+  private final Function<Class<? extends Component>, @Nullable Component[]> componentsMappingFunction = (key) -> new Component[World.this.currentCapacity];
   private final Queue<EntityMutation> entityMutations = new ArrayDeque<>();
   private final String baseUuid = UUID.randomUUID().toString().substring(0, 8);
+  private int currentCapacity;
+  private @Nullable Entity[] entities;
   private int currentEntityIndex = 0;
   private int totalEntityCount = 0;
 
   /**
-   * Creates a new World instance with specified max {@link Entity} count.
+   * Creates a new World instance with specified initial capacity of {@link Entity}. When the capacity is reached it will
+   * trigger a resize that may be expensive since it will resize all internal arrays of {@link Component}s.
    *
-   * @param maxEntityCount the maximum number of {@code Entity} in this World, must be greater than 0
+   * @param initialCapacity the initial capacity {@code Entity} in this World, must be greater than 0
    */
-  public World(int maxEntityCount) {
-    if (maxEntityCount < 1) {
-      throw new IllegalArgumentException("maxEntityCannot must be a positive integer greater than 0");
+  public World(int initialCapacity) {
+    if (initialCapacity < 1) {
+      throw new IllegalArgumentException("initialCapacity must be a positive integer greater than 0");
     }
 
-    this.maxEntityCount = maxEntityCount;
-    entities = new Entity[maxEntityCount];
+    this.currentCapacity = initialCapacity;
+    entities = new Entity[initialCapacity];
     viewCache = new ViewCache(this);
     viewBuilder = new ViewBuilder(viewCache);
   }
 
   /**
-   * Gets the maximum {@link Entity} count for this world.
+   * Gets the current capacity of {@link Entity} for this world. When an entity is created and capacity has
+   * been reached, then all internal arrays will be resized to accommodate the new entity.
    *
-   * @return the max {@code Entity} count
+   * @return the capacity of {@code Entity}
    */
-  public int getMaxEntityCount() {
-    return maxEntityCount;
+  public int getCurrentCapacity() {
+    return currentCapacity;
   }
 
   /**
@@ -63,8 +64,6 @@ public class World {
 
   /**
    * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with a set of components.
-   * <p>
-   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param components the {@link Component}s to initialize the Entity with
    * @return a new {@code Entity}
@@ -75,8 +74,6 @@ public class World {
 
   /**
    * Creates a new {@link Entity} inside this World with a random unique id. It is initialized with name and components.
-   * <p>
-   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param name       the name to initialize this Entity with
    * @param components the {@link Component}s to initialize the Entity with
@@ -89,8 +86,6 @@ public class World {
   /**
    * Creates a new {@link Entity} inside this World with a set unique id. It is initialized with name and components. If
    * the provided unique id is null, then one will be generated.
-   * <p>
-   * If the total entity count goes above the max number specified in this world, then an exception will be thrown.
    *
    * @param uniqueId   the unique id to initialize this Entity with or null to generate one automatically
    * @param name       the name to initialize this Entity with
@@ -334,14 +329,24 @@ public class World {
     int totalEntityCounter = 1; // Starting at 1 for this entity being created
 
     while (entities[currentEntityIndex] != null) {
-      currentEntityIndex = (currentEntityIndex + 1) % maxEntityCount;
+      currentEntityIndex = (currentEntityIndex + 1) % currentCapacity;
       totalEntityCounter++;
 
-      if (totalEntityCounter > maxEntityCount) {
-        throw new WorldEntityLimitException(totalEntityCounter, maxEntityCount);
+      if (totalEntityCounter > currentCapacity) {
+        resize();
       }
     }
 
     return currentEntityIndex;
+  }
+
+  private void resize() {
+    this.currentCapacity = (int) (currentCapacity * 1.5f) + 1;
+
+    entities = Arrays.copyOf(entities, this.currentCapacity);
+
+    for (var entry : components.entrySet()) {
+      entry.setValue(Arrays.copyOf(entry.getValue(), this.currentCapacity));
+    }
   }
 }

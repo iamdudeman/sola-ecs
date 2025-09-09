@@ -51,7 +51,7 @@ public class SolaEcsBenchmark {
   public void create(Blackhole blackhole) {
     World world = new World(COUNT);
 
-    for (int i = 0; i < world.getMaxEntityCount(); i++) {
+    for (int i = 0; i < world.getCurrentCapacity(); i++) {
       blackhole.consume(world.createEntity(new TestComponent()));
     }
 
@@ -64,7 +64,7 @@ public class SolaEcsBenchmark {
 
     int count = 0;
 
-    for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
+    for (int i = 0; i < world.getCurrentCapacity() - 1; i++) {
       count++;
 
       if (count >= 4) {
@@ -75,7 +75,7 @@ public class SolaEcsBenchmark {
 
     world.update();
 
-    for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
+    for (int i = 0; i < world.getCurrentCapacity() - 1; i++) {
       count++;
 
       if (count >= 4) {
@@ -98,7 +98,7 @@ public class SolaEcsBenchmark {
 
     int count = 0;
 
-    for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
+    for (int i = 0; i < world.getCurrentCapacity() - 1; i++) {
       count++;
 
       if (count >= 4) {
@@ -152,7 +152,7 @@ public class SolaEcsBenchmark {
 
     var view = world.createView().of(TestComponent.class);
 
-    for (int i = 0; i < world.getMaxEntityCount(); i++) {
+    for (int i = 0; i < world.getCurrentCapacity(); i++) {
       blackhole.consume(world.createEntity(new TestComponent()));
     }
 
@@ -167,7 +167,7 @@ public class SolaEcsBenchmark {
 
     int count = 0;
 
-    for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
+    for (int i = 0; i < world.getCurrentCapacity() - 1; i++) {
       count++;
 
       if (count >= 4) {
@@ -178,7 +178,7 @@ public class SolaEcsBenchmark {
 
     world.update();
 
-    for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
+    for (int i = 0; i < world.getCurrentCapacity() - 1; i++) {
       count++;
 
       if (count >= 4) {
@@ -201,7 +201,7 @@ public class SolaEcsBenchmark {
 
     int count = 0;
 
-    for (int i = 0; i < world.getMaxEntityCount() - 1; i++) {
+    for (int i = 0; i < world.getCurrentCapacity() - 1; i++) {
       count++;
 
       if (count >= 4) {
@@ -211,6 +211,36 @@ public class SolaEcsBenchmark {
     }
 
     world.update();
+
+    blackhole.consume(world);
+  }
+
+  @Benchmark
+  public void resizeWorld(Blackhole blackhole) {
+    World world = new World(10);
+
+    while (world.getEntityCount() < COUNT) {
+      world.createEntity();
+
+      if (world.getEntityCount() < world.getCurrentCapacity() - 1) {
+        world.update();
+      }
+    }
+
+    blackhole.consume(world);
+  }
+
+  @Benchmark
+  public void resizeWorldWithComponents(Blackhole blackhole) {
+    World world = new World(10);
+
+    while (world.getEntityCount() < COUNT) {
+      world.createEntity(new TestComponent(), new TestComponent2(), new TestComponent3());
+
+      if (world.getEntityCount() < world.getCurrentCapacity() - 1) {
+        world.update();
+      }
+    }
 
     blackhole.consume(world);
   }
@@ -235,7 +265,7 @@ public class SolaEcsBenchmark {
     public void prepare() {
       world = new World(COUNT);
 
-      for (int i = 0; i < world.getMaxEntityCount(); i++) {
+      for (int i = 0; i < world.getCurrentCapacity(); i++) {
         world.createEntity(new TestComponent());
       }
 
@@ -251,7 +281,7 @@ public class SolaEcsBenchmark {
     public void prepare() {
       world = new World(COUNT);
 
-      for (int i = 0; i < world.getMaxEntityCount(); i++) {
+      for (int i = 0; i < world.getCurrentCapacity(); i++) {
         world.createEntity(new TestComponent());
       }
 
@@ -268,7 +298,7 @@ public class SolaEcsBenchmark {
     public void prepare() {
       world = new World(COUNT);
 
-      for (int i = 0; i < world.getMaxEntityCount(); i++) {
+      for (int i = 0; i < world.getCurrentCapacity(); i++) {
         world.createEntity(new TestComponent());
       }
 
@@ -286,7 +316,7 @@ public class SolaEcsBenchmark {
     public void prepare() {
       world = new World(COUNT);
 
-      for (int i = 0; i < world.getMaxEntityCount(); i++) {
+      for (int i = 0; i < world.getCurrentCapacity(); i++) {
         world.createEntity(new TestComponent(), new TestComponent2(), new TestComponent3());
       }
 
