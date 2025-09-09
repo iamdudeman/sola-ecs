@@ -296,6 +296,10 @@ loadScripts(document, 'script');</script>
 <dd>
 <div class="block">Gets a <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a> instance for the class passed in.</div>
 </dd>
+<dt><a href="technology.sola.ecs/technology/sola/ecs/World.html#getCurrentCapacity()" class="member-name-link">getCurrentCapacity()</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs">World</a></dt>
+<dd>
+<div class="block">Gets the current capacity of <a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> for this world.</div>
+</dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/Entity.html#getCurrentComponents()" class="member-name-link">getCurrentComponents()</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs">Entity</a></dt>
 <dd>
 <div class="block">Returns a list of the current <a href="technology.sola.ecs/technology/sola/ecs/Component.html" title="interface in technology.sola.ecs"><code>Component</code></a> classes that this entity has.</div>
@@ -323,10 +327,6 @@ loadScripts(document, 'script');</script>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/Entity.html#getIndexInWorld()" class="member-name-link">getIndexInWorld()</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs">Entity</a></dt>
 <dd>
 <div class="block">Gets the integer id of this Entity.</div>
-</dd>
-<dt><a href="technology.sola.ecs/technology/sola/ecs/World.html#getMaxEntityCount()" class="member-name-link">getMaxEntityCount()</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs">World</a></dt>
-<dd>
-<div class="block">Gets the maximum <a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> count for this world.</div>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/Entity.html#getName()" class="member-name-link">getName()</a> - Method in class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs">Entity</a></dt>
 <dd>
@@ -719,15 +719,7 @@ loadScripts(document, 'script');</script>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/World.html#%3Cinit%3E(int)" class="member-name-link">World(int)</a> - Constructor for class technology.sola.ecs.<a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs">World</a></dt>
 <dd>
-<div class="block">Creates a new World instance with specified max <a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> count.</div>
-</dd>
-<dt><a href="technology.sola.ecs/technology/sola/ecs/exception/WorldEntityLimitException.html" class="type-name-link" title="class in technology.sola.ecs.exception">WorldEntityLimitException</a> - Exception in <a href="technology.sola.ecs/technology/sola/ecs/exception/package-summary.html">technology.sola.ecs.exception</a></dt>
-<dd>
-<div class="block">Exception thrown when the max entity limit is reached for a <a href="technology.sola.ecs/technology/sola/ecs/World.html" title="class in technology.sola.ecs"><code>World</code></a>.</div>
-</dd>
-<dt><a href="technology.sola.ecs/technology/sola/ecs/exception/WorldEntityLimitException.html#%3Cinit%3E(int,int)" class="member-name-link">WorldEntityLimitException(int, int)</a> - Constructor for exception technology.sola.ecs.exception.<a href="technology.sola.ecs/technology/sola/ecs/exception/WorldEntityLimitException.html" title="class in technology.sola.ecs.exception">WorldEntityLimitException</a></dt>
-<dd>
-<div class="block">Creates a new instance of this exception.</div>
+<div class="block">Creates a new World instance with specified initial capacity of <a href="technology.sola.ecs/technology/sola/ecs/Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a>.</div>
 </dd>
 <dt><a href="technology.sola.ecs/technology/sola/ecs/io/WorldIo.html" class="type-name-link" title="interface in technology.sola.ecs.io">WorldIo</a> - Interface in <a href="technology.sola.ecs/technology/sola/ecs/io/package-summary.html">technology.sola.ecs.io</a></dt>
 <dd>

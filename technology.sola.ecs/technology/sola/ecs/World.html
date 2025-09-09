@@ -92,9 +92,9 @@ loadScripts(document, 'script');</script>
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">World</a><wbr>(int&nbsp;maxEntityCount)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">World</a><wbr>(int&nbsp;initialCapacity)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Creates a new World instance with specified max <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> count.</div>
+<div class="block">Creates a new World instance with specified initial capacity of <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a>.</div>
 </div>
 </div>
 </section>
@@ -155,30 +155,30 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Searches for an <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> by its unique id.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Entity.html" title="class in technology.sola.ecs">Entity</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnabledEntities()" class="member-name-link">getEnabledEntities</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getCurrentCapacity()" class="member-name-link">getCurrentCapacity</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of all <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> in the world that are not disabled.</div>
+<div class="block">Gets the current capacity of <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> for this world.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Entity.html" title="class in technology.sola.ecs">Entity</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntities()" class="member-name-link">getEntities</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEnabledEntities()" class="member-name-link">getEnabledEntities</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Gets a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of all <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> in the world that are not disabled.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Entity.html" title="class in technology.sola.ecs">Entity</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntities()" class="member-name-link">getEntities</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets a <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> of all <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> in the world even if they are disabled.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="Entity.html" title="class in technology.sola.ecs">Entity</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntityAtIndex(int)" class="member-name-link">getEntityAtIndex</a><wbr>(int&nbsp;index)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>@Nullable <a href="Entity.html" title="class in technology.sola.ecs">Entity</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntityAtIndex(int)" class="member-name-link">getEntityAtIndex</a><wbr>(int&nbsp;index)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Gets an <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> by index or null if one is not present.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntityCount()" class="member-name-link">getEntityCount</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the current number of <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> in this World.</div>
-</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getMaxEntityCount()" class="member-name-link">getMaxEntityCount</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEntityCount()" class="member-name-link">getEntityCount</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Gets the maximum <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> count for this world.</div>
+<div class="block">Gets the current number of <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> in this World.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update()" class="member-name-link">update</a>()</code></div>
@@ -205,11 +205,12 @@ loadScripts(document, 'script');</script>
 <li>
 <section class="detail" id="&lt;init&gt;(int)">
 <h3>World</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">World</span><wbr><span class="parameters">(int&nbsp;maxEntityCount)</span></div>
-<div class="block">Creates a new World instance with specified max <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> count.</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">World</span><wbr><span class="parameters">(int&nbsp;initialCapacity)</span></div>
+<div class="block">Creates a new World instance with specified initial capacity of <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a>. When the capacity is reached it will
+ trigger a resize that may be expensive since it will resize all internal arrays of <a href="Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>maxEntityCount</code> - the maximum number of <code>Entity</code> in this World, must be greater than 0</dd>
+<dd><code>initialCapacity</code> - the initial capacity <code>Entity</code> in this World, must be greater than 0</dd>
 </dl>
 </section>
 </li>
@@ -222,13 +223,14 @@ loadScripts(document, 'script');</script>
 <h2>Method Details</h2>
 <ul class="member-list">
 <li>
-<section class="detail" id="getMaxEntityCount()">
-<h3>getMaxEntityCount</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getMaxEntityCount</span>()</div>
-<div class="block">Gets the maximum <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> count for this world.</div>
+<section class="detail" id="getCurrentCapacity()">
+<h3>getCurrentCapacity</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getCurrentCapacity</span>()</div>
+<div class="block">Gets the current capacity of <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> for this world. When an entity is created and capacity has
+ been reached, then all internal arrays will be resized to accommodate the new entity.</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>the max <code>Entity</code> count</dd>
+<dd>the capacity of <code>Entity</code></dd>
 </dl>
 </section>
 </li>
@@ -247,9 +249,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="createEntity(technology.sola.ecs.Component...)">
 <h3>createEntity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in technology.sola.ecs">Entity</a></span>&nbsp;<span class="element-name">createEntity</span><wbr><span class="parameters">(<a href="Component.html" title="interface in technology.sola.ecs">Component</a>...&nbsp;components)</span></div>
-<div class="block">Creates a new <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> inside this World with a random unique id. It is initialized with a set of components.
- <p>
- If the total entity count goes above the max number specified in this world, then an exception will be thrown.</div>
+<div class="block">Creates a new <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> inside this World with a random unique id. It is initialized with a set of components.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>components</code> - the <a href="Component.html" title="interface in technology.sola.ecs"><code>Component</code></a>s to initialize the Entity with</dd>
@@ -263,9 +263,7 @@ loadScripts(document, 'script');</script>
 <h3>createEntity</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Entity.html" title="class in technology.sola.ecs">Entity</a></span>&nbsp;<span class="element-name">createEntity</span><wbr><span class="parameters">(@Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="Component.html" title="interface in technology.sola.ecs">Component</a>...&nbsp;components)</span></div>
-<div class="block">Creates a new <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> inside this World with a random unique id. It is initialized with name and components.
- <p>
- If the total entity count goes above the max number specified in this world, then an exception will be thrown.</div>
+<div class="block">Creates a new <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> inside this World with a random unique id. It is initialized with name and components.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>name</code> - the name to initialize this Entity with</dd>
@@ -282,9 +280,7 @@ loadScripts(document, 'script');</script>
  @Nullable <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="Component.html" title="interface in technology.sola.ecs">Component</a>...&nbsp;components)</span></div>
 <div class="block">Creates a new <a href="Entity.html" title="class in technology.sola.ecs"><code>Entity</code></a> inside this World with a set unique id. It is initialized with name and components. If
- the provided unique id is null, then one will be generated.
- <p>
- If the total entity count goes above the max number specified in this world, then an exception will be thrown.</div>
+ the provided unique id is null, then one will be generated.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>uniqueId</code> - the unique id to initialize this Entity with or null to generate one automatically</dd>
