@@ -10,7 +10,7 @@ import technology.sola.json.mapper.JsonMapper;
 import java.util.List;
 
 /**
- * A reflection free JSON implementation of {@link WorldIo}.
+ * A reflection-free JSON implementation of {@link WorldIo}.
  */
 @NullMarked
 public class JsonWorldIo implements WorldIo {

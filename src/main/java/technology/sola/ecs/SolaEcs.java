@@ -59,6 +59,8 @@ public class SolaEcs {
    * @param deltaTime the delta time between updates
    */
   public void updateWorld(float deltaTime) {
+    var world = this.world;
+
     for (EcsSystem ecsSystem : ecsSystems) {
       if (ecsSystem.isActive()) {
         ecsSystem.update(world, deltaTime);
