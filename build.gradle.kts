@@ -4,7 +4,7 @@ plugins {
   id("maven-publish")
 }
 
-version = "2.3.1"
+version = "2.3.2"
 
 java {
   toolchain {
@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-  api("com.github.iamdudeman:sola-json:4.1.0")
+  api("com.github.iamdudeman:sola-json:4.1.1")
 
   // nullability annotations
   api("org.jspecify:jspecify:1.0.0")
